@@ -1,9 +1,19 @@
 import { nanoid } from "nanoid";
+import { Router } from 'itty-router'
+
+const router = Router()
+
+router.get('/', () => new Response(JSON.stringify({ id: nanoid() }), {
+  headers: {
+    'content-type': 'application/json;charset=UTF-8',
+  }
+}))
+
+router.all('*', () => new Response('Not Found.', { status: 404 }))
 
 export default {
   async fetch(request, env, ctx) {
-    await env.pastes.put('hello', 'hello')
-    return new Response(`Hello Miniflare ${nanoid()}, ${env.KEY}`)
+    return router.handle(request)
   }
 }
 
