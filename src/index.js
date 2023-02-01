@@ -1,5 +1,9 @@
 import { nanoid } from "nanoid";
 
-addEventListener("fetch", (event) => {
-  event.respondWith(new Response(`Hello Miniflare ${nanoid()}! ${KEY}`));
-});
+export default {
+  async fetch(request, env, ctx) {
+    await env.pastes.put('hello', 'hello')
+    return new Response(`Hello Miniflare ${nanoid()}, ${env.KEY}`)
+  }
+}
+

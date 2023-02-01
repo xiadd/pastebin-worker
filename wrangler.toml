@@ -5,5 +5,9 @@ account_id= "516d0a360ccdea88dd79e9cf5d2bc3aa"
 
 workers_dev = true
 
+kv_namespaces = [
+  { binding = "pastes", id = "85ce3453c9f942a6900a5e9e4cdd34e7", preview_id = "54fef46249b4401fa639b1e2cc74e848" }
+]
+
 [vars]
 KEY = "value"
