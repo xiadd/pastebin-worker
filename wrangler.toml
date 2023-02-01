@@ -1,7 +1,6 @@
 name= "pastebin-worker"
 compatibility_date = "2023-01-28"
 account_id= "516d0a360ccdea88dd79e9cf5d2bc3aa"
-zone_id = "2750d45e57c273ff484ea8b5c083fa90"
 main = "src/index.js"
 
 workers_dev = false
@@ -14,3 +13,6 @@ kv_namespaces = [
 
 [vars]
 KEY = "value"
+
+[env.production]
+zone_id = "2750d45e57c273ff484ea8b5c083fa90"
