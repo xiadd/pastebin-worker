@@ -3,7 +3,7 @@ import { Router } from 'itty-router'
 
 const router = Router()
 
-router.get('/', () => new Response(JSON.stringify({ id: nanoid() }), {
+router.get('/', () => new Response(JSON.stringify({ id: nanoid(5) }), {
   headers: {
     'content-type': 'application/json;charset=UTF-8',
   }
