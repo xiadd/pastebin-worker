@@ -1,0 +1,14 @@
+{
+  "name": "test-cf-pages",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "xiadd",
+  "license": "MIT",
+  "devDependencies": {
+    "miniflare": "^2.11.0",
+    "wrangler": "^2.9.0"
+  },
+  "dependencies": {
+    "nanoid": "^4.0.0"
+  }
+}

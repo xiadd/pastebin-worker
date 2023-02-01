@@ -1,0 +1,8 @@
+name= "pastebin-worker"
+main = "./src/index.js"
+compatibility_date = "2022-09-22"
+
+workers_dev = true
+
+[vars]
+KEY = "value"
