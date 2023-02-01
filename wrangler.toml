@@ -1,6 +1,7 @@
 name= "pastebin-worker"
 main = "./src/index.js"
 compatibility_date = "2022-09-22"
+account_id= "516d0a360ccdea88dd79e9cf5d2bc3aa"
 
 workers_dev = true
 
