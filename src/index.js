@@ -9,6 +9,27 @@ router.get('/', () => new Response(JSON.stringify({ id: nanoid(5) }), {
   }
 }))
 
+router.get('/ws', (request) => {
+  const upgradeHeader = request.headers.get("Upgrade");
+    if (!upgradeHeader || upgradeHeader !== "websocket") {
+      return new Response("Expected Upgrade: websocket", { status: 426 });
+    }
+
+    const webSocketPair = new WebSocketPair();
+    const [client, server] = Object.values(webSocketPair);
+
+    server.accept();
+    server.addEventListener("message", (event) => {
+      server.send('hello world')
+      console.log(event.data);
+    });
+
+    return new Response(null, {
+      status: 101,
+      webSocket: client,
+    });
+})
+
 router.all('*', () => new Response('Not Found.', { status: 404 }))
 
 export default {
