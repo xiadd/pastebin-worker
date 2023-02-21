@@ -9,6 +9,13 @@
   dependencies:
     mime "^3.0.0"
 
+"@cloudflare/kv-asset-handler@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@cloudflare/kv-asset-handler/-/kv-asset-handler-0.3.0.tgz#11f0af0749a400ddadcca16dcd6f4696d7036991"
+  integrity sha512-9CB/MKf/wdvbfkUdfrj+OkEwZ5b7rws0eogJ4293h+7b6KX5toPwym+VQKmILafNB9YiehqY0DlNrDcDhdWHSQ==
+  dependencies:
+    mime "^3.0.0"
+
 "@esbuild-plugins/node-globals-polyfill@^0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@esbuild-plugins/node-globals-polyfill/-/node-globals-polyfill-0.1.1.tgz#a313ab3efbb2c17c8ce376aa216c627c9b40f9d7"

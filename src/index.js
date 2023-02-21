@@ -1,13 +1,32 @@
 import { nanoid } from "nanoid";
 import { Router } from 'itty-router'
+import { getAssetFromKV } from '@cloudflare/kv-asset-handler';
+import manifestJSON from '__STATIC_CONTENT_MANIFEST';
+const assetManifest = JSON.parse(manifestJSON);
 
 const router = Router()
 
-router.get('/', () => new Response(JSON.stringify({ id: nanoid(5) }), {
-  headers: {
-    'content-type': 'application/json;charset=UTF-8',
+router.get('/', async (request, env, ctx) => {
+  try {
+    // Add logic to decide whether to serve an asset or run your original Worker code
+    return await getAssetFromKV(
+      {
+        request,
+        waitUntil: ctx.waitUntil.bind(ctx),
+      },
+      {
+        ASSET_NAMESPACE: env.__STATIC_CONTENT,
+        ASSET_MANIFEST: assetManifest,
+      }
+    );
+  } catch (e) {
+    let pathname = new URL(request.url).pathname;
+    return new Response(`"${pathname}" not found`, {
+      status: 404,
+      statusText: 'not found',
+    });
   }
-}))
+})
 
 router.get('/ws', (request) => {
   const upgradeHeader = request.headers.get("Upgrade");
@@ -35,6 +54,12 @@ router.all('*', () => new Response('Not Found.', { status: 404 }))
 export default {
   async fetch(request, env, ctx) {
     return router.handle(request)
-  }
+  },
+
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(() => {
+      console.log(111)
+    });
+  },
 }
 
