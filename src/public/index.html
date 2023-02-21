@@ -7,6 +7,20 @@
   <title>Document</title>
 </head>
 <body>
-  <h1>hello world</h1>
+  <div id="app">{{ message }}</div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+  <script>
+    const { createApp } = Vue
+  
+    createApp({
+      data() {
+        return {
+          message: 'Hello Vue!'
+        }
+      }
+    }).mount('#app')
+  </script>
 </body>
 </html>
