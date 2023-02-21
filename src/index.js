@@ -21,7 +21,7 @@ router.get('/', async (request, env, ctx) => {
     );
   } catch (e) {
     let pathname = new URL(request.url).pathname;
-    return new Response(`"${pathname}" not found`, {
+    return new Response(`"${pathname}" ${e.message}`, {
       status: 404,
       statusText: 'not found',
     });
@@ -53,7 +53,7 @@ router.all('*', () => new Response('Not Found.', { status: 404 }))
 
 export default {
   async fetch(request, env, ctx) {
-    return router.handle(request)
+    return router.handle(request, env, ctx)
   },
 
   async scheduled(event, env, ctx) {
