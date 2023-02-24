@@ -6,28 +6,6 @@ const assetManifest = JSON.parse(manifestJSON);
 
 const router = Router()
 
-router.get('/', async (request, env, ctx) => {
-  try {
-    // Add logic to decide whether to serve an asset or run your original Worker code
-    return await getAssetFromKV(
-      {
-        request,
-        waitUntil: ctx.waitUntil.bind(ctx),
-      },
-      {
-        ASSET_NAMESPACE: env.__STATIC_CONTENT,
-        ASSET_MANIFEST: assetManifest,
-      }
-    );
-  } catch (e) {
-    let pathname = new URL(request.url).pathname;
-    return new Response(`"${pathname}" ${e.message}`, {
-      status: 404,
-      statusText: 'not found',
-    });
-  }
-})
-
 router.get('/ws', (request) => {
   const upgradeHeader = request.headers.get("Upgrade");
     if (!upgradeHeader || upgradeHeader !== "websocket") {
@@ -47,6 +25,28 @@ router.get('/ws', (request) => {
       status: 101,
       webSocket: client,
     });
+})
+
+router.get('*', async (request, env, ctx) => {
+  try {
+    // Add logic to decide whether to serve an asset or run your original Worker code
+    return await getAssetFromKV(
+      {
+        request,
+        waitUntil: ctx.waitUntil.bind(ctx),
+      },
+      {
+        ASSET_NAMESPACE: env.__STATIC_CONTENT,
+        ASSET_MANIFEST: assetManifest,
+      }
+    );
+  } catch (e) {
+    let pathname = new URL(request.url).pathname;
+    return new Response(`"${pathname}" ${e.message}`, {
+      status: 404,
+      statusText: 'not found',
+    });
+  }
 })
 
 router.all('*', () => new Response('Not Found.', { status: 404 }))

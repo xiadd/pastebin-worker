@@ -15,4 +15,4 @@ kv_namespaces = [
 crons = ["*/1 * * * *"]
 
 [site]
-bucket = "./src/public"
+bucket = "./static/dist"
