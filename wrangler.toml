@@ -1,5 +1,5 @@
 name= "pastebin-worker"
-compatibility_date = "2023-01-28"
+compatibility_date = "2023-11-28"
 account_id= "516d0a360ccdea88dd79e9cf5d2bc3aa"
 main = "src/index.js"
 
@@ -8,11 +8,8 @@ vars = { ENVIRONMENT = "production" }
 route = { pattern = "pastes.xiadd.me", custom_domain = true }
 
 kv_namespaces = [
-  { binding = "pastes", id = "85ce3453c9f942a6900a5e9e4cdd34e7", preview_id = "54fef46249b4401fa639b1e2cc74e848" }
+  { binding = "PB", id = "85ce3453c9f942a6900a5e9e4cdd34e7" }
 ]
-
-[triggers]
-crons = ["*/1 * * * *"]
 
 [site]
 bucket = "./static/dist"

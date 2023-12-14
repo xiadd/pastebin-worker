@@ -1,65 +1,31 @@
-import { nanoid } from "nanoid";
-import { Router } from 'itty-router'
-import { getAssetFromKV } from '@cloudflare/kv-asset-handler';
-import manifestJSON from '__STATIC_CONTENT_MANIFEST';
-const assetManifest = JSON.parse(manifestJSON);
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { serveStatic } from 'hono/cloudflare-workers';
 
-const router = Router()
+import { nanoid } from 'nanoid';
 
-router.get('/ws', (request) => {
-  const upgradeHeader = request.headers.get("Upgrade");
-    if (!upgradeHeader || upgradeHeader !== "websocket") {
-      return new Response("Expected Upgrade: websocket", { status: 426 });
-    }
+const app = new Hono();
 
-    const webSocketPair = new WebSocketPair();
-    const [client, server] = Object.values(webSocketPair);
+app.use('/api/*', cors());
 
-    server.accept();
-    server.addEventListener("message", (event) => {
-      server.send('hello world')
-      console.log(event.data);
-    });
+app.get('/*', serveStatic({ root: './' }));
 
-    return new Response(null, {
-      status: 101,
-      webSocket: client,
-    });
-})
+app.post('/api/create', async (c) => {
+  const { content } = await c.req.json();
+  const id = nanoid();
+  await c.env.PB.put(id, content);
+  return c.json({ id });
+});
 
-router.get('*', async (request, env, ctx) => {
-  try {
-    // Add logic to decide whether to serve an asset or run your original Worker code
-    return await getAssetFromKV(
-      {
-        request,
-        waitUntil: ctx.waitUntil.bind(ctx),
-      },
-      {
-        ASSET_NAMESPACE: env.__STATIC_CONTENT,
-        ASSET_MANIFEST: assetManifest,
-      }
-    );
-  } catch (e) {
-    let pathname = new URL(request.url).pathname;
-    return new Response(`"${pathname}" ${e.message}`, {
-      status: 404,
-      statusText: 'not found',
-    });
-  }
-})
+app.get('/api/get', async (c) => {
+  const id = c.req.query('id');
+  const content = await c.env.PB.get(id);
+  return c.json({ content });
+});
 
-router.all('*', () => new Response('Not Found.', { status: 404 }))
+app.get('/api/list', async (c) => {
+  const keys = await c.env.PB.list();
+  return c.json(keys);
+});
 
-export default {
-  async fetch(request, env, ctx) {
-    return router.handle(request, env, ctx)
-  },
-
-  async scheduled(event, env, ctx) {
-    ctx.waitUntil(() => {
-      console.log(111)
-    });
-  },
-}
-
+export default app;
