@@ -1,5 +1,4 @@
 import { useState, memo } from 'react';
-import { Link } from 'wouter';
 import { createPaste } from '../service';
 import Editor from '@monaco-editor/react';
 
@@ -17,7 +16,7 @@ export default memo(function CreatePaste() {
   };
 
   return (
-    <div className="p-10 flex flex-col gap-3">
+    <div className="p-4 md:p-10 flex flex-col gap-3">
       <Editor
         height="200px"
         defaultLanguage="text"
