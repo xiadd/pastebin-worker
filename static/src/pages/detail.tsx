@@ -15,7 +15,7 @@ export default function Detail() {
     });
   }, [id]);
   return (
-    <div className="p-4 mx-auto max-w-[960px]">
+    <div className="p-4 mx-auto max-w-7xl">
       <Editor
         height="200px"
         defaultLanguage="text"

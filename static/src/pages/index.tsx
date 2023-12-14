@@ -16,7 +16,10 @@ export default memo(function CreatePaste() {
   };
 
   return (
-    <div className="p-4 md:p-10 flex flex-col gap-3 mx-auto max-w-[960px]">
+    <div className="p-4 md:p-10 flex flex-col gap-3 mx-auto max-w-7xl">
+      <h1 className="md:text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 text-2xl">
+        Yet another PasteBin based on Cloudflare Worker
+      </h1>
       <Editor
         height="200px"
         defaultLanguage="text"
