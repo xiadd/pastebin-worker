@@ -9,7 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
+    "codemirror": "5",
+    "daisyui": "^4.4.19",
     "react": "^18.2.0",
+    "react-codemirror2": "^7.3.0",
     "react-dom": "^18.2.0",
     "vite-plugin-singlefile": "^0.13.3",
     "wouter": "^2.12.1"

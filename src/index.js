@@ -8,7 +8,16 @@ const app = new Hono();
 
 app.use('/api/*', cors());
 
+app.notFound((c) => c.json({ error: 'Not found' }));
+
 app.get('/*', serveStatic({ root: './' }));
+app.get('/detail/*', serveStatic({ path: './index.html' }));
+
+app.get('/raw/:id', async (c) => {
+  const id = c.req.param('id');
+  const content = await c.env.PB.get(id);
+  return c.text(content);
+});
 
 app.post('/api/create', async (c) => {
   const { content } = await c.req.json();
