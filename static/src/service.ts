@@ -1,7 +1,4 @@
-const API_URL =
-  process.env.NODE_ENV === 'development'
-    ? 'http://127.0.0.1:8787'
-    : 'https://api.example.com';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function createPaste(content: string) {
   const res = await fetch(`${API_URL}/api/create`, {
