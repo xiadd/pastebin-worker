@@ -32,6 +32,10 @@ app.get('/raw/:id', async (c) => {
 app.post('/api/create', async (c) => {
   const { content, expire, isPrivate, language, share_password } =
     await c.req.json();
+
+  if (!content) {
+    return c.json({ error: 'Content is required' });
+  }
   const id = nanoid();
   const createTime = Date.now();
   const pasteBody = {
