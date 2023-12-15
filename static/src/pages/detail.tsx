@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import Editor from '@monaco-editor/react';
 import { useParams } from 'wouter';
 import { getPaste } from '../service';
@@ -9,8 +10,14 @@ export default function Detail() {
   const { id } = useParams();
 
   useEffect(() => {
+    const search = window.location.search;
+    const params = new URLSearchParams(search);
     if (!id) return;
-    getPaste(id).then((data) => {
+    getPaste(id, params.get('password')).then((data) => {
+      if (data.error) {
+        toast.error(data.error);
+        return;
+      }
       setContent(data.content);
     });
   }, [id]);
