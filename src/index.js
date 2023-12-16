@@ -29,6 +29,7 @@ app.get('/raw/:id', async (c) => {
   return c.text(data.content);
 });
 
+// 创建paste
 app.post('/api/create', async (c) => {
   const { content, expire, isPrivate, language, share_password } =
     await c.req.json();
@@ -56,6 +57,7 @@ app.post('/api/create', async (c) => {
   return c.json({ id, ...pasteBody });
 });
 
+// 获取paste
 app.get('/api/get', async (c) => {
   const id = c.req.query('id');
   const password = c.req.query('share_password');
@@ -75,9 +77,40 @@ app.get('/api/get', async (c) => {
   return c.json({ content: data.content });
 });
 
+// 列出所有paste的key
 app.get('/api/list', async (c) => {
   const keys = await c.env.PB.list();
   return c.json(keys);
+});
+
+// 上传图片
+app.post('/api/upload', async (c) => {
+  const { file } = await c.req.parseBody();
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await fetch('https://telegra.ph/upload', {
+    method: 'POST',
+    body: formData,
+  });
+  const data = await res.json();
+  const src = data[0].src;
+  const id = nanoid();
+  const metadata = {
+    expirationTtl: 86400,
+  };
+  await c.env.PBIMGS.put(id, src, metadata);
+  return c.json({ id, src });
+});
+
+// 反代图片
+app.get('/file/:id', async (c) => {
+  const id = c.req.param('id');
+  const res = await c.env.PBIMGS.get(id);
+  if (!res) {
+    return c.text('Not found');
+  }
+  const data = await fetch(`https://telegra.ph${res}`);
+  return data;
 });
 
 export default app;

@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
+    "classnames": "^2.3.2",
     "codemirror": "5",
     "daisyui": "^4.4.19",
+    "rc-upload": "^4.5.1",
     "react": "^18.2.0",
     "react-codemirror2": "^7.3.0",
     "react-copy-to-clipboard": "^5.1.0",
