@@ -29,7 +29,7 @@ export default function ImageShare() {
     <div className="flex flex-col gap-3">
       <Upload {...props}>
         <div className="w-full">
-          <label className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
+          <label className="flex justify-center w-full h-48 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
             <span className="flex items-center space-x-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

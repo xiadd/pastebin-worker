@@ -30,7 +30,7 @@ export default function TextShare() {
         options={{ contextmenu: false, minimap: { enabled: false } }}
       />
 
-      <div className="flex gap-2 items-center">
+      <div className="flex-col md:gap-2 items-center md:flex-row gap-4 flex">
         <div className="form-control">
           <label className="label cursor-pointer inline-flex gap-2">
             <span className="label-text">是否私有（随机密码）</span>
@@ -52,7 +52,7 @@ export default function TextShare() {
             onChange={(e) =>
               setExpiration(e.target.value ? Number(e.target.value) : undefined)
             }
-            className="input input-bordered w-full max-w-xs"
+            className="input input-bordered w-full md:max-w-xs"
             placeholder="过期时间（秒）"
           />
 

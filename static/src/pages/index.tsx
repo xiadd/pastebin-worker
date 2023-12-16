@@ -1,10 +1,12 @@
 import { useState, memo } from 'react';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 import TextShare from '../components/text-share';
 import ImageShare from '../components/image-share';
 import Turorial from '../components/tutorial';
 
 export default memo(function CreatePaste() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'text' | 'image'>('text');
 
   const handleToggleTab = (tab: 'text' | 'image') => {
@@ -14,7 +16,7 @@ export default memo(function CreatePaste() {
   return (
     <div className="p-4 md:p-10 flex flex-col gap-3 mx-auto max-w-7xl">
       <h1 className="md:text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 text-2xl">
-        Yet another PasteBin based on Cloudflare Worker
+        {t('slogan')}
       </h1>
       <div role="tablist" className="tabs tabs-boxed">
         <a

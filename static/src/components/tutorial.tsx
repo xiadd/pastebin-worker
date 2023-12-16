@@ -40,7 +40,7 @@ export default function Turorial() {
         >
           https://github.com/xiadd/pastebin-worker/
         </a>
-        ，欢迎使用和star
+        ，欢迎使用和star，如果有问题可以直接提issue。
       </p>
     </div>
   );
