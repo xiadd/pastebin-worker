@@ -22,7 +22,7 @@ export default function Detail() {
     });
   }, [id]);
   return (
-    <div className="p-4 mx-auto max-w-7xl">
+    <div className="p-4 mx-auto max-w-7xl pt-10">
       <Editor
         height="200px"
         defaultLanguage="text"
