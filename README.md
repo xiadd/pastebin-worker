@@ -11,6 +11,11 @@ npm i @cloudflare/wrangler -g
 2. 安装依赖
 
 ```bash
+# 安装后端依赖
+yarn install
+
+# 安装前端依赖
+cd static
 yarn install
 ```
 
@@ -18,14 +23,20 @@ yarn install
 
 其中 `account_id`，`route`, `kv_namespaces` 需要根据自己的情况修改
 
-account_id 可以在 cloudflare 的 dashboard 中找到, route 是你的 worker 的路由，kv_namespaces 是你创建的 kv 的 id
+account_id 可以在 cloudflare 的 dashboard 中找到, route 是你的 worker 的路由（也就是自定义域名），kv_namespaces 是你创建的 kv 的 id
 
 4. 开发
 
 ```bash
+# 启动后端
 wrangler dev
+
+# 启动前端
+cd static
 yarn dev
 ```
+
+服务器启动后，后端的地址是 `http://localhost:8787`，前端的地址是 `http://localhost:5173`，如果想测试前端打包后的情况，直接在 static 目录执行 `yarn build`，然后访问 `http://localhost:8787` 就可以了
 
 ## 部署
 
