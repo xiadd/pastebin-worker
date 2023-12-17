@@ -1,10 +1,16 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { serveStatic } from 'hono/cloudflare-workers';
+import { KVNamespace, KVNamespacePutOptions } from '@cloudflare/workers-types';
 
 import { nanoid } from 'nanoid';
 
-const app = new Hono();
+type Bindings = {
+  PB: KVNamespace;
+  PBIMGS: KVNamespace;
+};
+
+const app = new Hono<{ Bindings: Bindings }>();
 
 app.use('/api/*', cors());
 
@@ -39,13 +45,13 @@ app.post('/api/create', async (c) => {
   }
   const id = nanoid();
   const createTime = Date.now();
-  const pasteBody = {
+  const pasteBody: any = {
     content,
     expire: expire || 0,
     language: language || 'text',
     create_time: createTime,
   };
-  const metadata = {};
+  const metadata: KVNamespacePutOptions = {};
 
   if (expire) {
     metadata.expirationTtl = expire;
@@ -61,7 +67,7 @@ app.post('/api/create', async (c) => {
 app.get('/api/get', async (c) => {
   const id = c.req.query('id');
   const password = c.req.query('share_password');
-  const res = await c.env.PB.get(id);
+  const res = await c.env.PB.get(id as string);
   if (!res) {
     return c.json({ error: 'Not found' });
   }
@@ -87,7 +93,7 @@ app.get('/api/list', async (c) => {
 app.post('/api/upload', async (c) => {
   const { file } = await c.req.parseBody();
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', file as File);
   const res = await fetch('https://telegra.ph/upload', {
     method: 'POST',
     body: formData,
@@ -95,10 +101,9 @@ app.post('/api/upload', async (c) => {
   const data = await res.json();
   const src = data[0].src;
   const id = nanoid();
-  const metadata = {
-    expirationTtl: 86400,
-  };
-  await c.env.PBIMGS.put(id, src, metadata);
+  await c.env.PBIMGS.put(id, src, {
+    expirationTtl: 60 * 60 * 24,
+  });
   return c.json({ id, src });
 });
 
