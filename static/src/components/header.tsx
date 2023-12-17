@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
 import { useTranslation } from 'react-i18next';
-import { Menu, Transition } from '@headlessui/react';
+import Dropdown from 'rc-dropdown';
+import Menu, { Item as MenuItem } from 'rc-menu';
+import 'rc-dropdown/assets/index.css';
 
 import logoIcon from '../assets/logo.svg';
 import githubIcon from '../assets/github.svg';
+import localeIcon from '../assets/locale.svg';
 
 export default function Header() {
   const { t, i18n } = useTranslation();
@@ -32,7 +35,7 @@ export default function Header() {
           </span>
         </Link>
       </div>
-      <div className="flex items-center flex-shrink-0">
+      <div className="flex items-center flex-shrink-0 gap-2">
         <a
           href="https://github.com/xiadd/pastebin-worker"
           target="_blank"
@@ -41,6 +44,35 @@ export default function Header() {
         >
           <img src={githubIcon} />
         </a>
+
+        <Dropdown
+          overlay={
+            <Menu className="z-10 bg-white divide-y divide-gray-100 rounded-lg !shadow dark:bg-gray-700 !border-0">
+              <MenuItem key="1">
+                <button
+                  onClick={() => handleChangeLanguage('en')}
+                  className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  English
+                </button>
+              </MenuItem>
+              <MenuItem key="2">
+                <button
+                  onClick={() => handleChangeLanguage('zh')}
+                  className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  中文
+                </button>
+              </MenuItem>
+            </Menu>
+          }
+          trigger={['click']}
+        >
+          <button className="flex gap-2">
+            <img src={localeIcon} className="w-6" />
+            {t(i18n.language)}
+          </button>
+        </Dropdown>
       </div>
     </div>
   );
