@@ -30,7 +30,7 @@ export default function TextShare() {
         options={{ contextmenu: false, minimap: { enabled: false } }}
       />
 
-      <div className="flex-col md:gap-2 items-center md:flex-row gap-4 flex">
+      <div className="flex-col md:gap-2 md:items-center md:flex-row gap-4 flex">
         <div className="form-control">
           <label className="label cursor-pointer inline-flex gap-2">
             <span className="label-text">是否私有（随机密码）</span>
