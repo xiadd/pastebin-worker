@@ -2,14 +2,14 @@ import { useState, memo } from 'react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import TextShare from '../components/text-share';
-import ImageShare from '../components/image-share';
+import FileShare from '../components/file-share';
 import Turorial from '../components/tutorial';
 
 export default memo(function CreatePaste() {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<'text' | 'image'>('text');
+  const [activeTab, setActiveTab] = useState<'text' | 'file'>('text');
 
-  const handleToggleTab = (tab: 'text' | 'image') => {
+  const handleToggleTab = (tab: 'text' | 'file') => {
     setActiveTab(tab);
   };
 
@@ -26,21 +26,20 @@ export default memo(function CreatePaste() {
           })}
           onClick={() => handleToggleTab('text')}
         >
-          文字分享
+          {t('textShare')}
         </a>
         <a
           role="tab"
           className={cn('tab', {
-            'tab-active': activeTab === 'image',
+            'tab-active': activeTab === 'file',
           })}
-          onClick={() => handleToggleTab('image')}
+          onClick={() => handleToggleTab('file')}
         >
-          图片分享
+          {t('fileShare')}
         </a>
       </div>
       {activeTab === 'text' && <TextShare />}
-      {activeTab === 'image' && <ImageShare />}
-
+      {activeTab === 'file' && <FileShare />}
       <Turorial />
     </div>
   );

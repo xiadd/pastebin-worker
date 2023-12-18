@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-hot-toast';
 import Editor from '@monaco-editor/react';
 import { createPaste } from '../service';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export default function TextShare() {
+  const { t } = useTranslation();
   const [content, setContent] = useState('');
   const [expiration, setExpiration] = useState<number | undefined>(undefined);
   const [isPrivate, setIsPrivate] = useState(false);
@@ -12,7 +14,7 @@ export default function TextShare() {
   const [createdPasteData, setCreatedPasteData] = useState<any>();
 
   const createPB = async () => {
-    if (!content) return alert('请输入内容');
+    if (!content) return toast.error('请输入内容');
     setPublishing(true);
     const data = await createPaste({ content, expire: expiration, isPrivate });
     setCreatedPasteData(data);
@@ -33,7 +35,7 @@ export default function TextShare() {
       <div className="flex-col md:gap-2 md:items-center md:flex-row gap-4 flex">
         <div className="form-control">
           <label className="label cursor-pointer inline-flex gap-2">
-            <span className="label-text">是否私有（随机密码）</span>
+            <span className="label-text">{t('privateTip')}</span>
             <input
               type="checkbox"
               className="checkbox"
@@ -53,7 +55,7 @@ export default function TextShare() {
               setExpiration(e.target.value ? Number(e.target.value) : undefined)
             }
             className="input input-bordered w-full md:max-w-xs"
-            placeholder="过期时间（秒）"
+            placeholder={t('expiration')}
           />
 
           <datalist id="expriation-times">

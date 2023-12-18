@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import Upload from 'rc-upload';
+import { useTranslation } from 'react-i18next';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-hot-toast';
 
 export default function ImageShare() {
+  const { t } = useTranslation();
   const [uploadFile, setUploadFile] = useState<string>('');
   const [loadingToast, setLoadingToast] = useState<string>('');
 
@@ -46,8 +48,10 @@ export default function ImageShare() {
                 />
               </svg>
               <span className="font-medium text-gray-600">
-                拖拽图片到此处或者
-                <span className="text-blue-600 underline ml-2">浏览文件</span>
+                {t('fileShareTip')}
+                <span className="text-blue-600 underline ml-2">
+                  {t('viewFiles')}
+                </span>
               </span>
             </span>
           </label>
