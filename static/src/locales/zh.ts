@@ -6,7 +6,7 @@ export default {
   expiration: '过期时间(秒)',
   textShare: '分享文字',
   fileShare: '分享文件',
-  fileShareTip: '拖拽图片到此处或者',
+  fileShareTip: '拖拽文件到此处或者',
   viewFiles: '浏览文件',
   createPaste: '创建分享',
 };

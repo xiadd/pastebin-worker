@@ -12,7 +12,7 @@ export default function ImageShare() {
   const props = {
     action: `${import.meta.env.VITE_API_URL}/api/upload`,
     type: 'drag',
-    accept: 'image/*',
+    accept: '*',
     onStart(file: any) {
       const loading = toast.loading('上传中');
       setLoadingToast(loading);
@@ -21,8 +21,9 @@ export default function ImageShare() {
       setUploadFile(`${import.meta.env.VITE_API_URL}/file/${file.id}`);
       toast.dismiss(loadingToast);
     },
-    onError(err: any) {
-      toast.error(`上传失败: ${err.message}`);
+    onError(err: any, response: any) {
+      console.log(response);
+      toast.error(`上传失败: ${response.error}`);
       toast.dismiss(loadingToast);
     },
   };
@@ -60,20 +61,15 @@ export default function ImageShare() {
 
       {uploadFile && (
         <div className="card w-full bg-base-100 shadow-xl">
-          <figure className="max-h-[300px] overflow-hidden">
-            <img src={uploadFile} />
-          </figure>
           <div className="card-body">
             <h2 className="card-title">上传成功</h2>
-            <p>
-              图片已经上传成功，由于成本问题，图片1天内有效，点击复制图片url
-            </p>
+            <p>文件已经上传成功，由于成本问题，文件1天内有效，点击复制文件</p>
             <div className="card-actions justify-end">
               <CopyToClipboard
                 text={uploadFile}
                 onCopy={() => toast.success('复制成功')}
               >
-                <button className="btn btn-primary">复制图片地址</button>
+                <button className="btn btn-primary">复制文件地址</button>
               </CopyToClipboard>
             </div>
           </div>
