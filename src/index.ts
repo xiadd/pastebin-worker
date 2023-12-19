@@ -100,7 +100,7 @@ app.get('/api/get', async (c) => {
       return c.json({ error: 'Wrong password' });
     }
   }
-  return c.json({ content: content });
+  return c.json({ content: content, ...data });
 });
 
 // 列出所有paste的key
