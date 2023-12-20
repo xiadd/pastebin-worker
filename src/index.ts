@@ -26,7 +26,7 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 app.use('/api/*', cors());
 
-app.notFound((c) => c.json({ error: 'Not found' }));
+app.notFound((c) => c.json({ error: 'Not found' }, { status: 404 }));
 
 app.get('/*', serveStatic({ root: './' }));
 app.get('/detail/*', serveStatic({ path: './index.html' }));
@@ -35,14 +35,14 @@ app.get('/raw/:id', async (c) => {
   const id = c.req.param('id');
   const password = c.req.query('password');
   const res = await c.env.PB.getWithMetadata(id);
-  if (!res) {
-    return c.text('Not found');
+  if (!res.value) {
+    return c.text('Not found', { status: 404 });
   }
   const content = res.value;
   const data: any = res.metadata;
   if (data.share_password) {
     if (!password) {
-      return c.text('Private paste, please provide password');
+      return c.text('Private paste, please provide password', { status: 403 });
     }
   }
   return c.text(content || '');
