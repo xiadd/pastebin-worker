@@ -7,6 +7,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export default function TextShare() {
   const { t } = useTranslation();
+  const [language, setLanguage] = useState('text');
   const [content, setContent] = useState('');
   const [expiration, setExpiration] = useState<number | undefined>(undefined);
   const [isPrivate, setIsPrivate] = useState(false);
@@ -16,7 +17,12 @@ export default function TextShare() {
   const createPB = async () => {
     if (!content) return toast.error('请输入内容');
     setPublishing(true);
-    const data = await createPaste({ content, expire: expiration, isPrivate });
+    const data = await createPaste({
+      content,
+      expire: expiration,
+      isPrivate,
+      language,
+    });
     setCreatedPasteData(data);
     setPublishing(false);
   };
@@ -25,7 +31,7 @@ export default function TextShare() {
     <div className="flex flex-col gap-3">
       <Editor
         height="200px"
-        defaultLanguage="text"
+        language={language}
         onChange={(value) => setContent(value || '')}
         value={content}
         className="border rounded-sm"
@@ -67,6 +73,18 @@ export default function TextShare() {
             <option value="2592000">1 month</option>
           </datalist>
         </div>
+
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="input w-full md:max-w-xs  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        >
+          <option defaultValue="text">Choose a language</option>
+          <option value="javascript">JavaScript</option>
+          <option value="typescript">TypeScript</option>
+          <option value="markdown">Markdown</option>
+          <option value="css">CSS</option>
+        </select>
       </div>
       <button
         className="btn btn-neutral"

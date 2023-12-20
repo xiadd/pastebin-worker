@@ -3,6 +3,7 @@ import { toast } from 'react-hot-toast';
 import Editor from '@monaco-editor/react';
 import { useParams } from 'wouter';
 import { getPaste } from '../service';
+import MdRenderer from '../components/md-renderer';
 
 export default function Detail() {
   const [content, setContent] = useState('');
@@ -19,11 +20,15 @@ export default function Detail() {
         toast.error(data.error);
         return;
       }
-      console.log(data);
       setContent(data.content);
       setLanguage(data.language);
     });
   }, [id]);
+
+  if (language === 'markdown') {
+    return <MdRenderer content={content} />;
+  }
+
   return (
     <div className="p-4 mx-auto max-w-7xl md:pt-10">
       <Editor

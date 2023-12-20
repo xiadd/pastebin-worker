@@ -6,7 +6,9 @@ export default {
   expiration: '过期时间(秒)',
   textShare: '分享文字',
   fileShare: '分享文件',
-  fileShareTip: '拖拽文件到此处或者',
+  fileShareTip: '拖拽文件到此处或者直接粘贴文件或者',
   viewFiles: '浏览文件',
   createPaste: '创建分享',
+  uploadError: '上传失败: ',
+  uploading: '上传中...',
 };

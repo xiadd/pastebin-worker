@@ -6,7 +6,9 @@ export default {
   expiration: 'Expiration(Sec)',
   textShare: 'Share Text',
   fileShare: 'Share File',
-  fileShareTip: 'Drag and drop the file here or',
+  fileShareTip: 'Drag and drop a file here or paste it directly or',
   viewFiles: 'Browse Documents',
   createPaste: 'Create Paste',
+  uploadError: 'Upload Error:',
+  uploading: 'Uploading...',
 };

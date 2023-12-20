@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Upload from 'rc-upload';
 import { useTranslation } from 'react-i18next';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -14,7 +14,7 @@ export default function ImageShare() {
     type: 'drag',
     accept: '*',
     onStart(file: any) {
-      const loading = toast.loading('上传中');
+      const loading = toast.loading(t('uploading'));
       setLoadingToast(loading);
     },
     onSuccess(file: any) {
@@ -23,10 +23,43 @@ export default function ImageShare() {
     },
     onError(err: any, response: any) {
       console.log(response);
-      toast.error(`上传失败: ${response.error}`);
+      toast.error(`${t('uploadError')} ${response.error}`);
       toast.dismiss(loadingToast);
     },
   };
+
+  const handlePasteFile = async (e: any) => {
+    const file = e.clipboardData.files[0];
+    const formData = new FormData();
+    if (!file) {
+      return;
+    }
+    formData.append('file', file);
+    const loadingId = toast.loading(t('uploading'));
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+      toast.dismiss(loadingId);
+      const data = await res.json();
+      if (data.error) {
+        toast.error(`${t('uploadError')} ${data.error}`);
+        return;
+      }
+      setUploadFile(`${import.meta.env.VITE_API_URL}/file/${data.id}`);
+    } catch (error) {
+      toast.error(`${t('uploadError')} ${error}`);
+      toast.dismiss(loadingId);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('paste', handlePasteFile);
+    return () => {
+      document.removeEventListener('paste', handlePasteFile);
+    };
+  }, []);
 
   return (
     <div className="flex flex-col gap-3">
