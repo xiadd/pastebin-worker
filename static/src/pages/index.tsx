@@ -15,9 +15,6 @@ export default memo(function CreatePaste() {
 
   return (
     <div className="p-4 md:p-10 flex flex-col gap-3 mx-auto max-w-7xl">
-      <h1 className="md:text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 text-2xl">
-        {t('slogan')}
-      </h1>
       <div role="tablist" className="tabs tabs-boxed">
         <a
           role="tab"

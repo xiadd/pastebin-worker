@@ -2,6 +2,7 @@ export default {
   slogan: '基于 Cloudflare Worker 的另一个 PasteBin',
   en: '英语',
   zh: '中文',
+  'zh-CN': '中文',
   privateTip: '是否私有（随机密码）',
   expiration: '过期时间(秒)',
   textShare: '分享文字',
@@ -11,4 +12,5 @@ export default {
   createPaste: '创建分享',
   uploadError: '上传失败: ',
   uploading: '上传中...',
+  fileSizeError: '文件大小不能超过 25MB',
 };

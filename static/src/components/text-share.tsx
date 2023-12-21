@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-hot-toast';
-import Editor from '@monaco-editor/react';
+import Editor, { loader } from '@monaco-editor/react';
+import * as monaco from 'monaco-editor';
+
 import { useLocation } from 'wouter';
 import { createPaste } from '../service';
+
+loader.config({ monaco });
 
 export default function TextShare() {
   const { t } = useTranslation();
@@ -13,7 +17,6 @@ export default function TextShare() {
   const [expiration, setExpiration] = useState<number | undefined>(undefined);
   const [isPrivate, setIsPrivate] = useState(false);
   const [publishing, setPublishing] = useState(false);
-  const [createdPasteData, setCreatedPasteData] = useState<any>();
 
   const createPB = async () => {
     if (!content) return toast.error('请输入内容');
@@ -24,7 +27,6 @@ export default function TextShare() {
       isPrivate,
       language,
     });
-    setCreatedPasteData(data);
     setPublishing(false);
     navigate(
       `/detail/${data.id}${

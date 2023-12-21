@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-hot-toast';
 
+const MAX_SIZE = 25 * 1024 * 1024;
+
 export default function ImageShare() {
   const { t } = useTranslation();
   const [uploadFile, setUploadFile] = useState<string>('');
@@ -13,6 +15,16 @@ export default function ImageShare() {
     action: `${import.meta.env.VITE_API_URL}/api/upload`,
     type: 'drag',
     accept: '*',
+
+    beforeUpload(file: any) {
+      console.log(file.size, MAX_SIZE);
+      if (file.size > MAX_SIZE) {
+        toast.error(t('fileSizeError'));
+        return false;
+      }
+      return true;
+    },
+
     onStart(file: any) {
       const loading = toast.loading(t('uploading'));
       setLoadingToast(loading);

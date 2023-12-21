@@ -2,6 +2,7 @@ export default {
   slogan: 'Yet another PasteBin based on Cloudflare Worker',
   en: 'English',
   zh: 'Chinese',
+  'zh-CN': 'Chinese',
   privateTip: 'Private(random password)',
   expiration: 'Expiration(Sec)',
   textShare: 'Share Text',
@@ -11,4 +12,5 @@ export default {
   createPaste: 'Create Paste',
   uploadError: 'Upload Error:',
   uploading: 'Uploading...',
+  fileSizeError: 'File size must be less than 25MB',
 };
