@@ -21,7 +21,7 @@ yarn install
 
 3. 修改 wrangler.toml
 
-其中 `account_id`，`route`, `kv_namespaces` 需要根据自己的情况修改
+其中 `account_id`，`route`, `kv_namespaces` 需要根据自己的情况修改，我们这里用到了两个kv，一个存储文件，一个存储文字。
 
 account_id 可以在 cloudflare 的 dashboard 中找到, route 是你的 worker 的路由（也就是自定义域名），kv_namespaces 是你创建的 kv 的 id
 
@@ -38,6 +38,8 @@ yarn dev
 
 服务器启动后，后端的地址是 `http://localhost:8787`，前端的地址是 `http://localhost:5173`，如果想测试前端打包后的情况，直接在 static 目录执行 `yarn build`，然后访问 `http://localhost:8787` 就可以了
 
-## 部署
+# 部署
 
-获取你的 cloudflare 账号的 api key，然后设置为 github aciton 的 secret，名字为`CF_API_KEY`，这样每次 push 代码到 main 分支，就会自动部署到 cloudflare
+修改static目录里的.env.production，环境变量设置为你自己上面配置的域名。
+
+获取你的 cloudflare 账号的 api key，然后设置为 github aciton 的 secret，名字为`CF_API_TOKEN`，这样每次 push 代码到 main 分支，就会自动部署到 cloudflare
