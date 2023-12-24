@@ -24,16 +24,25 @@ export default function Header() {
       tabIndex={-1}
       className="fixed z-50 flex flex-col md:flex-row justify-between w-[calc(100%-2rem)] p-4 -translate-x-1/2 bg-white border border-gray-100 rounded-lg shadow-sm lg:max-w-7xl left-1/2 top-4 dark:bg-gray-700 dark:border-gray-600"
     >
-      <div className="flex flex-col items-start mb-3 me-4 md:items-center md:flex-row md:mb-0">
+      <div className="flex me-4 items-center flex-row mb-0">
         <Link
           to="/"
-          className="flex items-center mb-2 border-gray-200 md:pe-4 md:me-4 md:border-e md:mb-0 dark:border-gray-600"
+          className="flex items-center border-gray-200 md:pe-4 md:me-4 md:border-e md:mb-0 dark:border-gray-600"
         >
           <img src={logoIcon} className="h-6 me-2" alt="Flowbite Logo" />
           <span className="self-center text-lg font-semibold whitespace-nowrap dark:text-white">
             PasteShare
           </span>
         </Link>
+
+        <div className="flex">
+          <Link
+            to="/tutorial"
+            className="py-2 px-4 text-sm font-medium text-gray-500 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+          >
+            {t('tutorial')}
+          </Link>
+        </div>
       </div>
       <div className="flex items-center flex-shrink-0 gap-2">
         <a

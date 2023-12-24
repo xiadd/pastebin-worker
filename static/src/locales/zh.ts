@@ -13,4 +13,5 @@ export default {
   uploadError: '上传失败: ',
   uploading: '上传中...',
   fileSizeError: '文件大小不能超过 25MB',
+  tutorial: '使用教程',
 };

@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-hot-toast';
-import Editor, { loader } from '@monaco-editor/react';
-import * as monaco from 'monaco-editor';
+import CodeMirror from '@uiw/react-codemirror';
 
 import { useLocation } from 'wouter';
 import { createPaste } from '../service';
-
-loader.config({ monaco });
+import Editor from './editor';
 
 export default function TextShare() {
   const { t } = useTranslation();
@@ -38,12 +36,11 @@ export default function TextShare() {
   return (
     <div className="flex flex-col gap-3">
       <Editor
-        height="200px"
+        className="border border-gray-200 rounded-sm"
+        height="300px"
         language={language}
         onChange={(value) => setContent(value || '')}
         value={content}
-        className="border rounded-sm"
-        options={{ contextmenu: false, minimap: { enabled: false } }}
       />
 
       <div className="flex-col md:gap-2 md:items-center md:flex-row gap-4 flex">

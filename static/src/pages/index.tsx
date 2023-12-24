@@ -3,7 +3,6 @@ import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 import TextShare from '../components/text-share';
 import FileShare from '../components/file-share';
-import Turorial from '../components/tutorial';
 
 export default memo(function CreatePaste() {
   const { t } = useTranslation();
@@ -37,7 +36,6 @@ export default memo(function CreatePaste() {
       </div>
       {activeTab === 'text' && <TextShare />}
       {activeTab === 'file' && <FileShare />}
-      <Turorial />
     </div>
   );
 });

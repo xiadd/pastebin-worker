@@ -13,4 +13,5 @@ export default {
   uploadError: 'Upload Error:',
   uploading: 'Uploading...',
   fileSizeError: 'File size must be less than 25MB',
+  tutorial: 'Tutorial',
 };

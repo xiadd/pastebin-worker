@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import Editor from '@monaco-editor/react';
+import Editor from '../components/editor';
 import { useParams } from 'wouter';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { getPaste } from '../service';
@@ -86,12 +86,7 @@ export default function Detail() {
         height="calc(100vh - 200px)"
         language={language}
         value={content}
-        className="border rounded-sm"
-        options={{
-          contextmenu: false,
-          readOnly: true,
-          minimap: { enabled: false },
-        }}
+        readonly={true}
       />
     </div>
   );
