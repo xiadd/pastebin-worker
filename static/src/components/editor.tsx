@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
-import CodeMirror from '@uiw/react-codemirror';
-import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { javascript } from '@codemirror/lang-javascript';
-import { languages } from '@codemirror/language-data';
-
-import { StreamLanguage } from '@codemirror/language';
-import { go } from '@codemirror/legacy-modes/mode/go';
-import { python } from '@codemirror/legacy-modes/mode/python';
-import { shell } from '@codemirror/legacy-modes/mode/shell';
+import { javascript } from "@codemirror/lang-javascript";
+import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
+import { StreamLanguage } from "@codemirror/language";
+import { languages } from "@codemirror/language-data";
+import { go } from "@codemirror/legacy-modes/mode/go";
+import { python } from "@codemirror/legacy-modes/mode/python";
+import { shell } from "@codemirror/legacy-modes/mode/shell";
+import CodeMirror from "@uiw/react-codemirror";
+import { useEffect, useState } from "react";
 
 interface EditorProps {
   language?: string;
@@ -21,28 +20,28 @@ interface EditorProps {
 export default function Editor({
   value,
   onChange,
-  language = 'text',
+  language = "text",
   readonly = false,
-  height = '300px',
+  height = "300px",
 }: EditorProps) {
   const [languageExtension, setLanguageExtension] = useState<any>([]);
   useEffect(() => {
     switch (language) {
-      case 'markdown':
+      case "markdown":
         setLanguageExtension([
           markdown({ base: markdownLanguage, codeLanguages: languages }),
         ]);
         break;
-      case 'go':
+      case "go":
         setLanguageExtension([StreamLanguage.define(go)]);
         break;
-      case 'javascript':
+      case "javascript":
         setLanguageExtension([javascript()]);
         break;
-      case 'python':
+      case "python":
         setLanguageExtension([StreamLanguage.define(python)]);
         break;
-      case 'shell':
+      case "shell":
         setLanguageExtension([StreamLanguage.define(shell)]);
         break;
       default:
@@ -52,13 +51,15 @@ export default function Editor({
 
   return (
     <CodeMirror
-      className="border border-gray-200 rounded-sm"
+      className="rounded-sm border border-gray-200"
       height={height}
       width="100%"
       onChange={onChange}
       value={value}
       extensions={languageExtension}
       readOnly={readonly}
+      placeholder={readonly ? "" : "Write your text here..."}
+      theme="light"
     />
   );
 }

@@ -1,10 +1,11 @@
-import { Route } from 'wouter';
-import { Toaster } from 'react-hot-toast';
-import CreatePaste from './pages';
-import Detail from './pages/detail';
-import Header from './components/header';
-import Tutorial from './pages/tutorial';
-import './App.css';
+import { Toaster } from "react-hot-toast";
+import { Route } from "wouter";
+
+import "./App.css";
+import Header from "./components/header";
+import CreatePaste from "./pages";
+import Detail from "./pages/detail";
+import Tutorial from "./pages/tutorial";
 
 function App() {
   return (

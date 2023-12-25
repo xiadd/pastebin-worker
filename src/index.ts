@@ -120,7 +120,6 @@ app.post('/api/upload', async (c) => {
   }
   const id = nanoid();
   await c.env.PBIMGS.put(id, await file.arrayBuffer(), {
-    expirationTtl: 60 * 60 * 24,
     metadata: {
       mineType: file.type,
       name: file.name,

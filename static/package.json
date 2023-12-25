@@ -39,6 +39,7 @@
     "wouter": "^2.12.1"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/markdown-it": "^13.0.7",
     "@types/react": "^18.0.27",
     "@types/react-copy-to-clipboard": "^5.0.7",
@@ -48,6 +49,8 @@
     "less": "^4.2.0",
     "npx": "^10.2.2",
     "postcss": "^8.4.32",
+    "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.9",
     "tailwindcss": "^3.3.6",
     "typescript": "^4.9.3",
     "vite": "^5.0.8",

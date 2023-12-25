@@ -1,23 +1,22 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-hot-toast';
-import CodeMirror from '@uiw/react-codemirror';
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "wouter";
 
-import { useLocation } from 'wouter';
-import { createPaste } from '../service';
-import Editor from './editor';
+import { createPaste } from "../service";
+import Editor from "./editor";
 
 export default function TextShare() {
   const { t } = useTranslation();
   const [, navigate] = useLocation();
-  const [language, setLanguage] = useState('text');
-  const [content, setContent] = useState('');
+  const [language, setLanguage] = useState("text");
+  const [content, setContent] = useState("");
   const [expiration, setExpiration] = useState<number | undefined>(undefined);
   const [isPrivate, setIsPrivate] = useState(false);
   const [publishing, setPublishing] = useState(false);
 
   const createPB = async () => {
-    if (!content) return toast.error('请输入内容');
+    if (!content) return toast.error("请输入内容");
     setPublishing(true);
     const data = await createPaste({
       content,
@@ -28,7 +27,7 @@ export default function TextShare() {
     setPublishing(false);
     navigate(
       `/detail/${data.id}${
-        data.share_password ? `?password=${data.share_password}` : ''
+        data.share_password ? `?password=${data.share_password}` : ""
       }`,
     );
   };
@@ -39,14 +38,14 @@ export default function TextShare() {
         className="border border-gray-200 rounded-sm"
         height="300px"
         language={language}
-        onChange={(value) => setContent(value || '')}
+        onChange={(value) => setContent(value || "")}
         value={content}
       />
 
       <div className="flex-col md:gap-2 md:items-center md:flex-row gap-4 flex">
         <div className="form-control">
           <label className="label cursor-pointer inline-flex gap-2">
-            <span className="label-text">{t('privateTip')}</span>
+            <span className="label-text">{t("privateTip")}</span>
             <input
               type="checkbox"
               className="checkbox"
@@ -66,7 +65,7 @@ export default function TextShare() {
               setExpiration(e.target.value ? Number(e.target.value) : undefined)
             }
             className="input input-bordered w-full md:max-w-xs"
-            placeholder={t('expiration')}
+            placeholder={t("expiration")}
           />
 
           <datalist id="expriation-times">

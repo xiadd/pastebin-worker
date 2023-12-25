@@ -1,41 +1,42 @@
-import { useState, memo } from 'react';
-import cn from 'classnames';
-import { useTranslation } from 'react-i18next';
-import TextShare from '../components/text-share';
-import FileShare from '../components/file-share';
+import cn from "classnames";
+import { memo, useState } from "react";
+import { useTranslation } from "react-i18next";
+
+import FileShare from "../components/file-share";
+import TextShare from "../components/text-share";
 
 export default memo(function CreatePaste() {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<'text' | 'file'>('text');
+  const [activeTab, setActiveTab] = useState<"text" | "file">("text");
 
-  const handleToggleTab = (tab: 'text' | 'file') => {
+  const handleToggleTab = (tab: "text" | "file") => {
     setActiveTab(tab);
   };
 
   return (
-    <div className="p-4 md:p-10 flex flex-col gap-3 mx-auto max-w-7xl">
-      <div role="tablist" className="tabs tabs-boxed">
+    <div className="mx-auto flex max-w-7xl flex-col gap-3 p-4 md:p-10">
+      <div role="tablist" className="tabs-boxed tabs">
         <a
           role="tab"
-          className={cn('tab', {
-            'tab-active': activeTab === 'text',
+          className={cn("tab", {
+            "tab-active": activeTab === "text",
           })}
-          onClick={() => handleToggleTab('text')}
+          onClick={() => handleToggleTab("text")}
         >
-          {t('textShare')}
+          {t("textShare")}
         </a>
         <a
           role="tab"
-          className={cn('tab', {
-            'tab-active': activeTab === 'file',
+          className={cn("tab", {
+            "tab-active": activeTab === "file",
           })}
-          onClick={() => handleToggleTab('file')}
+          onClick={() => handleToggleTab("file")}
         >
-          {t('fileShare')}
+          {t("fileShare")}
         </a>
       </div>
-      {activeTab === 'text' && <TextShare />}
-      {activeTab === 'file' && <FileShare />}
+      {activeTab === "text" && <TextShare />}
+      {activeTab === "file" && <FileShare />}
     </div>
   );
 });

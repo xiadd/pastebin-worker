@@ -1,4 +1,4 @@
-import markdownIt from 'markdown-it';
+import markdownIt from "markdown-it";
 
 const md = markdownIt({
   html: true,
@@ -8,7 +8,7 @@ const md = markdownIt({
 
 export default function MdRenderer({ content }: { content: string }) {
   return (
-    <div className="px-10 md:px-0 md:max-w-6xl mx-auto md:pt-10">
+    <div className="mx-auto px-10 md:max-w-6xl md:px-0 md:pt-10">
       <div
         className="prose !max-w-full"
         dangerouslySetInnerHTML={{ __html: md.render(content) }}

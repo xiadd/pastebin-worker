@@ -1,32 +1,32 @@
-import { useEffect, useState } from 'react';
-import Upload from 'rc-upload';
-import { useTranslation } from 'react-i18next';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { toast } from 'react-hot-toast';
+import Upload from "rc-upload";
+import { useEffect, useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 
 const MAX_SIZE = 25 * 1024 * 1024;
 
 export default function ImageShare() {
   const { t } = useTranslation();
-  const [uploadFile, setUploadFile] = useState<string>('');
-  const [loadingToast, setLoadingToast] = useState<string>('');
+  const [uploadFile, setUploadFile] = useState<string>("");
+  const [loadingToast, setLoadingToast] = useState<string>("");
 
   const props = {
     action: `${import.meta.env.VITE_API_URL}/api/upload`,
-    type: 'drag',
-    accept: '*',
+    type: "drag",
+    accept: "*",
 
     beforeUpload(file: any) {
       console.log(file.size, MAX_SIZE);
       if (file.size > MAX_SIZE) {
-        toast.error(t('fileSizeError'));
+        toast.error(t("fileSizeError"));
         return false;
       }
       return true;
     },
 
     onStart(file: any) {
-      const loading = toast.loading(t('uploading'));
+      const loading = toast.loading(t("uploading"));
       setLoadingToast(loading);
     },
     onSuccess(file: any) {
@@ -35,7 +35,7 @@ export default function ImageShare() {
     },
     onError(err: any, response: any) {
       console.log(response);
-      toast.error(`${t('uploadError')} ${response.error}`);
+      toast.error(`${t("uploadError")} ${response.error}`);
       toast.dismiss(loadingToast);
     },
   };
@@ -46,30 +46,30 @@ export default function ImageShare() {
     if (!file) {
       return;
     }
-    formData.append('file', file);
-    const loadingId = toast.loading(t('uploading'));
+    formData.append("file", file);
+    const loadingId = toast.loading(t("uploading"));
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/upload`, {
-        method: 'POST',
+        method: "POST",
         body: formData,
       });
       toast.dismiss(loadingId);
       const data = await res.json();
       if (data.error) {
-        toast.error(`${t('uploadError')} ${data.error}`);
+        toast.error(`${t("uploadError")} ${data.error}`);
         return;
       }
       setUploadFile(`${import.meta.env.VITE_API_URL}/file/${data.id}`);
     } catch (error) {
-      toast.error(`${t('uploadError')} ${error}`);
+      toast.error(`${t("uploadError")} ${error}`);
       toast.dismiss(loadingId);
     }
   };
 
   useEffect(() => {
-    document.addEventListener('paste', handlePasteFile);
+    document.addEventListener("paste", handlePasteFile);
     return () => {
-      document.removeEventListener('paste', handlePasteFile);
+      document.removeEventListener("paste", handlePasteFile);
     };
   }, []);
 
@@ -77,11 +77,11 @@ export default function ImageShare() {
     <div className="flex flex-col gap-3">
       <Upload {...props}>
         <div className="w-full">
-          <label className="flex justify-center w-full h-48 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
+          <label className="flex h-48 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
             <span className="flex items-center space-x-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 text-gray-600"
+                className="h-6 w-6 text-gray-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -94,9 +94,9 @@ export default function ImageShare() {
                 />
               </svg>
               <span className="font-medium text-gray-600">
-                {t('fileShareTip')}
-                <span className="text-blue-600 underline ml-2">
-                  {t('viewFiles')}
+                {t("fileShareTip")}
+                <span className="ml-2 text-blue-600 underline">
+                  {t("viewFiles")}
                 </span>
               </span>
             </span>
@@ -112,7 +112,7 @@ export default function ImageShare() {
             <div className="card-actions justify-end">
               <CopyToClipboard
                 text={uploadFile}
-                onCopy={() => toast.success('复制成功')}
+                onCopy={() => toast.success("复制成功")}
               >
                 <button className="btn btn-primary">复制文件地址</button>
               </CopyToClipboard>
