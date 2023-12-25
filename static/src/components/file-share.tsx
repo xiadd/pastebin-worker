@@ -107,14 +107,14 @@ export default function ImageShare() {
       {uploadFile && (
         <div className="card w-full bg-base-100 shadow-xl">
           <div className="card-body">
-            <h2 className="card-title">上传成功</h2>
-            <p>文件已经上传成功，由于成本问题，文件1天内有效，点击复制文件</p>
+            <h2 className="card-title">{t("uploadSuccess")}</h2>
+            <p>{t("uploadSuccessTip")}</p>
             <div className="card-actions justify-end">
               <CopyToClipboard
                 text={uploadFile}
-                onCopy={() => toast.success("复制成功")}
+                onCopy={() => toast.success(t("copySuccess"))}
               >
-                <button className="btn btn-primary">复制文件地址</button>
+                <button className="btn btn-primary">{t("copyLink")}</button>
               </CopyToClipboard>
             </div>
           </div>
