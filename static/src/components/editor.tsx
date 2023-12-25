@@ -36,6 +36,7 @@ export default function Editor({
         setLanguageExtension([StreamLanguage.define(go)]);
         break;
       case "javascript":
+      case "typescript":
         setLanguageExtension([javascript()]);
         break;
       case "python":
