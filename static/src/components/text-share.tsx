@@ -1,15 +1,18 @@
-import { useState } from "react";
+import qs from "qs";
+import { ChangeEvent, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 
 import { createPaste } from "../service";
+import nanoid from "../utils/nanoid";
 import Editor from "./editor";
 
 export default function TextShare() {
   const { t } = useTranslation();
   const [, navigate] = useLocation();
   const [language, setLanguage] = useState("text");
+  const [sharePassword, setSharePassword] = useState<string>("");
   const [content, setContent] = useState("");
   const [expiration, setExpiration] = useState<number | undefined>(undefined);
   const [isPrivate, setIsPrivate] = useState(false);
@@ -23,13 +26,31 @@ export default function TextShare() {
       expire: expiration,
       isPrivate,
       language,
+      share_password: sharePassword,
     });
     setPublishing(false);
     navigate(
-      `/detail/${data.id}${
-        data.share_password ? `?password=${data.share_password}` : ""
-      }`,
+      `/detail/${data.id}${qs.stringify(
+        {
+          share_password: data.share_password,
+        },
+        { addQueryPrefix: true },
+      )}`,
     );
+  };
+
+  const handleSetAsPrivate = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setIsPrivate(true);
+      setSharePassword(nanoid(10));
+    } else {
+      setIsPrivate(false);
+      setSharePassword("");
+    }
+  };
+
+  const handleChangeSharePassword = (e: ChangeEvent<HTMLInputElement>) => {
+    setSharePassword(e.target.value);
   };
 
   return (
@@ -44,15 +65,25 @@ export default function TextShare() {
 
       <div className="flex-col md:gap-2 md:items-center md:flex-row gap-4 flex">
         <div className="form-control">
-          <label className="label cursor-pointer inline-flex gap-2">
-            <span className="label-text">{t("privateTip")}</span>
+          <div className="inline-flex gap-2">
+            <label className="label cursor-pointer inline-flex gap-2">
+              <span className="label-text whitespace-nowrap">
+                {t("privateTip")}
+              </span>
+              <input
+                type="checkbox"
+                className="checkbox"
+                checked={isPrivate}
+                onChange={handleSetAsPrivate}
+              />
+            </label>
             <input
-              type="checkbox"
-              className="checkbox"
-              checked={isPrivate}
-              onChange={(e) => setIsPrivate(e.target.checked)}
+              value={sharePassword}
+              className="input input-bordered w-full md:max-w-xs"
+              placeholder="Share Password"
+              onChange={handleChangeSharePassword}
             />
-          </label>
+          </div>
         </div>
         <div>
           <input
@@ -84,6 +115,9 @@ export default function TextShare() {
           className="input w-full md:max-w-xs  border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
           <option defaultValue="text">Choose a language</option>
+          <option value="html">HTML</option>
+          <option value="json">JSON</option>
+          <option value="yaml">YAML</option>
           <option value="javascript">JavaScript</option>
           <option value="typescript">TypeScript</option>
           <option value="markdown">Markdown</option>

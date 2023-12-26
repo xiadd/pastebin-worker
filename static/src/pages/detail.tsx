@@ -11,15 +11,21 @@ export default function Detail() {
   const [content, setContent] = useState("");
   const [pasteData, setPasteData] = useState<any>();
   const [language, setLanguage] = useState("text");
+  const [isAuth, setIsAuth] = useState(true);
+  const [sharePassword, setSharePassword] = useState<string>("");
 
   const { id } = useParams();
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
 
   useEffect(() => {
-    const search = window.location.search;
-    const params = new URLSearchParams(search);
     if (!id) return;
-    getPaste(id, params.get("password")).then((data: any) => {
+    getPaste(id, params.get("share_password")).then((data: any) => {
       if (data.error) {
+        if (data.code === 403) {
+          setIsAuth(false);
+          return;
+        }
         toast.error(data.error);
         return;
       }
@@ -29,6 +35,34 @@ export default function Detail() {
     });
   }, [id]);
 
+  const handleSubmitPassword = async () => {
+    location.search = `?share_password=${sharePassword}`;
+  };
+
+  if (!isAuth) {
+    return (
+      <div className="mx-auto max-w-7xl p-4 md:pt-20">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold">403</h1>
+          <p className="text-gray-500 dark:text-gray-400">
+            Input password to view this share
+          </p>
+          <div className="inline-flex gap-2 items-center mt-4">
+            <input
+              type="password"
+              className="input input-sm input-bordered w-full md:max-w-xs"
+              value={sharePassword}
+              onChange={(e) => setSharePassword(e.target.value)}
+            />
+            <button className="btn btn-sm" onClick={handleSubmitPassword}>
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (language === "markdown") {
     return <MdRenderer content={content} />;
   }
@@ -37,11 +71,7 @@ export default function Detail() {
     <div className="mx-auto max-w-7xl p-4 md:pt-10">
       <div className="mb-4 flex gap-4">
         <CopyToClipboard
-          text={`${window.location.origin}/detail/${id}${
-            pasteData?.share_password
-              ? `?password=${pasteData?.share_password}`
-              : ""
-          }`}
+          text={`${window.location.origin}/detail/${id}`}
           onCopy={() => toast.success("Copied")}
         >
           <button className="btn">
@@ -64,7 +94,7 @@ export default function Detail() {
             window.open(
               `${window.location.origin}/raw/${id}${
                 pasteData?.share_password
-                  ? `?password=${pasteData?.share_password}`
+                  ? `?share_password=${pasteData?.share_password}`
                   : ""
               }`,
             )
@@ -82,6 +112,10 @@ export default function Detail() {
           )}
           View raw Text
         </button>
+
+        <CopyToClipboard text={content} onCopy={() => toast.success("Copied")}>
+          <button className="btn">Copy raw text</button>
+        </CopyToClipboard>
       </div>
       <Editor
         height="calc(100vh - 200px)"

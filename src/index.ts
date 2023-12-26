@@ -33,7 +33,7 @@ app.get('/detail/*', serveStatic({ path: './index.html' }));
 
 app.get('/raw/:id', async (c) => {
   const id = c.req.param('id');
-  const password = c.req.query('password');
+  const password = c.req.query('share_password');
   const res = await c.env.PB.getWithMetadata(id);
   if (!res.value) {
     return c.text('Not found', { status: 404 });
@@ -44,6 +44,9 @@ app.get('/raw/:id', async (c) => {
     if (!password) {
       return c.text('Private paste, please provide password', { status: 403 });
     }
+  }
+  if (password !== data.share_password) {
+    return c.text('Wrong password', { status: 403 });
   }
   return c.text(content || '');
 });
@@ -94,10 +97,13 @@ app.get('/api/get', async (c) => {
   const data: any = res.metadata;
   if (data.share_password) {
     if (!password) {
-      return c.json({ error: 'Private paste, please provide password' });
+      return c.json(
+        { error: 'Private paste, please provide password', code: 403 },
+        { status: 403 },
+      );
     }
     if (password !== data.share_password) {
-      return c.json({ error: 'Wrong password' });
+      return c.json({ error: 'Wrong password', code: 403 }, { status: 403 });
     }
   }
   return c.json({ content: content, ...data });

@@ -1,3 +1,5 @@
+import qs from "qs";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export async function createPaste(body: any) {
@@ -16,9 +18,8 @@ export async function getPaste(
   id: string,
   share_password?: string | undefined | null,
 ) {
-  const res = await fetch(
-    `${API_URL}/api/get?id=${id}&share_password=${share_password}`,
-  );
+  const query = qs.stringify({ id, share_password }, { skipNulls: true });
+  const res = await fetch(`${API_URL}/api/get?${query}`);
   const data = await res.json();
   return data;
 }

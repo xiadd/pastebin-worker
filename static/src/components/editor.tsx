@@ -2,9 +2,12 @@ import { javascript } from "@codemirror/lang-javascript";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { StreamLanguage } from "@codemirror/language";
 import { languages } from "@codemirror/language-data";
+import { css } from "@codemirror/legacy-modes/mode/css";
 import { go } from "@codemirror/legacy-modes/mode/go";
 import { python } from "@codemirror/legacy-modes/mode/python";
 import { shell } from "@codemirror/legacy-modes/mode/shell";
+import { html } from "@codemirror/legacy-modes/mode/xml";
+import { yaml } from "@codemirror/legacy-modes/mode/yaml";
 import CodeMirror from "@uiw/react-codemirror";
 import { useEffect, useState } from "react";
 
@@ -37,13 +40,24 @@ export default function Editor({
         break;
       case "javascript":
       case "typescript":
-        setLanguageExtension([javascript()]);
+      case "json":
+        setLanguageExtension([javascript({ jsx: true })]);
         break;
       case "python":
         setLanguageExtension([StreamLanguage.define(python)]);
         break;
       case "shell":
         setLanguageExtension([StreamLanguage.define(shell)]);
+        break;
+      case "html":
+        setLanguageExtension([StreamLanguage.define(html)]);
+        break;
+      case "yaml":
+        setLanguageExtension([StreamLanguage.define(yaml)]);
+      case "css":
+      case "less":
+      case "scss":
+        setLanguageExtension([StreamLanguage.define(css)]);
         break;
       default:
         break;
