@@ -69,7 +69,7 @@ export default function Detail() {
 
   return (
     <div className="mx-auto max-w-7xl p-4 md:pt-10">
-      <div className="mb-4 flex gap-4">
+      <div className="mb-4 flex gap-4 flex-col md:flex-row">
         <CopyToClipboard
           text={`${window.location.origin}/detail/${id}`}
           onCopy={() => toast.success("Copied")}
@@ -85,7 +85,7 @@ export default function Detail() {
                 <path d="M14 7h-1.5V4.5a4.5 4.5 0 1 0-9 0V7H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-5 8a1 1 0 1 1-2 0v-3a1 1 0 1 1 2 0v3Zm1.5-8h-5V4.5a2.5 2.5 0 1 1 5 0V7Z" />
               </svg>
             )}
-            Copy URL
+            Copy URL {pasteData?.share_password && "(without password)"}
           </button>
         </CopyToClipboard>
         <button

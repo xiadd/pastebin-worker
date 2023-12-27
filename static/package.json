@@ -37,6 +37,7 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-i18next": "^13.5.0",
+    "swr": "^2.2.4",
     "vite-plugin-singlefile": "^0.13.3",
     "wouter": "^2.12.1"
   },

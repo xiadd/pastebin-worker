@@ -82,6 +82,7 @@ export default function TextShare() {
               className="input input-bordered w-full md:max-w-xs"
               placeholder="Share Password"
               onChange={handleChangeSharePassword}
+              disabled={!isPrivate}
             />
           </div>
         </div>
