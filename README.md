@@ -95,4 +95,4 @@ VITE_API_URL= <your domain>
 
 ![image](https://as.al/file/HY97Ka)
 
-在这里设置你的 api token
+在这里设置你的 api token，而后每次 push 代码到 main 分支，就会自动部署到 cloudflare
