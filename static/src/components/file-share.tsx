@@ -17,7 +17,6 @@ export default function ImageShare() {
     accept: "*",
 
     beforeUpload(file: any) {
-      console.log(file.size, MAX_SIZE);
       if (file.size > MAX_SIZE) {
         toast.error(t("fileSizeError"));
         return false;
@@ -29,8 +28,8 @@ export default function ImageShare() {
       const loading = toast.loading(t("uploading"));
       setLoadingToast(loading);
     },
-    onSuccess(file: any) {
-      setUploadFile(`${import.meta.env.VITE_API_URL}/file/${file.id}`);
+    onSuccess(response: any) {
+      setUploadFile(response.url);
       toast.dismiss(loadingToast);
     },
     onError(err: any, response: any) {

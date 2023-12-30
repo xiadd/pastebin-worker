@@ -7,6 +7,8 @@ import {
   R2Bucket,
 } from '@cloudflare/workers-types';
 
+import config from './config';
+
 import { customAlphabet } from 'nanoid';
 
 const MAX_SIZE = 1024 * 1024 * 25; // 25MB
@@ -82,7 +84,7 @@ app.post('/api/create', async (c) => {
     pasteBody.share_password = metadata.metadata.share_password;
   }
   await c.env.PB.put(id, content, metadata);
-  return c.json({ id, ...pasteBody });
+  return c.json({ id, url: `${config.BASE_URL}/detail/${id}`, ...pasteBody });
 });
 
 // 获取paste
@@ -106,16 +108,14 @@ app.get('/api/get', async (c) => {
       return c.json({ error: 'Wrong password', code: 403 }, { status: 403 });
     }
   }
-  return c.json({ content: content, ...data });
+  return c.json({
+    content: content,
+    url: `${config.BASE_URL}/detail/${id}`,
+    ...data,
+  });
 });
 
-// 列出所有paste的key
-app.get('/api/list', async (c) => {
-  const keys = await c.env.PB.list();
-  return c.json(keys);
-});
-
-// 上传图片
+// 上传文件
 app.post('/api/upload', async (c) => {
   const { file }: { file: File } = await c.req.parseBody();
   if (!file) {
@@ -131,7 +131,7 @@ app.post('/api/upload', async (c) => {
       name: file.name,
     },
   });
-  return c.json({ id });
+  return c.json({ id, url: `${config.BASE_URL}/file/${id}` });
 });
 
 // 反代图片
