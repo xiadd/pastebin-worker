@@ -1,3 +1,5 @@
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/xiadd/pastebin-worker)
+
 ## 开始开发
 
 1. 安装 wrangler-cli
@@ -52,7 +54,7 @@ kv_namespaces = [
 bucket = "./static/dist"
 ```
 
-其中 `account_id`，`route`, `kv_namespaces` 需要根据自己的情况修改，我们这里用到了两个 kv，一个存储文件，一个存储文字。
+其中 `account_id`，`route`, `kv_namespaces` 需要根据自己的情况修改，我们这里用到了两个 kv，一个存储文件，一个存储文字。如果不需要自定义域名，注释掉 `route` 这行即可。
 
 `account_id` 可以在 cloudflare 的 dashboard 中找到, `route` 是你的 worker 的路由（也就是自定义域名），`kv_namespaces` 是你创建的 kv 的 id
 
@@ -71,11 +73,7 @@ yarn dev
 
 # 部署
 
-修改 static 目录里的 `.env.production`，环境变量设置为你自己上面配置的域名。
-
-```env
-VITE_API_URL= <your domain>
-```
+## 手动部署
 
 获取你的 cloudflare 账号的 api key，然后设置为 github aciton 的 secret，名字为`CF_API_TOKEN`，这样每次 push 代码到 main 分支，就会自动部署到 cloudflare
 
@@ -96,3 +94,7 @@ VITE_API_URL= <your domain>
 ![image](https://as.al/file/HY97Ka)
 
 在这里设置你的 api token，而后每次 push 代码到 main 分支，就会自动部署到 cloudflare
+
+## 自动部署
+
+点击上面的 `Deploy with Workers` 按钮，然后根据提示操作即可。
