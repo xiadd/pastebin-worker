@@ -31,7 +31,7 @@ yarn install
 
 ![image](https://as.al/file/zLTJTR)
 
-我们这里创建了两个 kv，一个用来存储文件，一个用来存储文字，然后分别取名为 `PBIMG` 和 `PB`，其实名字无所谓，重点是要记住 id，后面会用到
+我们这里创建了一个 kv，用来存储文字，取名为 `PB`，其实名字无所谓，重点是要记住 id，后面会用到；再创建一个 r2，用来存储文件，取名为 `pastes`,
 
 4. 修改 wrangler.toml
 
@@ -47,11 +47,14 @@ route = { pattern = "<your domain>", custom_domain = true }
 
 kv_namespaces = [
   { binding = "PB", id = "<PB kv id>" },
-  { binding = "PBIMGS", id ="<PB file id>" }
 ]
 
 [site]
 bucket = "./static/dist"
+
+[[r2_buckets]]
+binding = 'BUCKET'
+bucket_name = 'pastes'
 ```
 
 其中 `account_id`，`route`, `kv_namespaces` 需要根据自己的情况修改，我们这里用到了两个 kv，一个存储文件，一个存储文字。如果不需要自定义域名，注释掉 `route` 这行即可。

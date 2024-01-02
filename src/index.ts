@@ -7,8 +7,6 @@ import {
   R2Bucket,
 } from '@cloudflare/workers-types';
 
-import config from './config';
-
 import { customAlphabet } from 'nanoid';
 
 const MAX_SIZE = 1024 * 1024 * 25; // 25MB
@@ -22,13 +20,12 @@ type Bindings = {
   PB: KVNamespace;
   PBIMGS: KVNamespace;
   BUCKET: R2Bucket;
+  BASE_URL: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
 
 app.use('/api/*', cors());
-
-app.notFound((c) => c.html('Not found', { status: 404 }));
 
 app.get('*', serveStatic({ root: './' }));
 app.get('/detail/*', serveStatic({ path: './index.html' }));
@@ -84,7 +81,7 @@ app.post('/api/create', async (c) => {
     pasteBody.share_password = metadata.metadata.share_password;
   }
   await c.env.PB.put(id, content, metadata);
-  return c.json({ id, url: `${config.BASE_URL}/detail/${id}`, ...pasteBody });
+  return c.json({ id, url: `${c.env.BASE_URL}/detail/${id}`, ...pasteBody });
 });
 
 // 获取paste
@@ -110,7 +107,7 @@ app.get('/api/get', async (c) => {
   }
   return c.json({
     content: content,
-    url: `${config.BASE_URL}/detail/${id}`,
+    url: `${c.env.BASE_URL}/detail/${id}`,
     ...data,
   });
 });
@@ -125,31 +122,30 @@ app.post('/api/upload', async (c) => {
     return c.json({ error: 'File is too large' }, { status: 413 });
   }
   const id = nanoid();
-  await c.env.PBIMGS.put(id, await file.arrayBuffer(), {
-    metadata: {
-      mineType: file.type,
+  await c.env.BUCKET.put(id, await file.arrayBuffer(), {
+    customMetadata: {
       name: file.name,
     },
   });
-  return c.json({ id, url: `${config.BASE_URL}/file/${id}` });
+  return c.json({ id, url: `${c.env.BASE_URL}/file/${id}` });
 });
 
-// 反代图片
+// 反代文件
 app.get('/file/:id', async (c) => {
   const id = c.req.param('id');
-  const res = await c.env.PBIMGS.getWithMetadata(id, 'arrayBuffer');
-  if (!res) {
-    return c.text('Not found');
+  const object = await c.env.BUCKET.get(id);
+  if (!object) {
+    return c.text('Not found', { status: 404 });
   }
-  const metadata: any = res.metadata;
-  const response = new Response(res.value!, {
-    headers: {
-      'Content-Type': metadata.mineType,
-      'Content-Disposition': `inline; filename=${metadata.name}`,
-    },
+  const headers = new Headers({
+    'Content-Disposition': `inline; filename=${object.customMetadata!.name}`,
   });
+  object.writeHttpMetadata(headers as any);
+  headers.set('etag', object.httpEtag);
 
-  return response;
+  return new Response(object.body as any, {
+    headers,
+  });
 });
 
 export default app;

@@ -58,7 +58,7 @@ export default function ImageShare() {
         toast.error(`${t("uploadError")} ${data.error}`);
         return;
       }
-      setUploadFile(`${import.meta.env.VITE_API_URL}/file/${data.id}`);
+      setUploadFile(data.url);
     } catch (error) {
       toast.error(`${t("uploadError")} ${error}`);
       toast.dismiss(loadingId);
