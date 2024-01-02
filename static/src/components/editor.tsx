@@ -11,6 +11,8 @@ import { yaml } from "@codemirror/legacy-modes/mode/yaml";
 import CodeMirror from "@uiw/react-codemirror";
 import { useEffect, useState } from "react";
 
+import { useTheme } from "../hooks/use-theme-select";
+
 interface EditorProps {
   language?: string;
   value: string;
@@ -27,7 +29,11 @@ export default function Editor({
   readonly = false,
   height = "300px",
 }: EditorProps) {
+  const [theme] = useTheme();
   const [languageExtension, setLanguageExtension] = useState<any>([]);
+  const [codemirrorTheme, setCodemirrorTheme] = useState<"light" | "dark">(
+    "light",
+  );
   useEffect(() => {
     switch (language) {
       case "markdown":
@@ -64,9 +70,28 @@ export default function Editor({
     }
   }, [language]);
 
+  useEffect(() => {
+    let newCodemirrorTheme: "light" | "dark" = "light";
+
+    console.log(theme);
+    if (theme === "dark") {
+      newCodemirrorTheme = "dark";
+      console.log(11, theme);
+    } else if (theme === "system") {
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      if (prefersDark) {
+        newCodemirrorTheme = "dark";
+      }
+    }
+    console.log(codemirrorTheme);
+    setCodemirrorTheme(newCodemirrorTheme as "light" | "dark");
+  }, [theme]);
+
   return (
     <CodeMirror
-      className="rounded-sm border border-gray-200"
+      className="rounded-sm border border-gray-200 dark:border-gray-600"
       height={height}
       width="100%"
       onChange={onChange}
@@ -74,7 +99,7 @@ export default function Editor({
       extensions={languageExtension}
       readOnly={readonly}
       placeholder={readonly ? "" : "Write your text here..."}
-      theme="light"
+      theme={codemirrorTheme}
     />
   );
 }

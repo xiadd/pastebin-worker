@@ -1,15 +1,23 @@
+import {
+  Chinese,
+  NewComputer as Computer,
+  English,
+  Github,
+  Moon,
+  SunOne as Sun,
+} from "@icon-park/react";
 import Dropdown from "rc-dropdown";
 import "rc-dropdown/assets/index.css";
 import Menu, { Item as MenuItem } from "rc-menu";
 import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
 
-import githubIcon from "../assets/github.svg";
-import localeIcon from "../assets/locale.svg";
 import logoIcon from "../assets/logo.svg";
+import { useTheme } from "../hooks/use-theme-select";
 
 export default function Header() {
   const { t, i18n } = useTranslation();
+  const [theme, setTheme] = useTheme();
 
   const handleChangeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
@@ -19,7 +27,7 @@ export default function Header() {
     <div
       id="marketing-banner"
       tabIndex={-1}
-      className="fixed left-1/2 top-4 z-50 flex w-[calc(100%-2rem)] -translate-x-1/2 flex-col justify-between rounded-lg border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-600 dark:bg-gray-700 md:flex-row lg:max-w-7xl"
+      className="fixed left-1/2 top-4 z-50 flex w-[calc(100%-2rem)] -translate-x-1/2 flex-col justify-between rounded-lg border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-600 dark:bg-gray-700 md:flex-row lg:max-w-7xl dark:text-slate-300"
     >
       <div className="mb-0 me-4 flex flex-row items-center">
         <Link
@@ -41,19 +49,18 @@ export default function Header() {
           </Link>
         </div>
       </div>
-      <div className="flex flex-shrink-0 items-center gap-2">
+      <div className="flex flex-shrink-0 items-center gap-4">
         <a
           href="https://github.com/xiadd/pastebin-worker"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-6"
         >
-          <img src={githubIcon} />
+          <Github size={20} />
         </a>
 
         <Dropdown
           overlay={
-            <Menu className="z-10 divide-y divide-gray-100 rounded-lg !border-0 bg-white !shadow dark:bg-gray-700">
+            <Menu className="z-10 divide-y divide-gray-100 rounded-lg !border-0 bg-white !shadow-md dark:bg-gray-700">
               <MenuItem key="1">
                 <button
                   onClick={() => handleChangeLanguage("en")}
@@ -74,9 +81,57 @@ export default function Header() {
           }
           trigger={["click"]}
         >
-          <button className="flex gap-2">
-            <img src={localeIcon} className="w-6" />
-            {t(i18n.language)}
+          <button className="flex gap-2 items-center">
+            {i18n.language === "en" ? (
+              <English size={20} />
+            ) : (
+              <Chinese size={20} />
+            )}
+          </button>
+        </Dropdown>
+
+        <Dropdown
+          overlay={
+            <Menu className="z-10 divide-y divide-gray-100 rounded-lg !border-0 dark:border-gray-800 dark:text-slate-300 bg-white !shadow-md dark:bg-gray-700">
+              <MenuItem key="0">
+                <button
+                  onClick={() => setTheme("light")}
+                  className="flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  <Sun size={18} />
+                  Light
+                </button>
+              </MenuItem>
+              <MenuItem key="1">
+                <button
+                  onClick={() => setTheme("dark")}
+                  className="flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  <Moon size={18} />
+                  Dark
+                </button>
+              </MenuItem>
+              <MenuItem key="2">
+                <button
+                  onClick={() => setTheme("system")}
+                  className="flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  <Computer size={18} />
+                  Dark
+                </button>
+              </MenuItem>
+            </Menu>
+          }
+          trigger={["click"]}
+        >
+          <button className="flex gap-2 items-center hidden">
+            {theme === "light" ? (
+              <Sun size={18} />
+            ) : theme === "dark" ? (
+              <Moon size={18} />
+            ) : (
+              <Computer size={18} />
+            )}
           </button>
         </Dropdown>
       </div>

@@ -28,9 +28,9 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 app.use('/api/*', cors());
 
-app.notFound((c) => c.json({ error: 'Not found' }, { status: 404 }));
+app.notFound((c) => c.html('Not found', { status: 404 }));
 
-app.get('/*', serveStatic({ root: './' }));
+app.get('*', serveStatic({ root: './' }));
 app.get('/detail/*', serveStatic({ path: './index.html' }));
 
 app.get('/raw/:id', async (c) => {

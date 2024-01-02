@@ -9,7 +9,7 @@ import Tutorial from "./pages/tutorial";
 
 function App() {
   return (
-    <div className="md:pt-14 pt-32">
+    <div className="md:pt-14 pt-32 dark:bg-slate-800">
       <Header />
       <Route path="/" component={CreatePaste}></Route>
       <Route path="/detail/:id" component={Detail} />
