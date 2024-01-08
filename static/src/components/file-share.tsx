@@ -9,6 +9,7 @@ const MAX_SIZE = 25 * 1024 * 1024;
 export default function ImageShare() {
   const { t } = useTranslation();
   const [uploadFile, setUploadFile] = useState<string>("");
+  const [fileTyle, setFileType] = useState<string>("");
   const [loadingToast, setLoadingToast] = useState<string>("");
 
   const props = {
@@ -21,6 +22,7 @@ export default function ImageShare() {
         toast.error(t("fileSizeError"));
         return false;
       }
+      setFileType(file.type);
       return true;
     },
 
@@ -75,8 +77,8 @@ export default function ImageShare() {
   return (
     <div className="flex flex-col gap-3">
       <Upload {...props}>
-        <div className="w-full">
-          <label className="flex h-48 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 bg-white px-4 transition hover:border-gray-400 focus:outline-none">
+        <div className="w-full ">
+          <label className="flex h-48 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed px-4 transition hover:border-gray-400 focus:outline-none card items-center">
             <span className="flex items-center space-x-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -104,20 +106,43 @@ export default function ImageShare() {
       </Upload>
 
       {uploadFile && (
-        <div className="card w-full bg-base-100 shadow-xl">
-          <div className="card-body">
-            <h2 className="card-title">{t("uploadSuccess")}</h2>
-            <p>{t("uploadSuccessTip")}</p>
-            <div className="card-actions justify-end">
+        <>
+          <div className="join">
+            <button className="btn btn-neutral join-item w-[120px]">
+              Link
+            </button>
+            <input
+              className="input input-bordered join-item w-full"
+              value={uploadFile}
+              disabled
+            />
+            <CopyToClipboard
+              text={uploadFile}
+              onCopy={() => toast.success(t("copySuccess"))}
+            >
+              <button className="btn btn-primary join-item">Copy</button>
+            </CopyToClipboard>
+          </div>
+
+          {fileTyle.startsWith("image") && (
+            <div className="join">
+              <button className="btn btn-neutral join-item w-[120px]">
+                Markdown
+              </button>
+              <input
+                className="input input-bordered join-item w-full"
+                value={`![image](${uploadFile})`}
+                disabled
+              />
               <CopyToClipboard
-                text={uploadFile}
+                text={`![image](${uploadFile})`}
                 onCopy={() => toast.success(t("copySuccess"))}
               >
-                <button className="btn btn-primary">{t("copyLink")}</button>
+                <button className="btn btn-primary join-item">Copy</button>
               </CopyToClipboard>
             </div>
-          </div>
-        </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -9,15 +9,18 @@ import {
 import Dropdown from "rc-dropdown";
 import "rc-dropdown/assets/index.css";
 import Menu, { Item as MenuItem } from "rc-menu";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
 
 import logoIcon from "../assets/logo.svg";
-import { useTheme } from "../hooks/use-theme-select";
+import { ThemeContext } from "../context/theme";
+
+// import { useTheme } from "../hooks/use-theme-select";
 
 export default function Header() {
   const { t, i18n } = useTranslation();
-  const [theme, setTheme] = useTheme();
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const handleChangeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
@@ -27,7 +30,7 @@ export default function Header() {
     <div
       id="marketing-banner"
       tabIndex={-1}
-      className="fixed left-1/2 top-4 z-50 flex w-[calc(100%-2rem)] -translate-x-1/2 flex-col justify-between rounded-lg border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-600 dark:bg-gray-700 md:flex-row lg:max-w-7xl dark:text-slate-300"
+      className="fixed left-1/2 top-4 z-50 flex w-[calc(100%-2rem)] -translate-x-1/2 shadow-lg flex-col justify-between rounded-lg p-4 md:flex-row lg:max-w-7xl navbar bg-base-100"
     >
       <div className="mb-0 me-4 flex flex-row items-center">
         <Link
@@ -49,11 +52,12 @@ export default function Header() {
           </Link>
         </div>
       </div>
-      <div className="flex flex-shrink-0 items-center gap-4">
+      <div className="flex flex-shrink-0 items-center">
         <a
           href="https://github.com/xiadd/pastebin-worker"
           target="_blank"
           rel="noopener noreferrer"
+          className="btn btn-ghost btn-sm"
         >
           <Github size={20} />
         </a>
@@ -81,7 +85,7 @@ export default function Header() {
           }
           trigger={["click"]}
         >
-          <button className="flex gap-2 items-center">
+          <button className="flex gap-2 items-center btn btn-ghost btn-sm">
             {i18n.language === "en" ? (
               <English size={20} />
             ) : (
@@ -90,50 +94,42 @@ export default function Header() {
           </button>
         </Dropdown>
 
-        <Dropdown
-          overlay={
-            <Menu className="z-10 divide-y divide-gray-100 rounded-lg !border-0 dark:border-gray-800 dark:text-slate-300 bg-white !shadow-md dark:bg-gray-700">
-              <MenuItem key="0">
-                <button
-                  onClick={() => setTheme("light")}
-                  className="flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  <Sun size={18} />
-                  Light
-                </button>
-              </MenuItem>
-              <MenuItem key="1">
-                <button
-                  onClick={() => setTheme("dark")}
-                  className="flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  <Moon size={18} />
-                  Dark
-                </button>
-              </MenuItem>
-              <MenuItem key="2">
-                <button
-                  onClick={() => setTheme("system")}
-                  className="flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  <Computer size={18} />
-                  Dark
-                </button>
-              </MenuItem>
-            </Menu>
-          }
-          trigger={["click"]}
-        >
-          <button className="flex gap-2 items-center hidden">
-            {theme === "light" ? (
-              <Sun size={18} />
-            ) : theme === "dark" ? (
-              <Moon size={18} />
-            ) : (
-              <Computer size={18} />
-            )}
-          </button>
-        </Dropdown>
+        <div className="dropdown">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-sm">
+            <button className="flex gap-2 items-center">
+              {theme === "light" ? (
+                <Sun size={18} />
+              ) : theme === "dark" ? (
+                <Moon size={18} />
+              ) : (
+                <Computer size={18} />
+              )}
+            </button>
+          </div>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box"
+          >
+            <li onClick={() => setTheme("light")}>
+              <div className="flex gap-2">
+                <Sun size={18} />
+                <span>Light</span>
+              </div>
+            </li>
+            <li onClick={() => setTheme("dark")}>
+              <div className="flex gap-2">
+                <Moon size={18} />
+                <span>Dark</span>
+              </div>
+            </li>
+            <li onClick={() => setTheme("system")}>
+              <div className="flex gap-2">
+                <Computer size={18} />
+                <span>System</span>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );
