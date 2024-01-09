@@ -113,7 +113,7 @@ export default function TextShare() {
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="select select-bordered w-full max-w-xs"
+          className="select select-bordered w-full md:max-w-xs"
         >
           <option defaultValue="text">Choose a language</option>
           <option value="html">HTML</option>
