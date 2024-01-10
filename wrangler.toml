@@ -1,5 +1,5 @@
 name= "pastebin-worker"
-compatibility_date = "2023-11-28"
+compatibility_date = "2023-10-30"
 account_id= "516d0a360ccdea88dd79e9cf5d2bc3aa"
 main = "src/index.ts"
 workers_dev = false

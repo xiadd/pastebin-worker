@@ -22,6 +22,7 @@ export default function ImageShare() {
         toast.error(t("fileSizeError"));
         return false;
       }
+      setUploadFile("");
       setFileType(file.type);
       return true;
     },
