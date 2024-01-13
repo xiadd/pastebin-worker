@@ -1,3 +1,5 @@
+import { TwoDimensionalCodeOne } from "@icon-park/react";
+import QRcode from "qrcode";
 import { useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-hot-toast";
@@ -13,6 +15,7 @@ export default function Detail() {
   const [language, setLanguage] = useState("text");
   const [isAuth, setIsAuth] = useState(true);
   const [sharePassword, setSharePassword] = useState<string>("");
+  const [qrcodeImg, setQrcodeImg] = useState<string>("");
 
   const { id } = useParams();
   const search = window.location.search;
@@ -37,6 +40,14 @@ export default function Detail() {
 
   const handleSubmitPassword = async () => {
     location.search = `?share_password=${sharePassword}`;
+  };
+
+  const handleGetQRCode = async () => {
+    const qrcode = await QRcode.toDataURL(
+      `${window.location.origin}/detail/${id}`,
+    );
+    (document.getElementById("qrcode-dialog") as HTMLDialogElement).showModal();
+    setQrcodeImg(qrcode);
   };
 
   if (!isAuth) {
@@ -116,6 +127,10 @@ export default function Detail() {
         <CopyToClipboard text={content} onCopy={() => toast.success("Copied")}>
           <button className="btn">Copy raw text</button>
         </CopyToClipboard>
+        <button className="btn" onClick={handleGetQRCode}>
+          <TwoDimensionalCodeOne />
+          QRCode
+        </button>
       </div>
       <Editor
         height="calc(100vh - 200px)"
@@ -123,6 +138,17 @@ export default function Detail() {
         value={content}
         readonly={true}
       />
+
+      <dialog id="qrcode-dialog" className="modal">
+        <div className="modal-box text-center">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+          <img src={qrcodeImg} className="w-[80%] mx-auto" />
+        </div>
+      </dialog>
     </div>
   );
 }
