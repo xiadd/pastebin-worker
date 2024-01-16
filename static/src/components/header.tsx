@@ -5,6 +5,7 @@ import {
   Github,
   Moon,
   SunOne as Sun,
+  Telegram,
 } from "@icon-park/react";
 import Dropdown from "rc-dropdown";
 import "rc-dropdown/assets/index.css";
@@ -60,6 +61,15 @@ export default function Header() {
           className="btn btn-ghost btn-sm"
         >
           <Github size={20} />
+        </a>
+
+        <a
+          href="https://t.me/pasteshare"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-ghost btn-sm"
+        >
+          <Telegram size={20} />
         </a>
 
         <Dropdown
