@@ -29,7 +29,7 @@ yarn install
 
 3. 在 cloudflare 里创建 kv namespace
 
-![image](https://as.al/file/zLTJTR)
+![image](https://as.al/file/unJ46x)
 
 我们这里创建了一个 kv，用来存储文字，取名为 `PB`，其实名字无所谓，重点是要记住 id，后面会用到；再创建一个 r2，用来存储文件，取名为 `pastes`,
 
@@ -74,6 +74,72 @@ yarn dev
 
 服务器启动后，后端的地址是 `http://localhost:8787`，前端的地址是 `http://localhost:5173`，如果想测试前端打包后的情况，直接在 static 目录执行 `yarn build`，然后访问 `http://localhost:8787` 就可以了
 
+# API 调用
+
+## 分享文字 API
+
+1. 创建 paste
+
+```
+url: https://as.al/api/create
+method: POST
+payload: {
+  "content": "<your text>",
+  "isPrivate": false,
+  "language": "text",
+  "share_password": ""
+}
+# 返回的数据
+{
+  "id": "opNGEX",
+  "url": "https://as.al/detail/opNGEX",
+  "content": "12312",
+  "expire": 0,
+  "language": "text",
+  "create_time": 1705587763620
+}
+
+```
+
+如果想创建私有的 paste，则自行设置 share_password 分享密码
+
+2. 获取 paste 详情
+
+```
+
+url: https://as.al/api/get?id=<paste_id>
+
+# 返回的数据
+
+{
+  "content": "12312",
+  "url": "https://as.al/detail/opNGEX",
+  "language": "text",
+  "create_time": 1705587763620
+}
+```
+
+## 分享文件 API
+
+1. 创建文件分享 paste
+
+```
+url: https://as.al/api/upload
+method: POST
+formData: { "file": <binaryFile> }
+
+# 返回的数据
+
+{
+  "id": "7tAFLZ",
+  "url": "https://as.al/file/7tAFLZ"
+}
+```
+
+2. 获取文件 url
+
+上面的文件 url 就是文件上传后的地址
+
 # 部署
 
 ## 手动部署
@@ -82,19 +148,17 @@ yarn dev
 
 ### 获取 API Token 的方法：
 
-![image](https://as.al/file/wRVEmh)
+![image](https://as.al/file/a60SQE)
 
 然后点击 `Create Token`:
 
-![image](https://as.al/file/5a927R)
+![image](https://as.al/file/iLcJMi)
 
 选择 worker 的模版创建成功即可获取 api token
 
-![image](https://as.al/file/0PhErY)
-
 ### 在 github action 里设置 secret
 
-![image](https://as.al/file/HY97Ka)
+![image](https://as.al/file/Zl8rbJ)
 
 在这里设置你的 api token，而后每次 push 代码到 main 分支，就会自动部署到 cloudflare
 

@@ -27,7 +27,7 @@ yarn install
 
 3. Create kv namespace in Cloudflare
 
-![image](https://as.al/file/zLTJTR)
+![image](https://as.al/file/unJ46x)
 
 We have created two kv namespaces here, one for storing files and the other for storing text, and they are named `PBIMG` and `PB` respectively. It doesn't matter what names are given, the important thing is to remember the id, which will be used later.
 
@@ -81,18 +81,16 @@ Get the api key for your Cloudflare account, then set it as the secret for GitHu
 
 ### Method to get the API Token:
 
-![image](https://as.al/file/wRVEmh)
+![image](https://as.al/file/a60SQE)
 
 Then click `Create Token`:
 
-![image](https://as.al/file/5a927R)
+![image](https://as.al/file/iLcJMi)
 
 Select the worker template and create it to get the api token.
 
-![image](https://as.al/file/0PhErY)
-
 ### Set the secret in the github action:
 
-![image](https://as.al/file/HY97Ka)
+![image](https://as.al/file/Zl8rbJ)
 
 Set your api token here.
