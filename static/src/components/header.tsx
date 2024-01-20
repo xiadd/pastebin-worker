@@ -64,7 +64,7 @@ export default function Header() {
         </a>
 
         <a
-          href="https://t.me/pasteshare"
+          href="https://t.me/zhixiao"
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-ghost btn-sm"

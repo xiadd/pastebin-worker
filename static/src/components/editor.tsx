@@ -2,6 +2,7 @@ import { javascript } from "@codemirror/lang-javascript";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { StreamLanguage } from "@codemirror/language";
 import { languages } from "@codemirror/language-data";
+import { cpp } from "@codemirror/legacy-modes/mode/clike";
 import { css } from "@codemirror/legacy-modes/mode/css";
 import { go } from "@codemirror/legacy-modes/mode/go";
 import { python } from "@codemirror/legacy-modes/mode/python";
@@ -49,6 +50,9 @@ export default function Editor({
       case "json":
         setLanguageExtension([javascript({ jsx: true })]);
         break;
+      case "c":
+        setLanguageExtension([StreamLanguage.define(cpp)]);
+        break;
       case "python":
         setLanguageExtension([StreamLanguage.define(python)]);
         break;
@@ -75,7 +79,6 @@ export default function Editor({
 
     if (theme === "dark") {
       newCodemirrorTheme = "dark";
-      console.log(11, theme);
     } else if (theme === "system") {
       const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)",

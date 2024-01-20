@@ -119,6 +119,7 @@ export default function TextShare() {
           <option value="html">HTML</option>
           <option value="json">JSON</option>
           <option value="yaml">YAML</option>
+          <option value="c">C/CPP</option>
           <option value="javascript">JavaScript</option>
           <option value="typescript">TypeScript</option>
           <option value="markdown">Markdown</option>
