@@ -58,7 +58,7 @@ export default function Header() {
           href="https://github.com/xiadd/pastebin-worker"
           target="_blank"
           rel="noopener noreferrer"
-          className="btn btn-ghost btn-sm"
+          className="btn btn-ghost btn-sm hidden"
         >
           <Github size={20} />
         </a>
