@@ -7,6 +7,8 @@ import {
   R2Bucket,
 } from '@cloudflare/workers-types';
 
+import manifest from '__STATIC_CONTENT_MANIFEST';
+
 import { customAlphabet } from 'nanoid';
 
 const MAX_SIZE = 1024 * 1024 * 25; // 25MB
@@ -27,8 +29,8 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 app.use('/api/*', cors());
 
-app.get('*', serveStatic({ root: './' }));
-app.get('/detail/*', serveStatic({ path: './index.html' }));
+app.get('*', serveStatic({ root: './', manifest }));
+app.get('/detail/*', serveStatic({ path: './index.html', manifest }));
 
 app.get('/raw/:id', async (c) => {
   const id = c.req.param('id');
