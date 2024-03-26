@@ -43,22 +43,13 @@ export default function Header() {
             PasteShare
           </span>
         </Link>
-
-        <div className="flex">
-          <Link
-            to="/tutorial"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-          >
-            {t("tutorial")}
-          </Link>
-        </div>
       </div>
       <div className="flex flex-shrink-0 items-center">
         <a
           href="https://github.com/xiadd/pastebin-worker"
           target="_blank"
           rel="noopener noreferrer"
-          className="btn btn-ghost btn-sm hidden"
+          className="btn btn-ghost btn-sm"
         >
           <Github size={20} />
         </a>

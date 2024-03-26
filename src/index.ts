@@ -91,7 +91,7 @@ app.get('/api/get', async (c) => {
   const id = c.req.query('id');
   const password = c.req.query('share_password');
   const res = await c.env.PB.getWithMetadata(id as string);
-  if (!res) {
+  if (!res.value) {
     return c.json({ error: 'Not found' });
   }
   const content = res.value;
