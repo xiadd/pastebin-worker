@@ -3,6 +3,10 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
 import enTranslation from "./locales/en";
+import indonesian from "./locales/indonesian";
+import japanese from "./locales/japanese";
+import russian from "./locales/russian";
+import spanishTranslaction from "./locales/spanish";
 import zhTranslation from "./locales/zh";
 
 // the translations
@@ -14,6 +18,18 @@ const resources = {
   },
   zh: {
     translation: zhTranslation,
+  },
+  spanish: {
+    translation: spanishTranslaction,
+  },
+  russian: {
+    translation: russian,
+  },
+  indonesian: {
+    translation: indonesian,
+  },
+  japanese: {
+    translation: japanese,
   },
 };
 

@@ -76,10 +76,42 @@ export default function Header() {
               </MenuItem>
               <MenuItem key="2">
                 <button
+                  onClick={() => handleChangeLanguage("spanish")}
+                  className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Español
+                </button>
+              </MenuItem>
+              <MenuItem key="3">
+                <button
+                  onClick={() => handleChangeLanguage("russian")}
+                  className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Русский язык
+                </button>
+              </MenuItem>
+              <MenuItem key="4">
+                <button
                   onClick={() => handleChangeLanguage("zh")}
                   className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 >
                   中文
+                </button>
+              </MenuItem>
+              <MenuItem key="5">
+                <button
+                  onClick={() => handleChangeLanguage("indonesian")}
+                  className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Bahasa Indonesia
+                </button>
+              </MenuItem>
+              <MenuItem key="6">
+                <button
+                  onClick={() => handleChangeLanguage("japanese")}
+                  className="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Japanese
                 </button>
               </MenuItem>
             </Menu>

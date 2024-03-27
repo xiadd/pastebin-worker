@@ -1,0 +1,22 @@
+export default {
+  slogan: "Otro PasteBin basado en Cloudflare Worker",
+  en: "Inglés",
+  zh: "Chino",
+  "zh-CN": "Chino",
+  privateTip: "Es privado (contraseña aleatoria)",
+  expiration: "Tiempo de caducidad (segundos)",
+  textShare: "Compartir texto",
+  fileShare: "Compartir archivos",
+  fileShareTip: "Arrastrar el archivo aquí o pegar directamente el archivo o",
+  viewFiles: "Ver archivos",
+  createPaste: "Crear compartir",
+  uploadError: "Error de subida: ",
+  uploading: "Subiendo...",
+  fileSizeError: "El tamaño del archivo no puede exceder de 25MB",
+  tutorial: "Tutorial",
+  uploadSuccess: "Subida exitosa",
+  uploadSuccessTip:
+    "Su archivo se ha subido con éxito, haga clic en el botón de abajo para copiar el enlace",
+  copyLink: "Copiar enlace",
+  copySuccess: "Copia exitosa",
+};
