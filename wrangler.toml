@@ -1,6 +1,8 @@
-name= "pastebin-worker"
+name = "pastebin-worker"
 compatibility_date = "2023-10-30"
-account_id= "516d0a360ccdea88dd79e9cf5d2bc3aa"
+compatibility_flags = ["nodejs_compat"]
+
+account_id = "516d0a360ccdea88dd79e9cf5d2bc3aa"
 main = "src/index.ts"
 workers_dev = false
 
@@ -10,9 +12,7 @@ vars = { ENVIRONMENT = "production", BASE_URL = "https://as.al" }
 # 如果不使用自定义域名，将下面的代码注释掉
 route = { pattern = "as.al", custom_domain = true }
 
-kv_namespaces = [
-  { binding = "PB", id = "85ce3453c9f942a6900a5e9e4cdd34e7" },
-]
+kv_namespaces = [{ binding = "PB", id = "85ce3453c9f942a6900a5e9e4cdd34e7" }]
 
 [site]
 bucket = "./static/dist"
