@@ -9,7 +9,7 @@ const md = markdownIt({
 export default function MdRenderer({ content }: { content: string }) {
   return (
     <div className="mx-auto px-10 md:max-w-6xl md:px-0 md:pt-10">
-      <div
+      <article
         className="prose !max-w-full"
         dangerouslySetInnerHTML={{ __html: md.render(content) }}
       />

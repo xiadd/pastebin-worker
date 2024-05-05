@@ -1,5 +1,5 @@
-import cn from "classnames";
-import { memo, useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import FileShare from "../components/file-share";
@@ -7,36 +7,21 @@ import TextShare from "../components/text-share";
 
 export default memo(function CreatePaste() {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<"text" | "file">("text");
-
-  const handleToggleTab = (tab: "text" | "file") => {
-    setActiveTab(tab);
-  };
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-3 p-4 md:p-10">
-      <div role="tablist" className="tabs-boxed tabs">
-        <a
-          role="tab"
-          className={cn("tab", {
-            "tab-active": activeTab === "text",
-          })}
-          onClick={() => handleToggleTab("text")}
-        >
-          {t("textShare")}
-        </a>
-        <a
-          role="tab"
-          className={cn("tab", {
-            "tab-active": activeTab === "file",
-          })}
-          onClick={() => handleToggleTab("file")}
-        >
-          {t("fileShare")}
-        </a>
-      </div>
-      {activeTab === "text" && <TextShare />}
-      {activeTab === "file" && <FileShare />}
+    <div className="container mx-auto flex max-w-7xl flex-col gap-3 p-4 md:p-10">
+      <Tabs defaultValue="text" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="text">{t("textShare")}</TabsTrigger>
+          <TabsTrigger value="file">{t("fileShare")}</TabsTrigger>
+        </TabsList>
+        <TabsContent value="text">
+          <TextShare />
+        </TabsContent>
+        <TabsContent value="file">
+          <FileShare />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 });

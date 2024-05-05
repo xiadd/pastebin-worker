@@ -1,3 +1,13 @@
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import qs from "qs";
 import { ChangeEvent, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -39,14 +49,9 @@ export default function TextShare() {
     );
   };
 
-  const handleSetAsPrivate = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.checked) {
-      setIsPrivate(true);
-      setSharePassword(nanoid(10));
-    } else {
-      setIsPrivate(false);
-      setSharePassword("");
-    }
+  const handleSetAsPrivate = (checked: boolean) => {
+    setIsPrivate(checked);
+    setSharePassword(checked ? nanoid(10) : "");
   };
 
   const handleChangeSharePassword = (e: ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +61,7 @@ export default function TextShare() {
   return (
     <div className="flex flex-col gap-3">
       <Editor
-        className="border border-gray-200 rounded-sm"
+        className="border-2 border-gray-200 rounded-sm"
         height="300px"
         language={language}
         onChange={(value) => setContent(value || "")}
@@ -65,21 +70,18 @@ export default function TextShare() {
 
       <div className="flex-col md:gap-2 md:items-center md:flex-row gap-4 flex">
         <div className="form-control">
-          <div className="inline-flex gap-2">
-            <label className="label cursor-pointer inline-flex gap-2">
+          <div className="inline-flex gap-2 items-center">
+            <label className="label cursor-pointer inline-flex gap-2 items-center">
               <span className="label-text whitespace-nowrap">
                 {t("privateTip")}
               </span>
-              <input
-                type="checkbox"
-                className="checkbox"
+              <Checkbox
                 checked={isPrivate}
-                onChange={handleSetAsPrivate}
+                onCheckedChange={handleSetAsPrivate}
               />
             </label>
-            <input
+            <Input
               value={sharePassword}
-              className="input input-bordered w-full md:max-w-xs"
               placeholder="Share Password"
               onChange={handleChangeSharePassword}
               disabled={!isPrivate}
@@ -87,55 +89,50 @@ export default function TextShare() {
           </div>
         </div>
         <div>
-          <input
-            list="expriation-times"
-            type="number"
-            step={1}
-            min={60}
-            value={expiration}
-            onChange={(e) =>
-              setExpiration(e.target.value ? Number(e.target.value) : undefined)
-            }
-            className="input input-bordered w-full md:max-w-xs"
-            placeholder={t("expiration")}
-          />
-
-          <datalist id="expriation-times">
-            <option value="60">1 min</option>
-            <option value="300">5 mins</option>
-            <option value="3600">1 hour</option>
-            <option value="86400">1 day</option>
-            <option value="604800">1 week</option>
-            <option value="2592000">1 month</option>
-          </datalist>
+          <Select
+            value={expiration?.toString()}
+            onValueChange={(value) => setExpiration(Number(value))}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder={t("expiration")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="60">1 min</SelectItem>
+              <SelectItem value="300">5 mins</SelectItem>
+              <SelectItem value="3600">1 hour</SelectItem>
+              <SelectItem value="86400">1 day</SelectItem>
+              <SelectItem value="604800">1 week</SelectItem>
+              <SelectItem value="2592000">1 month</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
-        <select
-          value={language}
-          onChange={(e) => setLanguage(e.target.value)}
-          className="select select-bordered w-full md:max-w-xs"
-        >
-          <option defaultValue="text">Choose a language</option>
-          <option value="html">HTML</option>
-          <option value="json">JSON</option>
-          <option value="yaml">YAML</option>
-          <option value="c">C/CPP</option>
-          <option value="javascript">JavaScript</option>
-          <option value="typescript">TypeScript</option>
-          <option value="markdown">Markdown</option>
-          <option value="python">Python</option>
-          <option value="golang">Golang</option>
-          <option value="css">CSS</option>
-          <option value="shell">Shell</option>
-        </select>
+        <Select value={language} onValueChange={(value) => setLanguage(value)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Theme" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="text">Plaintext</SelectItem>
+            <SelectItem value="markdown">Markdown</SelectItem>
+            <SelectItem value="json">JSON</SelectItem>
+            <SelectItem value="yaml">YAML</SelectItem>
+            <SelectItem value="c">C/CPP</SelectItem>
+            <SelectItem value="javascript">JavaScript</SelectItem>
+            <SelectItem value="typescript">TypeScript</SelectItem>
+            <SelectItem value="python">Python</SelectItem>
+            <SelectItem value="golang">Golang</SelectItem>
+            <SelectItem value="css">CSS</SelectItem>
+            <SelectItem value="shell">Shell</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
-      <button
-        className="btn btn-neutral"
+      <Button
+        variant="secondary"
         onClick={createPB}
         disabled={publishing || !content}
       >
         Create Paste
-      </button>
+      </Button>
     </div>
   );
 }

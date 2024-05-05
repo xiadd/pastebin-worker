@@ -1,3 +1,12 @@
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { TwoDimensionalCodeOne } from "@icon-park/react";
 import QRcode from "qrcode";
 import { useEffect, useState } from "react";
@@ -42,14 +51,6 @@ export default function Detail() {
     location.search = `?share_password=${sharePassword}`;
   };
 
-  const handleGetQRCode = async () => {
-    const qrcode = await QRcode.toDataURL(
-      `${window.location.origin}/detail/${id}`,
-    );
-    (document.getElementById("qrcode-dialog") as HTMLDialogElement).showModal();
-    setQrcodeImg(qrcode);
-  };
-
   if (!isAuth) {
     return (
       <div className="mx-auto max-w-7xl p-4 md:pt-20">
@@ -85,7 +86,7 @@ export default function Detail() {
           text={`${window.location.origin}/detail/${id}`}
           onCopy={() => toast.success("Copied")}
         >
-          <button className="btn">
+          <Button variant="secondary">
             {pasteData?.share_password && (
               <svg
                 className="h-4 w-4 text-green-600 dark:text-white"
@@ -97,10 +98,10 @@ export default function Detail() {
               </svg>
             )}
             Copy URL {pasteData?.share_password && "(without password)"}
-          </button>
+          </Button>
         </CopyToClipboard>
-        <button
-          className="btn"
+        <Button
+          variant="secondary"
           onClick={() =>
             window.open(
               `${window.location.origin}/raw/${id}${
@@ -122,15 +123,11 @@ export default function Detail() {
             </svg>
           )}
           View raw Text
-        </button>
+        </Button>
 
         <CopyToClipboard text={content} onCopy={() => toast.success("Copied")}>
-          <button className="btn">Copy raw text</button>
+          <Button variant="secondary">Copy raw text</Button>
         </CopyToClipboard>
-        <button className="btn" onClick={handleGetQRCode}>
-          <TwoDimensionalCodeOne />
-          QRCode
-        </button>
       </div>
       <Editor
         height="calc(100vh - 200px)"
@@ -138,17 +135,6 @@ export default function Detail() {
         value={content}
         readonly={true}
       />
-
-      <dialog id="qrcode-dialog" className="modal">
-        <div className="modal-box text-center">
-          <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-              ✕
-            </button>
-          </form>
-          <img src={qrcodeImg} className="w-[80%] mx-auto" />
-        </div>
-      </dialog>
     </div>
   );
 }

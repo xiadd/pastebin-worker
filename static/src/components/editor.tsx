@@ -10,9 +10,9 @@ import { shell } from "@codemirror/legacy-modes/mode/shell";
 import { html } from "@codemirror/legacy-modes/mode/xml";
 import { yaml } from "@codemirror/legacy-modes/mode/yaml";
 import CodeMirror from "@uiw/react-codemirror";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { ThemeContext } from "../context/theme";
+import { useTheme } from "../context/theme";
 
 interface EditorProps {
   language?: string;
@@ -29,8 +29,9 @@ export default function Editor({
   language = "text",
   readonly = false,
   height = "300px",
+  className,
 }: EditorProps) {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useTheme();
   const [languageExtension, setLanguageExtension] = useState<any>([]);
   const [codemirrorTheme, setCodemirrorTheme] = useState<"light" | "dark">(
     "light",
@@ -92,7 +93,7 @@ export default function Editor({
 
   return (
     <CodeMirror
-      className="rounded-sm"
+      className="rounded-md border overflow-hidden"
       height={height}
       width="100%"
       onChange={onChange}
