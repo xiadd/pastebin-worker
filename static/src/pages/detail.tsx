@@ -56,9 +56,7 @@ export default function Detail() {
       <div className="mx-auto max-w-7xl p-4 md:pt-20">
         <div className="text-center">
           <h1 className="text-4xl font-bold">403</h1>
-          <p className="text-gray-500 dark:text-gray-400">
-            Input password to view this share
-          </p>
+          <p className="text-gray-500">Input password to view this share</p>
           <div className="inline-flex gap-2 items-center mt-4">
             <input
               type="password"
@@ -89,7 +87,7 @@ export default function Detail() {
           <Button variant="secondary">
             {pasteData?.share_password && (
               <svg
-                className="h-4 w-4 text-green-600 dark:text-white"
+                className="h-4 w-4 text-green-600"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
                 viewBox="0 0 16 20"
@@ -114,7 +112,7 @@ export default function Detail() {
         >
           {pasteData?.share_password && (
             <svg
-              className="h-4 w-4 text-green-600 dark:text-white"
+              className="h-4 w-4 text-green-600"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
               viewBox="0 0 16 20"

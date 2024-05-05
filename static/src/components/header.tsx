@@ -35,7 +35,7 @@ export default function Header() {
       <div className="mb-0 me-4 flex flex-row items-center">
         <Link to="/" className="flex items-center md:mb-0 md:me-4 md:pe-4">
           <img src={logoIcon} className="me-2 h-6" alt="Flowbite Logo" />
-          <span className="self-center whitespace-nowrap text-lg font-semibold dark:text-white">
+          <span className="self-center whitespace-nowrap text-lg font-semibold">
             PasteShare
           </span>
         </Link>
@@ -73,7 +73,7 @@ export default function Header() {
             <DropdownMenuItem>
               <button
                 onClick={() => handleChangeLanguage("en")}
-                className="block w-full px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block w-full px-4"
               >
                 English
               </button>
@@ -81,7 +81,7 @@ export default function Header() {
             <DropdownMenuItem>
               <button
                 onClick={() => handleChangeLanguage("spanish")}
-                className="block w-full px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block w-full px-4"
               >
                 Español
               </button>
@@ -89,7 +89,7 @@ export default function Header() {
             <DropdownMenuItem>
               <button
                 onClick={() => handleChangeLanguage("russian")}
-                className="block w-full px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block w-full px-4"
               >
                 Русский язык
               </button>
@@ -97,7 +97,7 @@ export default function Header() {
             <DropdownMenuItem>
               <button
                 onClick={() => handleChangeLanguage("zh")}
-                className="block w-full px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block w-full px-4"
               >
                 中文
               </button>
@@ -105,7 +105,7 @@ export default function Header() {
             <DropdownMenuItem>
               <button
                 onClick={() => handleChangeLanguage("indonesian")}
-                className="block w-full px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block w-full px-4"
               >
                 Bahasa Indonesia
               </button>
@@ -113,7 +113,7 @@ export default function Header() {
             <DropdownMenuItem>
               <button
                 onClick={() => handleChangeLanguage("japanese")}
-                className="block w-full px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block w-full px-4"
               >
                 Japanese
               </button>
@@ -137,7 +137,7 @@ export default function Header() {
             <DropdownMenuItem>
               <button
                 onClick={() => setTheme("light")}
-                className="block w-full px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block w-full px-4"
               >
                 Light
               </button>
@@ -145,7 +145,7 @@ export default function Header() {
             <DropdownMenuItem>
               <button
                 onClick={() => setTheme("dark")}
-                className="block w-full px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block w-full px-4"
               >
                 Dark
               </button>
@@ -153,7 +153,7 @@ export default function Header() {
             <DropdownMenuItem>
               <button
                 onClick={() => setTheme("system")}
-                className="block w-full px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="block w-full px-4"
               >
                 System
               </button>
