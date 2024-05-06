@@ -9,9 +9,9 @@ import {
   NewComputer as Computer,
   English,
   Github,
+  Mail,
   Moon,
   SunOne as Sun,
-  Telegram,
 } from "@icon-park/react";
 import { useTranslation } from "react-i18next";
 import { Link } from "wouter";
@@ -50,13 +50,8 @@ export default function Header() {
           <Github size={20} />
         </a>
 
-        <a
-          href="https://t.me/zhixiao"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn btn-ghost btn-sm"
-        >
-          <Telegram size={20} />
+        <a href="mailto:xiadd0102@gmail.com">
+          <Mail size={20} />
         </a>
 
         <DropdownMenu>
