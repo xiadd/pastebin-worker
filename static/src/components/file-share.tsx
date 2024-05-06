@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Upload from "rc-upload";
 import { useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -108,38 +110,30 @@ export default function ImageShare() {
 
       {uploadFile && (
         <>
-          <div className="join">
-            <button className="btn btn-neutral join-item w-[120px]">
+          <div className="flex">
+            <Button className="btn btn-neutral join-item w-[120px]">
               Link
-            </button>
-            <input
-              className="input input-bordered join-item w-full"
-              value={uploadFile}
-              disabled
-            />
+            </Button>
+            <Input value={uploadFile} disabled />
             <CopyToClipboard
               text={uploadFile}
               onCopy={() => toast.success(t("copySuccess"))}
             >
-              <button className="btn btn-primary join-item">Copy</button>
+              <Button>Copy</Button>
             </CopyToClipboard>
           </div>
 
           {fileTyle.startsWith("image") && (
-            <div className="join">
-              <button className="btn btn-neutral join-item w-[120px]">
+            <div className="flex">
+              <Button className="btn btn-neutral join-item w-[120px]">
                 Markdown
-              </button>
-              <input
-                className="input input-bordered join-item w-full"
-                value={`![image](${uploadFile})`}
-                disabled
-              />
+              </Button>
+              <Input value={`![image](${uploadFile})`} disabled />
               <CopyToClipboard
                 text={`![image](${uploadFile})`}
                 onCopy={() => toast.success(t("copySuccess"))}
               >
-                <button className="btn btn-primary join-item">Copy</button>
+                <Button>Copy</Button>
               </CopyToClipboard>
             </div>
           )}
