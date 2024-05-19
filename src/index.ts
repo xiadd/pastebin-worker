@@ -1,11 +1,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { serveStatic } from 'hono/cloudflare-workers';
-import {
-  KVNamespace,
-  KVNamespacePutOptions,
-  R2Bucket,
-} from '@cloudflare/workers-types';
+import { KVNamespace, R2Bucket, D1Database } from '@cloudflare/workers-types';
 
 import manifest from '__STATIC_CONTENT_MANIFEST';
 
@@ -23,7 +19,17 @@ type Bindings = {
   PBIMGS: KVNamespace;
   BUCKET: R2Bucket;
   BASE_URL: string;
+  DB: D1Database;
 };
+
+interface IPaste {
+  id: string;
+  content: string;
+  create_time: number;
+  language: string;
+  expire: number;
+  metadata: string;
+}
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -35,12 +41,16 @@ app.get('/detail/*', serveStatic({ path: './index.html', manifest }));
 app.get('/raw/:id', async (c) => {
   const id = c.req.param('id');
   const password = c.req.query('share_password');
-  const res = await c.env.PB.getWithMetadata(id);
-  if (!res.value) {
+  const res: IPaste | null = await c.env.DB.prepare(
+    'select * from pastes where id = ?',
+  )
+    .bind(id)
+    .first();
+  if (!res) {
     return c.text('Not found', { status: 404 });
   }
-  const content = res.value;
-  const data: any = res.metadata;
+  const content = res.content;
+  const data: any = JSON.parse(res.metadata);
   if (data.share_password) {
     if (!password) {
       return c.text('Private paste, please provide password', { status: 403 });
@@ -67,22 +77,27 @@ app.post('/api/create', async (c) => {
     expire: expire || 0,
     language: language || 'text',
     create_time: createTime,
-  };
-  const metadata: KVNamespacePutOptions = {
     metadata: {
       language: language || 'text',
       create_time: createTime,
     },
   };
-
-  if (expire) {
-    metadata.expirationTtl = expire;
-  }
   if (isPrivate) {
-    metadata.metadata.share_password = share_password || nanoid(10);
-    pasteBody.share_password = metadata.metadata.share_password;
+    pasteBody.metadata.share_password = share_password || nanoid(10);
   }
-  await c.env.PB.put(id, content, metadata);
+
+  await c.env.DB.prepare(
+    'insert into pastes (id, content, create_time, language, expire, metadata) values (?, ?, ?, ?, ?, ?)',
+  )
+    .bind(
+      id,
+      pasteBody.content,
+      pasteBody.create_time,
+      pasteBody.language,
+      pasteBody.expire,
+      JSON.stringify(pasteBody.metadata),
+    )
+    .run();
   return c.json({ id, url: `${c.env.BASE_URL}/detail/${id}`, ...pasteBody });
 });
 
@@ -90,12 +105,23 @@ app.post('/api/create', async (c) => {
 app.get('/api/get', async (c) => {
   const id = c.req.query('id');
   const password = c.req.query('share_password');
-  const res = await c.env.PB.getWithMetadata(id as string);
-  if (!res.value) {
+  const result: IPaste | null = await c.env.DB.prepare(
+    'select * from pastes where id = ?',
+  )
+    .bind(id)
+    .first();
+
+  if (!result) {
     return c.json({ error: 'Not found' });
   }
-  const content = res.value;
-  const data: any = res.metadata;
+
+  if (result.expire && Date.now() > result.create_time + result.expire * 1000) {
+    await c.env.DB.prepare('delete from pastes where id = ?').bind(id).run();
+    return c.json({ error: 'Paste expired', code: 410 });
+  }
+
+  const content = result.content;
+  const data: any = JSON.parse(result.metadata);
   if (data.share_password) {
     if (!password) {
       return c.json(

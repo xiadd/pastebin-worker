@@ -21,3 +21,8 @@ bucket = "./static/dist"
 [[r2_buckets]]
 binding = 'BUCKET'
 bucket_name = 'pastes'
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pastebins"
+database_id = "e7d77803-c383-45c8-9481-c1630aa43bca"

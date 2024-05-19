@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { TwoDimensionalCodeOne } from "@icon-park/react";
 import QRcode from "qrcode";
 import { useEffect, useState } from "react";
@@ -58,15 +59,16 @@ export default function Detail() {
           <h1 className="text-4xl font-bold">403</h1>
           <p className="text-gray-500">Input password to view this share</p>
           <div className="inline-flex gap-2 items-center mt-4">
-            <input
+            <Input
               type="password"
               className="input input-sm input-bordered w-full md:max-w-xs"
               value={sharePassword}
               onChange={(e) => setSharePassword(e.target.value)}
+              placeholder="Password"
             />
-            <button className="btn btn-sm" onClick={handleSubmitPassword}>
+            <Button className="btn btn-sm" onClick={handleSubmitPassword}>
               Submit
-            </button>
+            </Button>
           </div>
         </div>
       </div>

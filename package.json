@@ -7,7 +7,9 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
-    "build": "wrangler build"
+    "build": "wrangler build",
+    "initdb:remote": "wrangler d1 execute DB --file src/schema.sql --remote",
+    "initdb:local": " wrangler d1 execute DB --file src/schema.sql --local"
   },
   "devDependencies": {
     "@cloudflare/kv-asset-handler": "^0.3.0",
