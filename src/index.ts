@@ -15,8 +15,6 @@ const ID_SEED =
 const nanoid = customAlphabet(ID_SEED, 6);
 
 type Bindings = {
-  PB: KVNamespace;
-  PBIMGS: KVNamespace;
   BUCKET: R2Bucket;
   BASE_URL: string;
   DB: D1Database;
