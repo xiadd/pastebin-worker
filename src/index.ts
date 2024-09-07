@@ -75,6 +75,7 @@ app.post('/api/create', async (c) => {
     expire: expire || 0,
     language: language || 'text',
     create_time: createTime,
+    edit_password: share_password || nanoid(8),
     metadata: {
       language: language || 'text',
       create_time: createTime,
