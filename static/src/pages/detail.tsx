@@ -1,15 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { TwoDimensionalCodeOne } from "@icon-park/react";
-import QRcode from "qrcode";
 import { useEffect, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { toast } from "react-hot-toast";
@@ -17,7 +7,7 @@ import { useParams } from "wouter";
 
 import Editor from "../components/editor";
 import MdRenderer from "../components/md-renderer";
-import { getPaste } from "../service";
+import { getPaste, updatePaste } from "../service";
 
 export default function Detail() {
   const [content, setContent] = useState("");
@@ -25,7 +15,7 @@ export default function Detail() {
   const [language, setLanguage] = useState("text");
   const [isAuth, setIsAuth] = useState(true);
   const [sharePassword, setSharePassword] = useState<string>("");
-  const [qrcodeImg, setQrcodeImg] = useState<string>("");
+  const [editPassword, setEditPassword] = useState<string>("");
 
   const { id } = useParams();
   const search = window.location.search;
@@ -46,10 +36,29 @@ export default function Detail() {
       setContent(data.content);
       setLanguage(data.language);
     });
+    if (history.state?.edit_password) {
+      setEditPassword(history.state.edit_password);
+    }
+    if (params.get("edit_password")) {
+      setEditPassword(params.get("edit_password") || "");
+    }
   }, [id]);
 
   const handleSubmitPassword = async () => {
     location.search = `?share_password=${sharePassword}`;
+  };
+
+  const handleUpdatePaste = async () => {
+    const data = await updatePaste({
+      id,
+      content,
+      edit_password: editPassword,
+    });
+    if (data.error) {
+      toast.error(data.error);
+      return;
+    }
+    toast.success("Updated");
   };
 
   if (!isAuth) {
@@ -100,6 +109,15 @@ export default function Detail() {
             Copy URL {pasteData?.share_password && "(without password)"}
           </Button>
         </CopyToClipboard>
+
+        {editPassword && (
+          <CopyToClipboard
+            text={`${window.location.origin}/detail/${id}?edit_password=${editPassword}`}
+            onCopy={() => toast.success("Copied")}
+          >
+            <Button variant="secondary">Admin URL</Button>
+          </CopyToClipboard>
+        )}
         <Button
           variant="secondary"
           onClick={() =>
@@ -128,12 +146,15 @@ export default function Detail() {
         <CopyToClipboard text={content} onCopy={() => toast.success("Copied")}>
           <Button variant="secondary">Copy raw text</Button>
         </CopyToClipboard>
+
+        {editPassword && <Button onClick={handleUpdatePaste}>Update</Button>}
       </div>
       <Editor
         height="calc(100vh - 200px)"
         language={language}
         value={content}
-        readonly={true}
+        readonly={!editPassword}
+        onChange={(value) => setContent(value || "")}
       />
     </div>
   );

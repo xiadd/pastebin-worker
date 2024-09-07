@@ -27,6 +27,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@tailwindcss/typography": "^0.5.10",
     "@uiw/react-codemirror": "^4.21.21",
+    "ahooks": "^3.8.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "codemirror": "^6.0.1",
@@ -47,7 +48,7 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "vite-plugin-singlefile": "^0.13.3",
-    "wouter": "^2.12.1"
+    "wouter": "^3.3.5"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",

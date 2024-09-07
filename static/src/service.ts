@@ -23,3 +23,15 @@ export async function getPaste(
   const data = await res.json();
   return data;
 }
+
+export async function updatePaste(body: any) {
+  const res = await fetch(`${API_URL}/api/update`, {
+    method: "POST",
+    body: JSON.stringify({ ...body }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await res.json();
+  return data;
+}

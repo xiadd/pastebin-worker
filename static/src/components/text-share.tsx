@@ -46,6 +46,9 @@ export default function TextShare() {
         },
         { addQueryPrefix: true },
       )}`,
+      {
+        state: { edit_password: data.edit_password },
+      },
     );
   };
 
