@@ -24,6 +24,7 @@ interface IPaste {
   id: string;
   content: string;
   create_time: number;
+  edit_password: string;
   language: string;
   expire: number;
   metadata: string;
@@ -86,18 +87,45 @@ app.post('/api/create', async (c) => {
   }
 
   await c.env.DB.prepare(
-    'insert into pastes (id, content, create_time, language, expire, metadata) values (?, ?, ?, ?, ?, ?)',
+    'insert into pastes (id, content, create_time, edit_password, language, expire, metadata) values (?, ?, ?, ?, ?, ?, ?)',
   )
     .bind(
       id,
       pasteBody.content,
       pasteBody.create_time,
+      pasteBody.edit_password,
       pasteBody.language,
       pasteBody.expire,
       JSON.stringify(pasteBody.metadata),
     )
     .run();
   return c.json({ id, url: `${c.env.BASE_URL}/detail/${id}`, ...pasteBody });
+});
+
+// 更新paste
+app.post('/api/update', async (c) => {
+  const { id, content, edit_password } = await c.req.json();
+
+  if (!content) {
+    return c.json({ error: 'Content is required' });
+  }
+  const result: IPaste | null = await c.env.DB.prepare(
+    'select * from pastes where id = ?',
+  )
+    .bind(id)
+    .first();
+  if (!result) {
+    return c.json({ error: 'Not found' });
+  }
+
+  if (result.edit_password !== edit_password) {
+    return c.json({ error: 'Wrong password', code: 403 }, { status: 403 });
+  }
+
+  await c.env.DB.prepare('update pastes set content = ? where id = ?')
+    .bind(content, id)
+    .run();
+  return c.json({ url: `${c.env.BASE_URL}/detail/${id}`, ...result });
 });
 
 // 获取paste
