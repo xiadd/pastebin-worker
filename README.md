@@ -1,3 +1,5 @@
+# Pastebin Worker
+
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/xiadd/pastebin-worker)
 
 ## 开始开发
@@ -74,7 +76,7 @@ database_id = <DATABASE_ID> # 你的 D1 database id
 
 `account_id` 可以在 cloudflare 的 dashboard 中找到, `route` 是你的 worker 的路由（也就是自定义域名），`kv_namespaces` 是你创建的 kv 的 id
 
-5. 开发
+### 5. 开发
 
 ```bash
 # 启动后端
@@ -87,13 +89,13 @@ yarn dev
 
 服务器启动后，后端的地址是 `http://localhost:8787`，前端的地址是 `http://localhost:5173`，如果想测试前端打包后的情况，直接在 static 目录执行 `yarn build`，然后访问 `http://localhost:8787` 就可以了
 
-# API 调用
+## API 调用
 
-## 分享文字 API
+### 分享文字 API
 
 1. 创建 paste
 
-```
+```json
 url: https://as.al/api/create
 method: POST
 payload: {
@@ -102,7 +104,11 @@ payload: {
   "language": "text",
   "share_password": ""
 }
-# 返回的数据
+```
+
+返回的数据
+
+```json
 {
   "id": "opNGEX",
   "url": "https://as.al/detail/opNGEX",
@@ -118,12 +124,13 @@ payload: {
 
 2. 获取 paste 详情
 
+```json
+url: https://as.al/api/get?id=<paste_id>
 ```
 
-url: https://as.al/api/get?id=<paste_id>
+返回的数据
 
-# 返回的数据
-
+```json
 {
   "content": "12312",
   "url": "https://as.al/detail/opNGEX",
@@ -136,13 +143,15 @@ url: https://as.al/api/get?id=<paste_id>
 
 1. 创建文件分享 paste
 
-```
+```json
 url: https://as.al/api/upload
 method: POST
 formData: { "file": <binaryFile> }
+```
 
-# 返回的数据
+返回的数据
 
+```json
 {
   "id": "7tAFLZ",
   "url": "https://as.al/file/7tAFLZ"
@@ -153,15 +162,15 @@ formData: { "file": <binaryFile> }
 
 上面的文件 url 就是文件上传后的地址
 
-# 部署
-
-## 手动部署
+## 部署
 
 首先需要[在 cloudflare 里创建 D1 namespace](#3-在-cloudflare-里创建-d1-namespace)。手动创建D1数据库，并执行SQL语句
 
+### 手动部署
+
 然后获取你的 cloudflare 账号的 api key，然后设置为 github aciton 的 secret，名字为`CF_API_TOKEN`，这样每次 push 代码到 main 分支，就会自动部署到 cloudflare
 
-### 获取 API Token 的方法：
+#### 获取 API Token 的方法
 
 ![image](https://as.al/file/a60SQE)
 
@@ -171,12 +180,12 @@ formData: { "file": <binaryFile> }
 
 选择 worker 的模版创建成功即可获取 api token
 
-### 在 github action 里设置 secret
+#### 在 github action 里设置 secret
 
 ![image](https://as.al/file/Zl8rbJ)
 
 在这里设置你的 api token，而后每次 push 代码到 main 分支，就会自动部署到 cloudflare
 
-## 自动部署
+### 自动部署
 
 点击上面的 `Deploy with Workers` 按钮，然后根据提示操作即可。
