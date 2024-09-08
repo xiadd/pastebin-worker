@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { serveStatic } from 'hono/cloudflare-workers';
-import { KVNamespace, R2Bucket, D1Database } from '@cloudflare/workers-types';
+import { R2Bucket, D1Database } from '@cloudflare/workers-types';
 
 import manifest from '__STATIC_CONTENT_MANIFEST';
 
@@ -10,7 +10,7 @@ import { customAlphabet } from 'nanoid';
 const MAX_SIZE = 1024 * 1024 * 25; // 25MB
 
 const ID_SEED =
-  '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_';
+  '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const nanoid = customAlphabet(ID_SEED, 6);
 
