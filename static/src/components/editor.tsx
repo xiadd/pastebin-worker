@@ -1,15 +1,4 @@
-import { javascript } from "@codemirror/lang-javascript";
-import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
-import { StreamLanguage } from "@codemirror/language";
-import { languages } from "@codemirror/language-data";
-import { cpp } from "@codemirror/legacy-modes/mode/clike";
-import { css } from "@codemirror/legacy-modes/mode/css";
-import { go } from "@codemirror/legacy-modes/mode/go";
-import { python } from "@codemirror/legacy-modes/mode/python";
-import { shell } from "@codemirror/legacy-modes/mode/shell";
-import { html } from "@codemirror/legacy-modes/mode/xml";
-import { yaml } from "@codemirror/legacy-modes/mode/yaml";
-import CodeMirror from "@uiw/react-codemirror";
+import Editor from "@monaco-editor/react";
 import { useEffect, useState } from "react";
 
 import { useTheme } from "../context/theme";
@@ -23,85 +12,95 @@ interface EditorProps {
   height?: string;
 }
 
-export default function Editor({
+// Monaco Editor 语言映射
+const languageMap: Record<string, string> = {
+  text: "plaintext",
+  markdown: "markdown",
+  go: "go",
+  javascript: "javascript",
+  typescript: "typescript",
+  json: "json",
+  c: "c",
+  cpp: "cpp",
+  python: "python",
+  shell: "shell",
+  html: "html",
+  yaml: "yaml",
+  css: "css",
+  less: "less",
+  scss: "scss",
+  golang: "go",
+};
+
+export default function MonacoEditor({
   value,
   onChange,
   language = "text",
   readonly = false,
   height = "300px",
-  className,
+  className = "",
 }: EditorProps) {
   const { theme } = useTheme();
-  const [languageExtension, setLanguageExtension] = useState<any>([]);
-  const [codemirrorTheme, setCodemirrorTheme] = useState<"light" | "dark">(
-    "light",
-  );
-  useEffect(() => {
-    switch (language) {
-      case "markdown":
-        setLanguageExtension([
-          markdown({ base: markdownLanguage, codeLanguages: languages }),
-        ]);
-        break;
-      case "go":
-        setLanguageExtension([StreamLanguage.define(go)]);
-        break;
-      case "javascript":
-      case "typescript":
-      case "json":
-        setLanguageExtension([javascript({ jsx: true })]);
-        break;
-      case "c":
-        setLanguageExtension([StreamLanguage.define(cpp)]);
-        break;
-      case "python":
-        setLanguageExtension([StreamLanguage.define(python)]);
-        break;
-      case "shell":
-        setLanguageExtension([StreamLanguage.define(shell)]);
-        break;
-      case "html":
-        setLanguageExtension([StreamLanguage.define(html)]);
-        break;
-      case "yaml":
-        setLanguageExtension([StreamLanguage.define(yaml)]);
-      case "css":
-      case "less":
-      case "scss":
-        setLanguageExtension([StreamLanguage.define(css)]);
-        break;
-      default:
-        break;
-    }
-  }, [language]);
+  const [monacoTheme, setMonacoTheme] = useState<"light" | "vs-dark">("light");
 
   useEffect(() => {
-    let newCodemirrorTheme: "light" | "dark" = "light";
+    let newMonacoTheme: "light" | "vs-dark" = "light";
 
     if (theme === "dark") {
-      newCodemirrorTheme = "dark";
+      newMonacoTheme = "vs-dark";
     } else if (theme === "system") {
       const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)",
       ).matches;
       if (prefersDark) {
-        newCodemirrorTheme = "dark";
+        newMonacoTheme = "vs-dark";
       }
     }
-    setCodemirrorTheme(newCodemirrorTheme as "light" | "dark");
+    setMonacoTheme(newMonacoTheme);
   }, [theme]);
 
+  const handleEditorChange = (value: string | undefined) => {
+    if (onChange) {
+      onChange(value || "");
+    }
+  };
+
   return (
-    <CodeMirror
-      className="rounded-md border overflow-hidden"
-      height={height}
-      width="100%"
-      onChange={onChange}
-      value={value}
-      extensions={languageExtension}
-      readOnly={readonly}
-      placeholder={readonly ? "" : "Write your text here..."}
-      theme={codemirrorTheme}
-    />
+    <div className={`rounded-md border overflow-hidden ${className}`}>
+      <Editor
+        height={height}
+        language={languageMap[language] || "plaintext"}
+        value={value}
+        onChange={handleEditorChange}
+        theme={monacoTheme}
+        options={{
+          readOnly: readonly,
+          minimap: { enabled: false },
+          fontSize: 14,
+          lineNumbers: "on",
+          scrollBeyondLastLine: false,
+          automaticLayout: true,
+          wordWrap: "on",
+          contextmenu: false,
+          placeholder: readonly ? "" : "Write your text here...",
+          scrollbar: {
+            vertical: "visible",
+            horizontal: "visible",
+          },
+          renderLineHighlight: "line",
+          cursorBlinking: "blink",
+          selectOnLineNumbers: true,
+          roundedSelection: false,
+          matchBrackets: "always",
+          folding: true,
+          foldingStrategy: "indentation",
+          showFoldingControls: "always",
+          renderWhitespace: "selection",
+          mouseWheelZoom: true,
+          smoothScrolling: true,
+          cursorSmoothCaretAnimation: "on",
+        }}
+      />
+    </div>
   );
 }

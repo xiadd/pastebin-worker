@@ -1,3 +1,11 @@
 .cm-focused {
   outline: none !important;
 }
+
+.monaco-editor .view-lines {
+  outline: none !important;
+}
+
+.monaco-editor {
+  border-radius: 0.375rem;
+}

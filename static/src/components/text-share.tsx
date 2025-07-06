@@ -64,7 +64,7 @@ export default function TextShare() {
   return (
     <div className="flex flex-col gap-3">
       <Editor
-        className="border-2 border-gray-200 rounded-sm"
+        className="rounded-sm"
         height="300px"
         language={language}
         onChange={(value) => setContent(value || "")}

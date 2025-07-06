@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS pastes;
-DROP TABLE IF EXISTS files;
 CREATE TABLE IF NOT EXISTS pastes (
   id text PRIMARY KEY,
   content text NOT NULL,
