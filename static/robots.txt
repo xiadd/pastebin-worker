@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Allow: /tutorial
+Disallow: /detail/
+Disallow: /file/
+
+Sitemap: https://as.al/sitemap.xml

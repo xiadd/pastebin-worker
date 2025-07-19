@@ -28,29 +28,34 @@ export default function Header() {
   };
 
   return (
-    <div
+    <header
       tabIndex={-1}
       className="container relative z-50 h-20 flex justify-between items-center border-b border-1"
     >
       <div className="mb-0 me-4 flex flex-row items-center">
         <Link to="/" className="flex items-center md:mb-0 md:me-4 md:pe-4">
-          <img src={logoIcon} className="me-2 h-6" alt="Flowbite Logo" />
+          <img
+            src={logoIcon}
+            className="me-2 h-6"
+            alt="PasteShare Logo - Free Online Pastebin"
+          />
           <span className="self-center whitespace-nowrap text-lg font-semibold">
             PasteShare
           </span>
         </Link>
       </div>
-      <div className="flex flex-shrink-0 items-center gap-4">
+      <nav className="flex flex-shrink-0 items-center gap-4">
         <a
           href="https://github.com/xiadd/pastebin-worker"
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-ghost btn-sm"
+          aria-label="View source code on GitHub"
         >
           <Github size={20} />
         </a>
 
-        <a href="mailto:xiadd0102@gmail.com">
+        <a href="mailto:xiadd0102@gmail.com" aria-label="Contact us via email">
           <Mail size={20} />
         </a>
 
@@ -155,7 +160,7 @@ export default function Header() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 }

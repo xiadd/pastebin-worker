@@ -89,7 +89,22 @@ export default function Detail() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl p-4 md:pt-10">
+    <article className="mx-auto max-w-7xl p-4 md:pt-10">
+      <header className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          Shared{" "}
+          {language === "text"
+            ? "Text"
+            : language.charAt(0).toUpperCase() + language.slice(1)}{" "}
+          Snippet
+        </h1>
+        <p className="text-gray-600 dark:text-gray-300 text-sm">
+          Created on{" "}
+          {new Date(pasteData?.create_time || Date.now()).toLocaleDateString()}{" "}
+          • Language: {language} •
+          {pasteData?.share_password ? "Password Protected" : "Public"}
+        </p>
+      </header>
       <div className="mb-4 flex gap-4 flex-col md:flex-row">
         <CopyToClipboard
           text={`${window.location.origin}/detail/${id}`}
@@ -156,6 +171,6 @@ export default function Detail() {
         readonly={!editPassword}
         onChange={(value) => setContent(value || "")}
       />
-    </div>
+    </article>
   );
 }
