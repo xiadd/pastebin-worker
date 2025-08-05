@@ -2,7 +2,6 @@ import { Toaster } from "react-hot-toast";
 import { Route } from "wouter";
 
 import "./App.css";
-import Footer from "./components/footer";
 import Header from "./components/header";
 import CreatePaste from "./pages";
 import Detail from "./pages/detail";
@@ -10,14 +9,13 @@ import Tutorial from "./pages/tutorial";
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       <Header />
-      <main role="main" className="flex-1">
+      <main role="main" className="pb-8">
         <Route path="/" component={CreatePaste}></Route>
         <Route path="/detail/:id" component={Detail} />
         <Route path="/tutorial" component={Tutorial} />
       </main>
-      <Footer />
       <Toaster position="top-center" reverseOrder={false} />
     </div>
   );

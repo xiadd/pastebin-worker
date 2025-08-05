@@ -62,41 +62,43 @@ export default function TextShare() {
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="space-y-4">
       <Editor
-        className="rounded-sm"
-        height="300px"
+        className="rounded-md border"
+        height="400px"
         language={language}
         onChange={(value) => setContent(value || "")}
         value={content}
       />
 
-      <div className="flex-col md:gap-2 md:items-center md:flex-row gap-4 flex">
-        <div className="form-control">
-          <div className="inline-flex gap-2 items-center">
-            <label className="label cursor-pointer inline-flex gap-2 items-center">
-              <span className="label-text whitespace-nowrap">
-                {t("privateTip")}
-              </span>
-              <Checkbox
-                checked={isPrivate}
-                onCheckedChange={handleSetAsPrivate}
-              />
-            </label>
-            <Input
-              value={sharePassword}
-              placeholder="Share Password"
-              onChange={handleChangeSharePassword}
-              disabled={!isPrivate}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2 h-5">
+            <Checkbox
+              checked={isPrivate}
+              onCheckedChange={handleSetAsPrivate}
             />
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              {t("privateTip")}
+            </label>
           </div>
+          <Input
+            value={sharePassword}
+            placeholder="Share Password"
+            onChange={handleChangeSharePassword}
+            disabled={!isPrivate}
+          />
         </div>
-        <div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 h-5 flex items-center">
+            {t("expiration")}
+          </label>
           <Select
             value={expiration?.toString()}
             onValueChange={(value) => setExpiration(Number(value))}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger>
               <SelectValue placeholder={t("expiration")} />
             </SelectTrigger>
             <SelectContent>
@@ -110,32 +112,39 @@ export default function TextShare() {
           </Select>
         </div>
 
-        <Select value={language} onValueChange={(value) => setLanguage(value)}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Theme" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="text">Plaintext</SelectItem>
-            <SelectItem value="markdown">Markdown</SelectItem>
-            <SelectItem value="json">JSON</SelectItem>
-            <SelectItem value="yaml">YAML</SelectItem>
-            <SelectItem value="c">C/CPP</SelectItem>
-            <SelectItem value="javascript">JavaScript</SelectItem>
-            <SelectItem value="typescript">TypeScript</SelectItem>
-            <SelectItem value="python">Python</SelectItem>
-            <SelectItem value="golang">Golang</SelectItem>
-            <SelectItem value="css">CSS</SelectItem>
-            <SelectItem value="shell">Shell</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 h-5 flex items-center">
+            Language
+          </label>
+          <Select
+            value={language}
+            onValueChange={(value) => setLanguage(value)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Language" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="text">Plaintext</SelectItem>
+              <SelectItem value="markdown">Markdown</SelectItem>
+              <SelectItem value="json">JSON</SelectItem>
+              <SelectItem value="yaml">YAML</SelectItem>
+              <SelectItem value="c">C/CPP</SelectItem>
+              <SelectItem value="javascript">JavaScript</SelectItem>
+              <SelectItem value="typescript">TypeScript</SelectItem>
+              <SelectItem value="python">Python</SelectItem>
+              <SelectItem value="golang">Golang</SelectItem>
+              <SelectItem value="css">CSS</SelectItem>
+              <SelectItem value="shell">Shell</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
-      <Button
-        variant="secondary"
-        onClick={createPB}
-        disabled={publishing || !content}
-      >
-        Create Paste
-      </Button>
+
+      <div className="flex justify-end">
+        <Button onClick={createPB} disabled={publishing || !content}>
+          {publishing ? "Creating..." : "Create Paste"}
+        </Button>
+      </div>
     </div>
   );
 }

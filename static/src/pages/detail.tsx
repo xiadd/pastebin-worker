@@ -63,21 +63,27 @@ export default function Detail() {
 
   if (!isAuth) {
     return (
-      <div className="mx-auto max-w-7xl p-4 md:pt-20">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold">403</h1>
-          <p className="text-gray-500">Input password to view this share</p>
-          <div className="inline-flex gap-2 items-center mt-4">
-            <Input
-              type="password"
-              className="input input-sm input-bordered w-full md:max-w-xs"
-              value={sharePassword}
-              onChange={(e) => setSharePassword(e.target.value)}
-              placeholder="Password"
-            />
-            <Button className="btn btn-sm" onClick={handleSubmitPassword}>
-              Submit
-            </Button>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 max-w-md w-full mx-4">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              403
+            </h1>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Input password to view this share
+            </p>
+            <div className="space-y-4">
+              <Input
+                type="password"
+                value={sharePassword}
+                onChange={(e) => setSharePassword(e.target.value)}
+                placeholder="Password"
+                className="w-full"
+              />
+              <Button onClick={handleSubmitPassword} className="w-full">
+                Submit
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -89,88 +95,90 @@ export default function Detail() {
   }
 
   return (
-    <article className="mx-auto max-w-7xl p-4 md:pt-10">
-      <header className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-          Shared{" "}
-          {language === "text"
-            ? "Text"
-            : language.charAt(0).toUpperCase() + language.slice(1)}{" "}
-          Snippet
-        </h1>
-        <p className="text-gray-600 dark:text-gray-300 text-sm">
-          Created on{" "}
-          {new Date(pasteData?.create_time || Date.now()).toLocaleDateString()}{" "}
-          • Language: {language} •
-          {pasteData?.share_password ? "Password Protected" : "Public"}
-        </p>
-      </header>
-      <div className="mb-4 flex gap-4 flex-col md:flex-row">
-        <CopyToClipboard
-          text={`${window.location.origin}/detail/${id}`}
-          onCopy={() => toast.success("Copied")}
-        >
-          <Button variant="secondary">
-            {pasteData?.share_password && (
-              <svg
-                className="h-4 w-4 text-green-600"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 16 20"
+    <div className="min-h-screen bg-white dark:bg-gray-900">
+      <div className="container mx-auto max-w-6xl px-4 py-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {language === "text"
+                    ? "Text"
+                    : language.charAt(0).toUpperCase() + language.slice(1)}{" "}
+                  Snippet
+                </h1>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                  {new Date(
+                    pasteData?.create_time || Date.now(),
+                  ).toLocaleDateString()}{" "}
+                  • {language} •
+                  {pasteData?.share_password
+                    ? " Password Protected"
+                    : " Public"}
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-3 mb-6">
+              <CopyToClipboard
+                text={`${window.location.origin}/detail/${id}`}
+                onCopy={() => toast.success("Copied")}
               >
-                <path d="M14 7h-1.5V4.5a4.5 4.5 0 1 0-9 0V7H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-5 8a1 1 0 1 1-2 0v-3a1 1 0 1 1 2 0v3Zm1.5-8h-5V4.5a2.5 2.5 0 1 1 5 0V7Z" />
-              </svg>
-            )}
-            Copy URL {pasteData?.share_password && "(without password)"}
-          </Button>
-        </CopyToClipboard>
+                <Button variant="outline" size="sm">
+                  Copy URL {pasteData?.share_password && "(without password)"}
+                </Button>
+              </CopyToClipboard>
 
-        {editPassword && (
-          <CopyToClipboard
-            text={`${window.location.origin}/detail/${id}?edit_password=${editPassword}`}
-            onCopy={() => toast.success("Copied")}
-          >
-            <Button variant="secondary">Admin URL</Button>
-          </CopyToClipboard>
-        )}
-        <Button
-          variant="secondary"
-          onClick={() =>
-            window.open(
-              `${window.location.origin}/raw/${id}${
-                pasteData?.share_password
-                  ? `?share_password=${pasteData?.share_password}`
-                  : ""
-              }`,
-            )
-          }
-        >
-          {pasteData?.share_password && (
-            <svg
-              className="h-4 w-4 text-green-600"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 16 20"
-            >
-              <path d="M14 7h-1.5V4.5a4.5 4.5 0 1 0-9 0V7H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Zm-5 8a1 1 0 1 1-2 0v-3a1 1 0 1 1 2 0v3Zm1.5-8h-5V4.5a2.5 2.5 0 1 1 5 0V7Z" />
-            </svg>
-          )}
-          View raw Text
-        </Button>
+              {editPassword && (
+                <CopyToClipboard
+                  text={`${window.location.origin}/detail/${id}?edit_password=${editPassword}`}
+                  onCopy={() => toast.success("Copied")}
+                >
+                  <Button variant="outline" size="sm">
+                    Admin URL
+                  </Button>
+                </CopyToClipboard>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  window.open(
+                    `${window.location.origin}/raw/${id}${
+                      pasteData?.share_password
+                        ? `?share_password=${pasteData?.share_password}`
+                        : ""
+                    }`,
+                  )
+                }
+              >
+                View raw Text
+              </Button>
 
-        <CopyToClipboard text={content} onCopy={() => toast.success("Copied")}>
-          <Button variant="secondary">Copy raw text</Button>
-        </CopyToClipboard>
+              <CopyToClipboard
+                text={content}
+                onCopy={() => toast.success("Copied")}
+              >
+                <Button variant="outline" size="sm">
+                  Copy raw text
+                </Button>
+              </CopyToClipboard>
 
-        {editPassword && <Button onClick={handleUpdatePaste}>Update</Button>}
+              {editPassword && (
+                <Button size="sm" onClick={handleUpdatePaste}>
+                  Update
+                </Button>
+              )}
+            </div>
+            <Editor
+              height="calc(100vh - 280px)"
+              language={language}
+              value={content}
+              readonly={!editPassword}
+              onChange={(value) => setContent(value || "")}
+            />
+          </div>
+        </div>
       </div>
-      <Editor
-        height="calc(100vh - 200px)"
-        language={language}
-        value={content}
-        readonly={!editPassword}
-        onChange={(value) => setContent(value || "")}
-      />
-    </article>
+    </div>
   );
 }

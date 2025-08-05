@@ -78,10 +78,10 @@ export default function ImageShare() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="space-y-4">
       <Upload {...props}>
-        <div className="w-full ">
-          <label className="flex h-48 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed px-4 transition hover:border-gray-400 focus:outline-none card items-center">
+        <div className="w-full">
+          <label className="flex h-48 w-full cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-border px-4 transition hover:border-border/80 focus:outline-none items-center bg-background">
             <span className="flex items-center space-x-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +97,7 @@ export default function ImageShare() {
                   d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                 />
               </svg>
-              <span className="font-medium text-gray-600">
+              <span className="font-medium text-gray-600 dark:text-gray-300">
                 {t("fileShareTip")}
                 <span className="ml-2 text-blue-600 underline">
                   {t("viewFiles")}
@@ -109,35 +109,47 @@ export default function ImageShare() {
       </Upload>
 
       {uploadFile && (
-        <>
-          <div className="flex">
-            <Button className="btn btn-neutral join-item w-[120px]">
-              Link
-            </Button>
-            <Input value={uploadFile} disabled />
-            <CopyToClipboard
-              text={uploadFile}
-              onCopy={() => toast.success(t("copySuccess"))}
-            >
-              <Button>Copy</Button>
-            </CopyToClipboard>
+        <div className="space-y-3 p-4 bg-muted rounded-md border">
+          <h3 className="text-sm font-medium text-foreground">
+            File uploaded successfully!
+          </h3>
+
+          <div className="space-y-2">
+            <label className="text-xs font-medium text-muted-foreground">
+              Direct Link
+            </label>
+            <div className="flex gap-2">
+              <Input value={uploadFile} disabled />
+              <CopyToClipboard
+                text={uploadFile}
+                onCopy={() => toast.success(t("copySuccess"))}
+              >
+                <Button variant="outline" size="sm">
+                  Copy
+                </Button>
+              </CopyToClipboard>
+            </div>
           </div>
 
           {fileTyle.startsWith("image") && (
-            <div className="flex">
-              <Button className="btn btn-neutral join-item w-[120px]">
-                Markdown
-              </Button>
-              <Input value={`![image](${uploadFile})`} disabled />
-              <CopyToClipboard
-                text={`![image](${uploadFile})`}
-                onCopy={() => toast.success(t("copySuccess"))}
-              >
-                <Button>Copy</Button>
-              </CopyToClipboard>
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-muted-foreground">
+                Markdown Format
+              </label>
+              <div className="flex gap-2">
+                <Input value={`![image](${uploadFile})`} disabled />
+                <CopyToClipboard
+                  text={`![image](${uploadFile})`}
+                  onCopy={() => toast.success(t("copySuccess"))}
+                >
+                  <Button variant="outline" size="sm">
+                    Copy
+                  </Button>
+                </CopyToClipboard>
+              </div>
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );
