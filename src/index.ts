@@ -34,9 +34,6 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 app.use('/api/*', cors());
 
-app.get('*', serveStatic({ root: './', manifest }));
-app.get('/detail/*', serveStatic({ path: './index.html', manifest }));
-
 app.get('/raw/:id', async (c) => {
   const id = c.req.param('id');
   const password = c.req.query('share_password');
@@ -202,5 +199,8 @@ app.get('/file/:id', async (c) => {
     headers,
   });
 });
+
+app.get('*', serveStatic({ root: './', manifest }));
+app.get('*', serveStatic({ path: './index.html', manifest }));
 
 export default app;

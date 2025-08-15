@@ -72,6 +72,51 @@ export default function MonacoEditor({
     setEditorInstance(editor);
     setMonacoInstance(monaco);
 
+    // 修复滚轮事件被拦截的问题 - 允许页面滚动
+    const editorDomNode = editor.getDomNode();
+    if (editorDomNode) {
+      // 监听编辑器的滚轮事件
+      editorDomNode.addEventListener(
+        "wheel",
+        (e: WheelEvent) => {
+          // 如果按住 Ctrl/Cmd 键，保留缩放功能
+          if (e.ctrlKey || e.metaKey) {
+            return;
+          }
+
+          // 获取编辑器的滚动容器
+          const scrollContainer = editorDomNode.querySelector(
+            ".monaco-scrollable-element",
+          ) as HTMLElement;
+
+          if (!scrollContainer) {
+            return;
+          }
+
+          const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+          const isScrollable = scrollHeight > clientHeight;
+
+          // 如果编辑器内容不需要滚动，直接允许页面滚动
+          if (!isScrollable) {
+            return;
+          }
+
+          const isAtTop = scrollTop <= 0;
+          const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+
+          // 如果编辑器已经滚动到边界，允许页面滚动
+          if ((isAtTop && e.deltaY < 0) || (isAtBottom && e.deltaY > 0)) {
+            return;
+          }
+
+          // 编辑器还可以滚动，阻止页面滚动
+          e.preventDefault();
+          e.stopPropagation();
+        },
+        { passive: false },
+      );
+    }
+
     // 定义自定义暗色主题
     monaco.editor.defineTheme("custom-dark", {
       base: "vs-dark",
@@ -162,7 +207,7 @@ export default function MonacoEditor({
           foldingStrategy: "indentation",
           showFoldingControls: "always",
           renderWhitespace: "selection",
-          mouseWheelZoom: true,
+          mouseWheelZoom: false,
           smoothScrolling: true,
           cursorSmoothCaretAnimation: "on",
         }}

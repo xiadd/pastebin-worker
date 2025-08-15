@@ -66,20 +66,36 @@ export default function Detail() {
   if (!isAuth) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 max-w-md w-full mx-4">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 max-w-md w-full mx-4">
           <div className="text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-6">
+              <svg
+                className="w-8 h-8 text-blue-600 dark:text-blue-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+            </div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              403
+              Password Required
             </h1>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Input password to view this share
+              This content is password protected. Please enter the password to
+              view.
             </p>
             <div className="space-y-4">
               <Input
                 type="password"
                 value={sharePassword}
                 onChange={(e) => setSharePassword(e.target.value)}
-                placeholder="Password"
+                placeholder="Enter password"
                 className="w-full"
               />
               <Button onClick={handleSubmitPassword} className="w-full">
@@ -94,63 +110,82 @@ export default function Detail() {
 
   if (language === "markdown") {
     return (
-      <div className="min-h-screen bg-white dark:bg-gray-900">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto max-w-6xl px-4 py-12 space-y-6">
           {/* Header Section */}
-          <div className="bg-gray-50/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 p-8">
-            <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Markdown Document
-              </h1>
-              <p className="text-muted-foreground text-lg">
-                {new Date(
-                  pasteData?.create_time || Date.now(),
-                ).toLocaleDateString()}{" "}
-                • markdown •
-                {pasteData?.share_password ? " Password Protected" : " Public"}
-              </p>
-            </div>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div className="p-8">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-6">
+                  <svg
+                    className="w-8 h-8 text-blue-600 dark:text-blue-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                  Markdown Document
+                </h1>
+                <p className="text-gray-600 dark:text-gray-300 text-lg">
+                  {new Date(
+                    pasteData?.create_time || Date.now(),
+                  ).toLocaleDateString()}{" "}
+                  • markdown •
+                  {pasteData?.share_password
+                    ? " Password Protected"
+                    : " Public"}
+                </p>
+              </div>
 
-            <div className="flex flex-wrap justify-center gap-3">
-              <CopyButton text={`${window.location.origin}/detail/${id}`}>
-                Copy URL {pasteData?.share_password && "(without password)"}
-              </CopyButton>
-
-              {editPassword && (
-                <CopyButton
-                  text={`${window.location.origin}/detail/${id}?edit_password=${editPassword}`}
-                >
-                  Admin URL
+              <div className="flex flex-wrap justify-center gap-3">
+                <CopyButton text={`${window.location.origin}/detail/${id}`}>
+                  Copy URL {pasteData?.share_password && "(without password)"}
                 </CopyButton>
-              )}
 
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  window.open(
-                    `${window.location.origin}/raw/${id}${
-                      pasteData?.share_password
-                        ? `?share_password=${pasteData?.share_password}`
-                        : ""
-                    }`,
-                  )
-                }
-              >
-                View raw Text
-              </Button>
+                {editPassword && (
+                  <CopyButton
+                    text={`${window.location.origin}/detail/${id}?edit_password=${editPassword}`}
+                  >
+                    Admin URL
+                  </CopyButton>
+                )}
 
-              <CopyButton text={content}>Copy raw text</CopyButton>
-
-              {editPassword && (
                 <Button
+                  variant="outline"
                   size="sm"
-                  onClick={handleUpdatePaste}
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+                  onClick={() =>
+                    window.open(
+                      `${window.location.origin}/raw/${id}${
+                        pasteData?.share_password
+                          ? `?share_password=${pasteData?.share_password}`
+                          : ""
+                      }`,
+                    )
+                  }
                 >
-                  Update
+                  View raw Text
                 </Button>
-              )}
+
+                <CopyButton text={content}>Copy raw text</CopyButton>
+
+                {editPassword && (
+                  <Button
+                    size="sm"
+                    onClick={handleUpdatePaste}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    Update
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
 
@@ -210,65 +245,82 @@ export default function Detail() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto max-w-6xl px-4 py-12 space-y-6">
         {/* Header Section */}
-        <div className="bg-gray-50/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              {language === "text"
-                ? "Text"
-                : language.charAt(0).toUpperCase() + language.slice(1)}{" "}
-              Snippet
-            </h1>
-            <p className="text-muted-foreground text-lg">
-              {new Date(
-                pasteData?.create_time || Date.now(),
-              ).toLocaleDateString()}{" "}
-              • {language} •
-              {pasteData?.share_password ? " Password Protected" : " Public"}
-            </p>
-          </div>
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="p-8">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-6">
+                <svg
+                  className="w-8 h-8 text-blue-600 dark:text-blue-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                  />
+                </svg>
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                {language === "text"
+                  ? "Text"
+                  : language.charAt(0).toUpperCase() + language.slice(1)}{" "}
+                Snippet
+              </h1>
+              <p className="text-gray-600 dark:text-gray-300 text-lg">
+                {new Date(
+                  pasteData?.create_time || Date.now(),
+                ).toLocaleDateString()}{" "}
+                • {language} •
+                {pasteData?.share_password ? " Password Protected" : " Public"}
+              </p>
+            </div>
 
-          <div className="flex flex-wrap justify-center gap-3">
-            <CopyButton text={`${window.location.origin}/detail/${id}`}>
-              Copy URL {pasteData?.share_password && "(without password)"}
-            </CopyButton>
-
-            {editPassword && (
-              <CopyButton
-                text={`${window.location.origin}/detail/${id}?edit_password=${editPassword}`}
-              >
-                Admin URL
+            <div className="flex flex-wrap justify-center gap-3">
+              <CopyButton text={`${window.location.origin}/detail/${id}`}>
+                Copy URL {pasteData?.share_password && "(without password)"}
               </CopyButton>
-            )}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                window.open(
-                  `${window.location.origin}/raw/${id}${
-                    pasteData?.share_password
-                      ? `?share_password=${pasteData?.share_password}`
-                      : ""
-                  }`,
-                )
-              }
-            >
-              View raw Text
-            </Button>
 
-            <CopyButton text={content}>Copy raw text</CopyButton>
-
-            {editPassword && (
+              {editPassword && (
+                <CopyButton
+                  text={`${window.location.origin}/detail/${id}?edit_password=${editPassword}`}
+                >
+                  Admin URL
+                </CopyButton>
+              )}
               <Button
+                variant="outline"
                 size="sm"
-                onClick={handleUpdatePaste}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"
+                onClick={() =>
+                  window.open(
+                    `${window.location.origin}/raw/${id}${
+                      pasteData?.share_password
+                        ? `?share_password=${pasteData?.share_password}`
+                        : ""
+                    }`,
+                  )
+                }
               >
-                Update
+                View raw Text
               </Button>
-            )}
+
+              <CopyButton text={content}>Copy raw text</CopyButton>
+
+              {editPassword && (
+                <Button
+                  size="sm"
+                  onClick={handleUpdatePaste}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  Update
+                </Button>
+              )}
+            </div>
           </div>
         </div>
 
