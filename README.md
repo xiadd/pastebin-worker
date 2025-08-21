@@ -22,10 +22,11 @@ A modern, fast, and secure pastebin service built with Cloudflare Workers, featu
 
 - **Backend**: Cloudflare Workers with Hono framework
 - **Frontend**: React 18 + TypeScript + Vite
-- **Database**: Cloudflare D1 (SQLite)
+- **Database**: Cloudflare D1 (SQLite) with Drizzle ORM
 - **Storage**: Cloudflare R2 for file uploads
 - **Styling**: Tailwind CSS + Radix UI components
 - **Code Editor**: Monaco Editor (VS Code editor)
+- **ORM**: Drizzle ORM for type-safe database operations
 
 ## Getting Started
 
@@ -80,6 +81,21 @@ yarn initdb:remote
 
 # For local development database
 yarn initdb:local
+```
+
+### Database Migrations with Drizzle ORM
+
+This project uses Drizzle ORM for type-safe database operations. The database schema is defined in `src/db/scheme.ts`. To manage database changes:
+
+```bash
+# Generate migration files after schema changes
+yarn db:generate
+
+# Apply migrations to local database
+yarn db:migrate:local
+
+# Apply migrations to remote database
+yarn db:migrate:remote
 ```
 
 ### 4. Create Cloudflare R2 Bucket
@@ -312,12 +328,34 @@ yarn initdb:remote
 yarn initdb:local
 ```
 
+### Drizzle ORM Commands
+
+This project uses Drizzle ORM for type-safe database operations:
+
+```bash
+# Generate migration files after schema changes
+yarn db:generate
+
+# Apply migrations to local database
+yarn db:migrate:local
+
+# Apply migrations to remote database
+yarn db:migrate:remote
+```
+
 ### Database Schema
 
-The application uses two main tables:
+The application uses two main tables defined in `src/db/scheme.ts`:
 
 - `pastes`: Stores text pastes with metadata
 - `files`: Reserved for future file metadata (currently files are stored in R2)
+
+All database operations are type-safe thanks to Drizzle ORM, which provides:
+
+- Automatic TypeScript type generation
+- SQL query builder with type checking
+- Migration management
+- Better development experience with IntelliSense
 
 ## Configuration
 

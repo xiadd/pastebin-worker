@@ -22,10 +22,11 @@
 
 - **后端**: Cloudflare Workers + Hono 框架
 - **前端**: React 18 + TypeScript + Vite
-- **数据库**: Cloudflare D1 (SQLite)
+- **数据库**: Cloudflare D1 (SQLite) + Drizzle ORM
 - **存储**: Cloudflare R2 用于文件上传
 - **样式**: Tailwind CSS + Radix UI 组件
 - **代码编辑器**: Monaco Editor (VS Code 编辑器)
+- **ORM**: Drizzle ORM 提供类型安全的数据库操作
 
 ## 开始使用
 
@@ -80,6 +81,21 @@ yarn initdb:remote
 
 # 初始化本地开发数据库
 yarn initdb:local
+```
+
+### 使用 Drizzle ORM 进行数据库迁移
+
+本项目使用 Drizzle ORM 进行类型安全的数据库操作。数据库架构定义在 `src/db/scheme.ts` 中。管理数据库变更：
+
+```bash
+# 在架构更改后生成迁移文件
+yarn db:generate
+
+# 将迁移应用到本地数据库
+yarn db:migrate:local
+
+# 将迁移应用到远程数据库
+yarn db:migrate:remote
 ```
 
 ### 4. 创建 Cloudflare R2 存储桶
@@ -312,12 +328,34 @@ yarn initdb:remote
 yarn initdb:local
 ```
 
+### Drizzle ORM 命令
+
+本项目使用 Drizzle ORM 进行类型安全的数据库操作：
+
+```bash
+# 在架构更改后生成迁移文件
+yarn db:generate
+
+# 将迁移应用到本地数据库
+yarn db:migrate:local
+
+# 将迁移应用到远程数据库
+yarn db:migrate:remote
+```
+
 ### 数据库架构
 
-应用程序使用两个主要表：
+应用程序使用在 `src/db/scheme.ts` 中定义的两个主要表：
 
 - `pastes`: 存储文本分享及其元数据
 - `files`: 为将来的文件元数据保留（当前文件存储在 R2 中）
+
+得益于 Drizzle ORM，所有数据库操作都是类型安全的，它提供：
+
+- 自动 TypeScript 类型生成
+- 带类型检查的 SQL 查询构建器
+- 迁移管理
+- 更好的开发体验和智能提示
 
 ## 配置
 

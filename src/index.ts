@@ -2,10 +2,12 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { serveStatic } from 'hono/cloudflare-workers';
 import { R2Bucket, D1Database } from '@cloudflare/workers-types';
+import { eq } from 'drizzle-orm';
 
 import manifest from '__STATIC_CONTENT_MANIFEST';
 
 import { customAlphabet } from 'nanoid';
+import { createDB, pastes, type Paste, type NewPaste } from './db';
 
 const MAX_SIZE = 1024 * 1024 * 25; // 25MB
 
@@ -20,15 +22,7 @@ type Bindings = {
   DB: D1Database;
 };
 
-interface IPaste {
-  id: string;
-  content: string;
-  create_time: number;
-  edit_password: string;
-  language: string;
-  expire: number;
-  metadata: string;
-}
+// IPaste interface is now replaced by the Paste type from the schema
 
 const app = new Hono<{ Bindings: Bindings }>();
 
@@ -37,11 +31,9 @@ app.use('/api/*', cors());
 app.get('/raw/:id', async (c) => {
   const id = c.req.param('id');
   const password = c.req.query('share_password');
-  const res: IPaste | null = await c.env.DB.prepare(
-    'select * from pastes where id = ?',
-  )
-    .bind(id)
-    .first();
+  const db = createDB(c.env.DB);
+
+  const res = await db.select().from(pastes).where(eq(pastes.id, id)).get();
   if (!res) {
     return c.text('Not found', { status: 404 });
   }
@@ -83,19 +75,18 @@ app.post('/api/create', async (c) => {
     pasteBody.metadata.share_password = share_password || nanoid(10);
   }
 
-  await c.env.DB.prepare(
-    'insert into pastes (id, content, create_time, edit_password, language, expire, metadata) values (?, ?, ?, ?, ?, ?, ?)',
-  )
-    .bind(
-      id,
-      pasteBody.content,
-      pasteBody.create_time,
-      pasteBody.edit_password,
-      pasteBody.language,
-      pasteBody.expire,
-      JSON.stringify(pasteBody.metadata),
-    )
-    .run();
+  const db = createDB(c.env.DB);
+  const newPaste: NewPaste = {
+    id,
+    content: pasteBody.content,
+    createTime: pasteBody.create_time,
+    editPassword: pasteBody.edit_password,
+    language: pasteBody.language,
+    expire: pasteBody.expire,
+    metadata: JSON.stringify(pasteBody.metadata),
+  };
+
+  await db.insert(pastes).values(newPaste);
   return c.json({ id, url: `${c.env.BASE_URL}/detail/${id}`, ...pasteBody });
 });
 
@@ -106,22 +97,17 @@ app.post('/api/update', async (c) => {
   if (!content) {
     return c.json({ error: 'Content is required' });
   }
-  const result: IPaste | null = await c.env.DB.prepare(
-    'select * from pastes where id = ?',
-  )
-    .bind(id)
-    .first();
+  const db = createDB(c.env.DB);
+  const result = await db.select().from(pastes).where(eq(pastes.id, id)).get();
   if (!result) {
     return c.json({ error: 'Not found' });
   }
 
-  if (result.edit_password !== edit_password) {
+  if (result.editPassword !== edit_password) {
     return c.json({ error: 'Wrong password', code: 403 }, { status: 403 });
   }
 
-  await c.env.DB.prepare('update pastes set content = ? where id = ?')
-    .bind(content, id)
-    .run();
+  await db.update(pastes).set({ content }).where(eq(pastes.id, id));
   return c.json({ url: `${c.env.BASE_URL}/detail/${id}`, ...result });
 });
 
@@ -129,18 +115,15 @@ app.post('/api/update', async (c) => {
 app.get('/api/get', async (c) => {
   const id = c.req.query('id');
   const password = c.req.query('share_password');
-  const result: IPaste | null = await c.env.DB.prepare(
-    'select * from pastes where id = ?',
-  )
-    .bind(id)
-    .first();
+  const db = createDB(c.env.DB);
+  const result = await db.select().from(pastes).where(eq(pastes.id, id!)).get();
 
   if (!result) {
     return c.json({ error: 'Not found' });
   }
 
-  if (result.expire && Date.now() > result.create_time + result.expire * 1000) {
-    await c.env.DB.prepare('delete from pastes where id = ?').bind(id).run();
+  if (result.expire && Date.now() > result.createTime + result.expire * 1000) {
+    await db.delete(pastes).where(eq(pastes.id, id!));
     return c.json({ error: 'Paste expired', code: 410 });
   }
 

@@ -9,15 +9,23 @@
     "dev": "wrangler dev",
     "build": "wrangler build",
     "initdb:remote": "wrangler d1 execute DB --file src/schema.sql --remote",
-    "initdb:local": " wrangler d1 execute DB --file src/schema.sql --local"
+    "initdb:local": " wrangler d1 execute DB --file src/schema.sql --local",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "db:migrate:remote": "wrangler d1 migrations apply DB --remote"
   },
   "devDependencies": {
     "@cloudflare/kv-asset-handler": "^0.3.0",
+    "drizzle-kit": "^0.31.4",
+    "tsx": "^4.20.4",
     "wrangler": "^3.53.1"
   },
   "dependencies": {
     "@cloudflare/workers-types": "^4.20240502.0",
+    "dotenv": "^17.2.1",
+    "drizzle-orm": "^0.44.4",
     "hono": "^4.5.11",
     "nanoid": "^4.0.0"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
