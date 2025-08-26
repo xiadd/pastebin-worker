@@ -1,8 +1,111 @@
 /* 自定义 Prism.js 样式 */
 
+/* 代码块容器样式 */
+.code-block-container {
+  position: relative;
+  margin: 1.5rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.dark .code-block-container {
+  border-color: #374151;
+  background: #111827;
+}
+
+/* 代码块头部 */
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.dark .code-block-header {
+  background: #1f2937;
+  border-bottom-color: #374151;
+}
+
+.code-block-language {
+  color: #6b7280;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.dark .code-block-language {
+  color: #9ca3af;
+}
+
+/* 复制按钮样式 */
+.code-copy-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.code-copy-button:hover {
+  color: #374151;
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.dark .code-copy-button {
+  color: #9ca3af;
+  background: #374151;
+  border-color: #4b5563;
+}
+
+.dark .code-copy-button:hover {
+  color: #e5e7eb;
+  background: #4b5563;
+  border-color: #6b7280;
+}
+
+.code-copy-button.copied {
+  color: #059669;
+  border-color: #059669;
+}
+
+.dark .code-copy-button.copied {
+  color: #34d399;
+  border-color: #34d399;
+}
+
+/* 代码内容区域 */
+.code-block-content {
+  padding: 1rem;
+  overflow-x: auto;
+  background: #ffffff;
+}
+
+.dark .code-block-content {
+  background: #0f172a;
+}
+
 /* 亮色主题 */
 .prism-light {
   color: #374151 !important;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+    "Liberation Mono", Menlo, monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 .prism-light .token.comment,
@@ -64,6 +167,10 @@
 /* 暗色主题 */
 .prism-dark {
   color: #e5e7eb !important;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas,
+    "Liberation Mono", Menlo, monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 .prism-dark .token.comment,
@@ -140,4 +247,26 @@
   border-radius: 0 !important;
   font-size: inherit !important;
   line-height: inherit !important;
+}
+
+/* 覆盖 prose 样式 */
+.prose .code-block-container {
+  margin: 1.5rem 0 !important;
+}
+
+.prose .code-block-container pre {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+}
+
+.prose .code-block-container code {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-size: 0.875rem !important;
+  color: inherit !important;
 }
