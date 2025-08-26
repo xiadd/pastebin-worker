@@ -9,11 +9,11 @@ export default memo(function CreatePaste() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto max-w-4xl px-4 py-12">
+    <div className="bg-gray-50 dark:bg-gray-900">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-gray-700 rounded-full mb-6">
             <svg
               className="w-8 h-8 text-blue-600 dark:text-blue-400"
               fill="none"
@@ -38,8 +38,8 @@ export default memo(function CreatePaste() {
         </div>
 
         {/* Main Content */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className="p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="p-6">
             <Tabs defaultValue="text" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-100 dark:bg-gray-700">
                 <TabsTrigger
@@ -66,9 +66,9 @@ export default memo(function CreatePaste() {
         </div>
 
         {/* Features Section */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
-            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mx-auto mb-4">
               <svg
                 className="w-6 h-6 text-blue-600 dark:text-blue-400"
                 fill="none"
@@ -91,8 +91,8 @@ export default memo(function CreatePaste() {
             </p>
           </div>
 
-          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
-            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mx-auto mb-4">
               <svg
                 className="w-6 h-6 text-blue-600 dark:text-blue-400"
                 fill="none"
@@ -115,8 +115,8 @@ export default memo(function CreatePaste() {
             </p>
           </div>
 
-          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
-            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mx-auto mb-4">
+          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mx-auto mb-4">
               <svg
                 className="w-6 h-6 text-blue-600 dark:text-blue-400"
                 fill="none"

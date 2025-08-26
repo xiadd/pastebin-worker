@@ -1,11 +1,11 @@
 export default function Tutorial() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto max-w-4xl px-4 py-12">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className="p-8">
+    <div className="bg-gray-50 dark:bg-gray-900">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="p-6">
             <header className="mb-12 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-gray-700 rounded-full mb-6">
                 <svg
                   className="w-8 h-8 text-blue-600 dark:text-blue-400"
                   fill="none"
@@ -31,7 +31,7 @@ export default function Tutorial() {
 
             <section className="mb-12">
               <div className="flex items-center mb-6">
-                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mr-3">
                   <svg
                     className="w-5 h-5 text-blue-600 dark:text-blue-400"
                     fill="none"
@@ -59,7 +59,7 @@ export default function Tutorial() {
               </div>
               <div className="bg-white dark:bg-gray-750 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
                 <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
-                  <span className="w-6 h-6 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mr-2 text-sm font-bold text-blue-600 dark:text-blue-400">
+                  <span className="w-6 h-6 bg-blue-100 dark:bg-gray-700 rounded-full flex items-center justify-center mr-2 text-sm font-bold text-blue-600 dark:text-blue-400">
                     1
                   </span>
                   Basic Usage
@@ -89,7 +89,7 @@ export default function Tutorial() {
 
             <section className="mb-12">
               <div className="flex items-center mb-6">
-                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mr-3">
                   <svg
                     className="w-5 h-5 text-blue-600 dark:text-blue-400"
                     fill="none"
@@ -208,7 +208,7 @@ export default function Tutorial() {
 
             <section className="mb-12">
               <div className="flex items-center mb-6">
-                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mr-3">
                   <svg
                     className="w-5 h-5 text-blue-600 dark:text-blue-400"
                     fill="none"
@@ -253,7 +253,7 @@ export default function Tutorial() {
                   ].map((lang) => (
                     <div
                       key={lang}
-                      className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-2 rounded-lg text-center transition-all duration-200 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-blue-900 dark:hover:text-blue-300 hover:scale-105"
+                      className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-2 rounded-lg text-center transition-all duration-200 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:scale-105"
                     >
                       <span className="text-sm font-medium">{lang}</span>
                     </div>
@@ -264,7 +264,7 @@ export default function Tutorial() {
 
             <section className="mb-8">
               <div className="flex items-center mb-6">
-                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mr-3">
                   <svg
                     className="w-5 h-5 text-blue-600 dark:text-blue-400"
                     fill="none"
@@ -286,7 +286,7 @@ export default function Tutorial() {
               <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8 border border-gray-200 dark:border-gray-600">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
                       <svg
                         className="w-6 h-6 text-blue-600 dark:text-blue-400"
                         fill="currentColor"
@@ -324,7 +324,7 @@ export default function Tutorial() {
                       </a>
                       <a
                         href="https://github.com/xiadd/pastebin-worker/issues"
-                        className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
+                        className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-gray-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-gray-600 transition-colors"
                         target="_blank"
                         rel="noopener noreferrer"
                       >

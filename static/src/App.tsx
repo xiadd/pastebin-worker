@@ -9,9 +9,9 @@ import Tutorial from "./pages/tutorial";
 
 function App() {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       <Header />
-      <main role="main" className="pb-8">
+      <main role="main" className="flex-1">
         <Route path="/" component={CreatePaste}></Route>
         <Route path="/detail/:id" component={Detail} />
         <Route path="/tutorial" component={Tutorial} />

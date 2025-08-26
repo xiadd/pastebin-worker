@@ -27,8 +27,8 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-      <div className="container mx-auto max-w-7xl px-4 h-16 flex justify-between items-center">
+    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
           <img src={logoIcon} className="h-8 w-8" alt="PasteShare" />
           <span className="text-xl font-semibold text-gray-900 dark:text-white">
