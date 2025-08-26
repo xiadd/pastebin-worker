@@ -19,4 +19,8 @@ export default {
     "Your file has been uploaded successfully, click the button below to copy the link",
   copyLink: "Copy Link",
   copySuccess: "Copy Successfully",
+  fileExpirationNotice:
+    "Files will be automatically deleted after 15 days due to storage limitations",
+  fileExpiresIn: "This file will expire in 15 days",
+  fileExpired: "File has expired and been deleted",
 };

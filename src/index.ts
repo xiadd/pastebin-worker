@@ -7,9 +7,11 @@ import { eq } from 'drizzle-orm';
 import manifest from '__STATIC_CONTENT_MANIFEST';
 
 import { customAlphabet } from 'nanoid';
-import { createDB, pastes, type Paste, type NewPaste } from './db';
+import { createDB, pastes, files, type NewPaste, type NewFile } from './db';
 
 const MAX_SIZE = 1024 * 1024 * 25; // 25MB
+const FILE_EXPIRE_DAYS = 15; // 15 days
+const FILE_EXPIRE_SECONDS = FILE_EXPIRE_DAYS * 24 * 60 * 60; // 15 days in seconds
 
 const ID_SEED =
   '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -157,21 +159,78 @@ app.post('/api/upload', async (c) => {
     return c.json({ error: 'File is too large' }, { status: 413 });
   }
   const id = nanoid();
+  const createTime = Date.now();
+
+  // Store file in R2
   await c.env.BUCKET.put(id, await file.arrayBuffer(), {
     customMetadata: {
       name: file.name,
+      size: file.size.toString(),
+      type: file.type,
     },
   });
-  return c.json({ id, url: `${c.env.BASE_URL}/file/${id}` });
+
+  // Store file record in database
+  const db = createDB(c.env.DB);
+  const newFile: NewFile = {
+    id,
+    content: file.name, // Store filename in content field
+    createTime,
+    expire: FILE_EXPIRE_SECONDS,
+    language: file.type || 'application/octet-stream', // Store MIME type
+    metadata: JSON.stringify({
+      originalName: file.name,
+      size: file.size,
+      type: file.type,
+      createTime,
+      expireTime: createTime + FILE_EXPIRE_SECONDS * 1000,
+    }),
+  };
+
+  await db.insert(files).values(newFile);
+
+  return c.json({
+    id,
+    url: `${c.env.BASE_URL}/file/${id}`,
+    expireTime: createTime + FILE_EXPIRE_SECONDS * 1000,
+    expireDays: FILE_EXPIRE_DAYS,
+  });
 });
 
 // 反代文件
 app.get('/file/:id', async (c) => {
   const id = c.req.param('id');
-  const object = await c.env.BUCKET.get(id);
-  if (!object) {
+  const db = createDB(c.env.DB);
+
+  // Check file record in database
+  const fileRecord = await db
+    .select()
+    .from(files)
+    .where(eq(files.id, id))
+    .get();
+  if (!fileRecord) {
     return c.text('Not found', { status: 404 });
   }
+
+  // Check if file has expired
+  if (
+    fileRecord.expire &&
+    Date.now() > fileRecord.createTime + fileRecord.expire * 1000
+  ) {
+    // Delete expired file from R2 and database
+    await c.env.BUCKET.delete(id);
+    await db.delete(files).where(eq(files.id, id));
+    return c.json({ error: 'File expired', code: 410 }, { status: 410 });
+  }
+
+  // Get file from R2
+  const object = await c.env.BUCKET.get(id);
+  if (!object) {
+    // File not found in R2, clean up database record
+    await db.delete(files).where(eq(files.id, id));
+    return c.text('Not found', { status: 404 });
+  }
+
   const headers = new Headers({
     'Content-Disposition': `inline; filename=${object.customMetadata!.name}`,
   });

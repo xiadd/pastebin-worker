@@ -18,4 +18,7 @@ export default {
   uploadSuccessTip: "您的文件已成功上传，点击下方按钮复制链接",
   copyLink: "复制链接",
   copySuccess: "复制成功",
+  fileExpirationNotice: "由于存储空间限制，文件将在15天后自动删除",
+  fileExpiresIn: "此文件将在15天后过期",
+  fileExpired: "文件已过期并被删除",
 };

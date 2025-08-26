@@ -19,4 +19,8 @@ export default {
     "ファイルのアップロードが成功しました、以下のボタンをクリックしてリンクをコピーしてください",
   copyLink: "リンクをコピー",
   copySuccess: "コピー成功",
+  fileExpirationNotice:
+    "ストレージ制限により、ファイルは15日後に自動的に削除されます",
+  fileExpiresIn: "このファイルは15日後に期限切れになります",
+  fileExpired: "ファイルの有効期限が切れ、削除されました",
 };

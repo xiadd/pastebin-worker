@@ -19,4 +19,8 @@ export default {
     "Su archivo se ha subido con éxito, haga clic en el botón de abajo para copiar el enlace",
   copyLink: "Copiar enlace",
   copySuccess: "Copia exitosa",
+  fileExpirationNotice:
+    "Los archivos se eliminarán automáticamente después de 15 días debido a limitaciones de almacenamiento",
+  fileExpiresIn: "Este archivo expirará en 15 días",
+  fileExpired: "El archivo ha expirado y ha sido eliminado",
 };

@@ -29,7 +29,7 @@ export default function ImageShare() {
       return true;
     },
 
-    onStart(file: any) {
+    onStart(_file: any) {
       const loading = toast.loading(t("uploading"));
       setLoadingToast(loading);
     },
@@ -37,7 +37,7 @@ export default function ImageShare() {
       setUploadFile(response.url);
       toast.dismiss(loadingToast);
     },
-    onError(err: any, response: any) {
+    onError(_err: any, response: any) {
       toast.error(`${t("uploadError")} ${response.error}`);
       toast.dismiss(loadingToast);
     },
@@ -80,6 +80,28 @@ export default function ImageShare() {
     <div className="space-y-6">
       {/* Upload Section */}
       <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+        {/* Expiration Notice */}
+        <div className="mb-4 p-3 bg-amber-50/80 dark:bg-amber-900/20 rounded-lg border border-amber-200/50 dark:border-amber-700/30">
+          <div className="flex items-center gap-2">
+            <svg
+              className="w-5 h-5 text-amber-600 dark:text-amber-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 16.5c-.77.833.192 2.5 1.732 2.5z"
+              />
+            </svg>
+            <span className="text-sm text-amber-800 dark:text-amber-200 font-medium">
+              {t("fileExpirationNotice")}
+            </span>
+          </div>
+        </div>
+
         <Upload {...props}>
           <div className="w-full">
             <label className="flex h-48 w-full cursor-pointer appearance-none justify-center rounded-xl border-2 border-dashed border-blue-300/50 dark:border-blue-500/30 px-4 transition hover:border-blue-400/70 dark:hover:border-blue-400/50 focus:outline-none items-center bg-gradient-to-br from-blue-50/50 to-indigo-50/50 dark:from-blue-900/20 dark:to-indigo-900/20 hover:from-blue-100/60 hover:to-indigo-100/60 dark:hover:from-blue-900/30 dark:hover:to-indigo-900/30">
@@ -134,9 +156,14 @@ export default function ImageShare() {
                   />
                 </svg>
               </div>
-              <h3 className="text-lg font-semibold text-green-800 dark:text-green-200">
-                File uploaded successfully!
-              </h3>
+              <div>
+                <h3 className="text-lg font-semibold text-green-800 dark:text-green-200">
+                  {t("uploadSuccess")}
+                </h3>
+                <p className="text-sm text-green-700 dark:text-green-300 mt-1">
+                  {t("fileExpiresIn")}
+                </p>
+              </div>
             </div>
 
             <div className="space-y-4">

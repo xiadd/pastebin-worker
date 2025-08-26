@@ -19,4 +19,8 @@ export default {
     "File Anda telah berhasil diunggah, klik tombol di bawah untuk menyalin tautan",
   copyLink: "Salin tautan",
   copySuccess: "Berhasil menyalin",
+  fileExpirationNotice:
+    "File akan dihapus secara otomatis setelah 15 hari karena keterbatasan penyimpanan",
+  fileExpiresIn: "File ini akan kedaluwarsa dalam 15 hari",
+  fileExpired: "File telah kedaluwarsa dan dihapus",
 };
