@@ -47,6 +47,7 @@ const languageMap: Record<string, string> = {
   python: "python",
   shell: "bash",
   html: "markup",
+  xml: "markup",
   yaml: "yaml",
   css: "css",
   less: "css",
@@ -87,6 +88,13 @@ export default function SimpleEditor({
     (theme === "system" &&
       window.matchMedia("(prefers-color-scheme: dark)").matches);
 
+  // HTML 转义函数
+  const escapeHtml = (text: string): string => {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  };
+
   // 计算行数和语法高亮
   useEffect(() => {
     const lines = value.split("\n").length;
@@ -105,10 +113,12 @@ export default function SimpleEditor({
         setHighlightedCode(highlighted);
       } catch (error) {
         console.warn("Prism highlighting failed:", error);
-        setHighlightedCode(value);
+        // 如果语法高亮失败，转义HTML内容
+        setHighlightedCode(escapeHtml(value));
       }
     } else {
-      setHighlightedCode(value);
+      // 对于纯文本，转义HTML内容
+      setHighlightedCode(escapeHtml(value));
     }
   }, [value, language]);
 
@@ -116,8 +126,10 @@ export default function SimpleEditor({
   const handleScroll = () => {
     if (textareaRef.current && lineNumbersRef.current && highlightRef.current) {
       const scrollTop = textareaRef.current.scrollTop;
+      const scrollLeft = textareaRef.current.scrollLeft;
       lineNumbersRef.current.scrollTop = scrollTop;
       highlightRef.current.scrollTop = scrollTop;
+      highlightRef.current.scrollLeft = scrollLeft;
     }
   };
 
@@ -147,6 +159,29 @@ export default function SimpleEditor({
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) {
       onChange(e.target.value);
+    }
+  };
+
+  // 处理粘贴事件，确保只粘贴纯文本
+  const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    e.preventDefault();
+
+    // 获取纯文本内容
+    const text = e.clipboardData.getData("text/plain");
+
+    if (text && onChange) {
+      const textarea = e.currentTarget;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+
+      // 插入纯文本
+      const newValue = value.substring(0, start) + text + value.substring(end);
+      onChange(newValue);
+
+      // 设置光标位置
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + text.length;
+      }, 0);
     }
   };
 
@@ -197,7 +232,7 @@ export default function SimpleEditor({
             }}
           >
             <pre
-              className={`font-mono text-sm whitespace-pre-wrap break-words ${
+              className={`font-mono text-sm whitespace-pre ${
                 isDark ? "prism-dark" : "prism-light"
               }`}
               style={{
@@ -218,6 +253,7 @@ export default function SimpleEditor({
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             onScroll={handleScroll}
+            onPaste={handlePaste}
             readOnly={readonly}
             placeholder={readonly ? "" : "Write your text here..."}
             className="w-full h-full resize-none border-0 outline-0 bg-transparent font-mono text-sm p-3 focus:ring-0 relative z-10"
@@ -226,6 +262,9 @@ export default function SimpleEditor({
               tabSize: 4,
               color: "transparent",
               caretColor: isDark ? "#60a5fa" : "#3b82f6",
+              whiteSpace: "pre",
+              wordWrap: "normal",
+              overflowWrap: "normal",
             }}
             spellCheck={false}
           />

@@ -131,6 +131,8 @@ export default function TextShare() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="text">Plaintext</SelectItem>
+                <SelectItem value="html">HTML</SelectItem>
+                <SelectItem value="xml">XML</SelectItem>
                 <SelectItem value="markdown">Markdown</SelectItem>
                 <SelectItem value="json">JSON</SelectItem>
                 <SelectItem value="yaml">YAML</SelectItem>
