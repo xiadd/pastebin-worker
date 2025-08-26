@@ -13,21 +13,6 @@ export default memo(function CreatePaste() {
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-gray-700 rounded-full mb-6">
-            <svg
-              className="w-8 h-8 text-blue-600 dark:text-blue-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-          </div>
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Create & Share
           </h1>
@@ -44,13 +29,13 @@ export default memo(function CreatePaste() {
               <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-100 dark:bg-gray-700">
                 <TabsTrigger
                   value="text"
-                  className="data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800 data-[state=active]:shadow-sm data-[state=active]:text-gray-900 dark:data-[state=active]:text-gray-100"
                 >
                   {t("textShare")}
                 </TabsTrigger>
                 <TabsTrigger
                   value="file"
-                  className="data-[state=active]:bg-white data-[state=active]:shadow-sm"
+                  className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800 data-[state=active]:shadow-sm data-[state=active]:text-gray-900 dark:data-[state=active]:text-gray-100"
                 >
                   {t("fileShare")}
                 </TabsTrigger>

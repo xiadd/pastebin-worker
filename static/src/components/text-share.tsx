@@ -64,7 +64,7 @@ export default function TextShare() {
   return (
     <div className="space-y-6">
       {/* Editor Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-0 overflow-hidden">
         <Editor
           className="rounded-lg border-0"
           height="400px"

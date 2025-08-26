@@ -38,7 +38,6 @@ export default function ImageShare() {
       toast.dismiss(loadingToast);
     },
     onError(err: any, response: any) {
-      console.log(response);
       toast.error(`${t("uploadError")} ${response.error}`);
       toast.dismiss(loadingToast);
     },

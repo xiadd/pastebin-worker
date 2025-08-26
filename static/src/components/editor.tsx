@@ -1,7 +1,29 @@
-import Editor from "@monaco-editor/react";
-import { useEffect, useState } from "react";
+import Prism from "prismjs";
+import "prismjs/components/prism-bash";
+import "prismjs/components/prism-c";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-cpp";
+import "prismjs/components/prism-css";
+import "prismjs/components/prism-go";
+import "prismjs/components/prism-java";
+// 第二层：依赖基础语言的语言
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-json";
+import "prismjs/components/prism-jsx";
+import "prismjs/components/prism-markdown";
+// 第一层：基础语言
+import "prismjs/components/prism-markup";
+// 第三层：独立语言
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-tsx";
+import "prismjs/components/prism-typescript";
+// 第四层：依赖多个语言的格式
+import "prismjs/components/prism-yaml";
+import { useEffect, useRef, useState } from "react";
 
 import { useTheme } from "../context/theme";
+// 导入自定义样式
+import "./prism-custom.css";
 
 interface EditorProps {
   language?: string;
@@ -12,7 +34,7 @@ interface EditorProps {
   height?: string;
 }
 
-// Monaco Editor 语言映射
+// Prism.js 语言映射
 const languageMap: Record<string, string> = {
   text: "plaintext",
   markdown: "markdown",
@@ -23,16 +45,28 @@ const languageMap: Record<string, string> = {
   c: "c",
   cpp: "cpp",
   python: "python",
-  shell: "shell",
-  html: "html",
+  shell: "bash",
+  html: "markup",
   yaml: "yaml",
   css: "css",
-  less: "less",
+  less: "css",
   scss: "scss",
   golang: "go",
+  js: "javascript",
+  ts: "typescript",
+  jsx: "jsx",
+  tsx: "tsx",
+  java: "java",
+  csharp: "csharp",
+  php: "php",
+  ruby: "ruby",
+  rust: "rust",
+  sql: "sql",
+  bash: "bash",
+  sh: "bash",
 };
 
-export default function MonacoEditor({
+export default function SimpleEditor({
   value,
   onChange,
   language = "text",
@@ -41,177 +75,162 @@ export default function MonacoEditor({
   className = "",
 }: EditorProps) {
   const { theme } = useTheme();
-  const [monacoTheme, setMonacoTheme] = useState<"light" | "custom-dark">(
-    "light",
-  );
-  const [editorInstance, setEditorInstance] = useState<any>(null);
-  const [monacoInstance, setMonacoInstance] = useState<any>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const lineNumbersRef = useRef<HTMLDivElement>(null);
+  const highlightRef = useRef<HTMLDivElement>(null);
+  const [lineCount, setLineCount] = useState(1);
+  const [highlightedCode, setHighlightedCode] = useState("");
 
+  // 获取当前主题
+  const isDark =
+    theme === "dark" ||
+    (theme === "system" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+  // 计算行数和语法高亮
   useEffect(() => {
-    let newMonacoTheme: "light" | "custom-dark" = "light";
+    const lines = value.split("\n").length;
+    setLineCount(lines);
 
-    // 检查当前是否应该使用暗色模式
-    const isDark =
-      theme === "dark" ||
-      (theme === "system" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
+    // 语法高亮
+    const prismLanguage = languageMap[language] || "plaintext";
 
-    if (isDark) {
-      newMonacoTheme = "custom-dark";
+    if (prismLanguage !== "plaintext" && Prism.languages[prismLanguage]) {
+      try {
+        const highlighted = Prism.highlight(
+          value,
+          Prism.languages[prismLanguage],
+          prismLanguage,
+        );
+        setHighlightedCode(highlighted);
+      } catch (error) {
+        console.warn("Prism highlighting failed:", error);
+        setHighlightedCode(value);
+      }
+    } else {
+      setHighlightedCode(value);
     }
+  }, [value, language]);
 
-    setMonacoTheme(newMonacoTheme);
-
-    // 如果编辑器已经加载，立即应用主题
-    if (monacoInstance && editorInstance) {
-      monacoInstance.editor.setTheme(newMonacoTheme);
+  // 同步滚动
+  const handleScroll = () => {
+    if (textareaRef.current && lineNumbersRef.current && highlightRef.current) {
+      const scrollTop = textareaRef.current.scrollTop;
+      lineNumbersRef.current.scrollTop = scrollTop;
+      highlightRef.current.scrollTop = scrollTop;
     }
-  }, [theme, editorInstance, monacoInstance]);
-
-  const handleEditorDidMount = (editor: any, monaco: any) => {
-    setEditorInstance(editor);
-    setMonacoInstance(monaco);
-
-    // 修复滚轮事件被拦截的问题 - 允许页面滚动
-    const editorDomNode = editor.getDomNode();
-    if (editorDomNode) {
-      // 监听编辑器的滚轮事件
-      editorDomNode.addEventListener(
-        "wheel",
-        (e: WheelEvent) => {
-          // 如果按住 Ctrl/Cmd 键，保留缩放功能
-          if (e.ctrlKey || e.metaKey) {
-            return;
-          }
-
-          // 获取编辑器的滚动容器
-          const scrollContainer = editorDomNode.querySelector(
-            ".monaco-scrollable-element",
-          ) as HTMLElement;
-
-          if (!scrollContainer) {
-            return;
-          }
-
-          const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
-          const isScrollable = scrollHeight > clientHeight;
-
-          // 如果编辑器内容不需要滚动，直接允许页面滚动
-          if (!isScrollable) {
-            return;
-          }
-
-          const isAtTop = scrollTop <= 0;
-          const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-
-          // 如果编辑器已经滚动到边界，允许页面滚动
-          if ((isAtTop && e.deltaY < 0) || (isAtBottom && e.deltaY > 0)) {
-            return;
-          }
-
-          // 编辑器还可以滚动，阻止页面滚动
-          e.preventDefault();
-          e.stopPropagation();
-        },
-        { passive: false },
-      );
-    }
-
-    // 定义自定义暗色主题
-    monaco.editor.defineTheme("custom-dark", {
-      base: "vs-dark",
-      inherit: true,
-      rules: [
-        { token: "", foreground: "e5e7eb" },
-        { token: "comment", foreground: "6b7280", fontStyle: "italic" },
-        { token: "keyword", foreground: "60a5fa" },
-        { token: "string", foreground: "34d399" },
-        { token: "number", foreground: "fbbf24" },
-        { token: "regexp", foreground: "f87171" },
-        { token: "type", foreground: "a78bfa" },
-        { token: "class", foreground: "fbbf24" },
-        { token: "function", foreground: "60a5fa" },
-        { token: "variable", foreground: "e5e7eb" },
-        { token: "constant", foreground: "f87171" },
-        { token: "property", foreground: "fbbf24" },
-        { token: "operator", foreground: "f87171" },
-        { token: "tag", foreground: "f87171" },
-        { token: "attribute.name", foreground: "fbbf24" },
-        { token: "attribute.value", foreground: "34d399" },
-      ],
-      colors: {
-        "editor.background": "#1f2937",
-        "editor.foreground": "#e5e7eb",
-        "editorLineNumber.foreground": "#6b7280",
-        "editorLineNumber.activeForeground": "#9ca3af",
-        "editor.selectionBackground": "#374151",
-        "editor.selectionHighlightBackground": "#374151",
-        "editorCursor.foreground": "#60a5fa",
-        "editor.lineHighlightBackground": "#374151",
-        "editorWhitespace.foreground": "#4b5563",
-        "editorIndentGuide.background": "#4b5563",
-        "editorIndentGuide.activeBackground": "#6b7280",
-        "editor.findMatchBackground": "#1d4ed8",
-        "editor.findMatchHighlightBackground": "#3b82f6",
-        "scrollbarSlider.background": "#4b556380",
-        "scrollbarSlider.hoverBackground": "#6b728080",
-        "scrollbarSlider.activeBackground": "#9ca3af80",
-      },
-    });
-
-    // 根据当前主题应用正确的主题
-    const isDark =
-      theme === "dark" ||
-      (theme === "system" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-    monaco.editor.setTheme(isDark ? "custom-dark" : "light");
   };
 
-  const handleEditorChange = (value: string | undefined) => {
+  // 处理 Tab 键插入 4 个空格
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      const textarea = e.currentTarget;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+
+      // 插入 4 个空格
+      const newValue =
+        value.substring(0, start) + "    " + value.substring(end);
+
+      if (onChange) {
+        onChange(newValue);
+      }
+
+      // 设置光标位置
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + 4;
+      }, 0);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) {
-      onChange(value || "");
+      onChange(e.target.value);
     }
   };
 
   return (
     <div
-      className={`rounded-md border overflow-hidden bg-white dark:bg-gray-800 ${className}`}
+      className={`rounded-md overflow-hidden bg-white dark:bg-gray-800 ${className}`}
+      style={{ height }}
     >
-      <Editor
-        height={height}
-        language={languageMap[language] || "plaintext"}
-        value={value}
-        onChange={handleEditorChange}
-        theme={monacoTheme}
-        onMount={handleEditorDidMount}
-        options={{
-          readOnly: readonly,
-          minimap: { enabled: false },
-          fontSize: 14,
-          lineNumbers: "on",
-          scrollBeyondLastLine: false,
-          automaticLayout: true,
-          wordWrap: "on",
-          contextmenu: false,
-          placeholder: readonly ? "" : "Write your text here...",
-          scrollbar: {
-            vertical: "visible",
-            horizontal: "visible",
-          },
-          renderLineHighlight: "line",
-          cursorBlinking: "blink",
-          selectOnLineNumbers: true,
-          roundedSelection: false,
-          matchBrackets: "always",
-          folding: true,
-          foldingStrategy: "indentation",
-          showFoldingControls: "always",
-          renderWhitespace: "selection",
-          mouseWheelZoom: false,
-          smoothScrolling: true,
-          cursorSmoothCaretAnimation: "on",
-        }}
-      />
+      <div className="flex h-full">
+        {/* 行号区域 */}
+        <div
+          ref={lineNumbersRef}
+          className="flex-shrink-0 bg-gray-50 dark:bg-gray-700 border-r border-gray-200 dark:border-gray-600 overflow-hidden select-none"
+          style={{
+            width: `${Math.max(3, lineCount.toString().length + 1)}ch`,
+            paddingLeft: "8px",
+            paddingRight: "8px",
+          }}
+        >
+          <div
+            className="text-sm text-gray-500 dark:text-gray-400 font-mono pt-3 pb-3"
+            style={{ lineHeight: "1.5rem" }}
+          >
+            {Array.from({ length: lineCount }, (_, i) => (
+              <div
+                key={i + 1}
+                className="text-right"
+                style={{ height: "1.5rem", lineHeight: "1.5rem" }}
+              >
+                {i + 1}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 编辑器区域 */}
+        <div className="flex-1 relative">
+          {/* 语法高亮层 */}
+          <div
+            ref={highlightRef}
+            className="absolute inset-0 pointer-events-none overflow-hidden"
+            style={{
+              padding: "12px",
+              lineHeight: "1.5rem",
+              fontSize: "14px",
+              fontFamily:
+                "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
+            }}
+          >
+            <pre
+              className={`font-mono text-sm whitespace-pre-wrap break-words ${
+                isDark ? "prism-dark" : "prism-light"
+              }`}
+              style={{
+                margin: 0,
+                padding: 0,
+                background: "transparent",
+                lineHeight: "1.5rem",
+                color: isDark ? "#e5e7eb" : "#374151",
+              }}
+              dangerouslySetInnerHTML={{ __html: highlightedCode }}
+            />
+          </div>
+
+          {/* 透明的 textarea */}
+          <textarea
+            ref={textareaRef}
+            value={value}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            onScroll={handleScroll}
+            readOnly={readonly}
+            placeholder={readonly ? "" : "Write your text here..."}
+            className="w-full h-full resize-none border-0 outline-0 bg-transparent font-mono text-sm p-3 focus:ring-0 relative z-10"
+            style={{
+              lineHeight: "1.5rem",
+              tabSize: 4,
+              color: "transparent",
+              caretColor: isDark ? "#60a5fa" : "#3b82f6",
+            }}
+            spellCheck={false}
+          />
+        </div>
+      </div>
     </div>
   );
 }

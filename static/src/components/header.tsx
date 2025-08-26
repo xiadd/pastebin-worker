@@ -48,13 +48,13 @@ export default function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <button className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              <div className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
                 {i18n.language === "en" ? (
                   <English size={18} />
                 ) : (
                   <Chinese size={18} />
                 )}
-              </button>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem>
@@ -110,7 +110,7 @@ export default function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <button className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              <div className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
                 {theme === "light" ? (
                   <Sun size={18} />
                 ) : theme === "dark" ? (
@@ -118,7 +118,7 @@ export default function Header() {
                 ) : (
                   <Computer size={18} />
                 )}
-              </button>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem>
