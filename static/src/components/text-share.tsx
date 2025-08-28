@@ -71,6 +71,7 @@ export default function TextShare() {
           language={language}
           onChange={(value) => setContent(value || "")}
           value={content}
+          showFullscreenButton={true}
         />
       </div>
 

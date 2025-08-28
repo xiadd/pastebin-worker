@@ -32,6 +32,7 @@ interface EditorProps {
   readonly?: boolean;
   className?: string;
   height?: string;
+  showFullscreenButton?: boolean;
 }
 
 // Prism.js 语言映射
@@ -74,6 +75,7 @@ export default function SimpleEditor({
   readonly = false,
   height = "300px",
   className = "",
+  showFullscreenButton = false,
 }: EditorProps) {
   const { theme } = useTheme();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -81,6 +83,7 @@ export default function SimpleEditor({
   const highlightRef = useRef<HTMLDivElement>(null);
   const [lineCount, setLineCount] = useState(1);
   const [highlightedCode, setHighlightedCode] = useState("");
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // 获取当前主题
   const isDark =
@@ -185,12 +188,77 @@ export default function SimpleEditor({
     }
   };
 
+  // 全屏切换函数
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
+  // 处理 ESC 键退出全屏
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isFullscreen) {
+        setIsFullscreen(false);
+      }
+    };
+
+    if (isFullscreen) {
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [isFullscreen]);
+
   return (
     <div
-      className={`rounded-md overflow-hidden bg-white dark:bg-gray-800 ${className}`}
-      style={{ height }}
+      className={`rounded-md overflow-hidden bg-white dark:bg-gray-800 ${className} ${
+        isFullscreen ? "fixed inset-0 z-50 rounded-none" : ""
+      }`}
+      style={{ height: isFullscreen ? "100vh" : height }}
     >
-      <div className="flex h-full">
+      {/* 工具栏 */}
+      {showFullscreenButton && (
+        <div className="flex justify-end items-center p-2 border-b border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700">
+          <button
+            onClick={toggleFullscreen}
+            className="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            title={isFullscreen ? "退出全屏 (ESC)" : "全屏"}
+          >
+            {isFullscreen ? (
+              <svg
+                className="w-4 h-4 text-gray-600 dark:text-gray-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 9l6 6m0-6l-6 6m2-10h8a2 2 0 012 2v8"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="w-4 h-4 text-gray-600 dark:text-gray-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                />
+              </svg>
+            )}
+          </button>
+        </div>
+      )}
+      <div
+        className={`flex ${
+          showFullscreenButton ? "h-[calc(100%-49px)]" : "h-full"
+        }`}
+      >
         {/* 行号区域 */}
         <div
           ref={lineNumbersRef}
