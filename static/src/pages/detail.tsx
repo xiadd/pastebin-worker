@@ -25,10 +25,15 @@ export default function Detail() {
 
   useEffect(() => {
     if (!id) return;
-    getPaste(id, params.get("share_password")).then((data: any) => {
+    const urlSharePassword = params.get("share_password");
+    getPaste(id, urlSharePassword).then((data: any) => {
       if (data.error) {
         if (data.code === 403) {
-          setIsAuth(false);
+          if (!urlSharePassword) {
+            setIsAuth(false);
+          } else {
+            toast.error("Password incorrect or content not found");
+          }
           return;
         }
         toast.error(data.error);

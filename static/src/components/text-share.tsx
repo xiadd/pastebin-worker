@@ -41,9 +41,7 @@ export default function TextShare() {
     setPublishing(false);
     navigate(
       `/detail/${data.id}${qs.stringify(
-        {
-          share_password: data.share_password,
-        },
+        sharePassword ? { share_password: sharePassword } : {},
         { addQueryPrefix: true },
       )}`,
       {
