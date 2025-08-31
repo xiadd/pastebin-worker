@@ -16,6 +16,7 @@ import { useLocation } from "wouter";
 
 import { createPaste } from "../service";
 import nanoid from "../utils/nanoid";
+import { ShareStorage } from "../utils/share-storage";
 import Editor from "./editor";
 
 export default function TextShare() {
@@ -31,23 +32,38 @@ export default function TextShare() {
   const createPB = async () => {
     if (!content) return toast.error("请输入内容");
     setPublishing(true);
-    const data = await createPaste({
-      content,
-      expire: expiration,
-      isPrivate,
-      language,
-      share_password: sharePassword,
-    });
-    setPublishing(false);
-    navigate(
-      `/detail/${data.id}${qs.stringify(
-        sharePassword ? { share_password: sharePassword } : {},
-        { addQueryPrefix: true },
-      )}`,
-      {
-        state: { edit_password: data.edit_password },
-      },
-    );
+    try {
+      const data = await createPaste({
+        content,
+        expire: expiration,
+        isPrivate,
+        language,
+        share_password: sharePassword,
+      });
+      
+      // 保存到本地存储
+      const title = content.split('\n')[0].slice(0, 50) || `${language} 分享`;
+      ShareStorage.save({
+        title,
+        content,
+        type: 'text',
+        language,
+      });
+      
+      setPublishing(false);
+      navigate(
+        `/detail/${data.id}${qs.stringify(
+          sharePassword ? { share_password: sharePassword } : {},
+          { addQueryPrefix: true },
+        )}`,
+        {
+          state: { edit_password: data.edit_password },
+        },
+      );
+    } catch (error) {
+      setPublishing(false);
+      toast.error("创建失败");
+    }
   };
 
   const handleSetAsPrivate = (checked: boolean) => {

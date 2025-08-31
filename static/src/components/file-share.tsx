@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
+import { ShareStorage } from "../utils/share-storage";
 import CopyButton from "./copy-button";
 
 const MAX_SIZE = 25 * 1024 * 1024;
@@ -12,6 +13,8 @@ export default function ImageShare() {
   const { t } = useTranslation();
   const [uploadFile, setUploadFile] = useState<string>("");
   const [fileTyle, setFileType] = useState<string>("");
+  const [fileName, setFileName] = useState<string>("");
+  const [fileSize, setFileSize] = useState<number>(0);
   const [loadingToast, setLoadingToast] = useState<string>("");
 
   const props = {
@@ -26,6 +29,8 @@ export default function ImageShare() {
       }
       setUploadFile("");
       setFileType(file.type);
+      setFileName(file.name);
+      setFileSize(file.size);
       return true;
     },
 
@@ -36,6 +41,15 @@ export default function ImageShare() {
     onSuccess(response: any) {
       setUploadFile(response.url);
       toast.dismiss(loadingToast);
+      
+      // 保存到本地存储
+      ShareStorage.save({
+        title: fileName || "上传的文件",
+        content: response.url,
+        type: 'file',
+        fileName: fileName,
+        fileSize: fileSize,
+      });
     },
     onError(_err: any, response: any) {
       toast.error(`${t("uploadError")} ${response.error}`);
@@ -49,8 +63,19 @@ export default function ImageShare() {
     if (!file) {
       return;
     }
+    
+    // 检查文件大小
+    if (file.size > MAX_SIZE) {
+      toast.error(t("fileSizeError"));
+      return;
+    }
+    
     formData.append("file", file);
     const loadingId = toast.loading(t("uploading"));
+    setFileName(file.name);
+    setFileSize(file.size);
+    setFileType(file.type);
+    
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/upload`, {
         method: "POST",
@@ -63,6 +88,15 @@ export default function ImageShare() {
         return;
       }
       setUploadFile(data.url);
+      
+      // 保存到本地存储
+      ShareStorage.save({
+        title: file.name || "粘贴的文件",
+        content: data.url,
+        type: 'file',
+        fileName: file.name,
+        fileSize: file.size,
+      });
     } catch (error) {
       toast.error(`${t("uploadError")} ${error}`);
       toast.dismiss(loadingId);
