@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Code, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { useParams } from "wouter";
 
 import CopyButton from "../components/copy-button";
@@ -11,6 +12,7 @@ import MdRenderer from "../components/md-renderer";
 import { getPaste, updatePaste } from "../service";
 
 export default function Detail() {
+  const { t } = useTranslation();
   const [content, setContent] = useState("");
   const [pasteData, setPasteData] = useState<any>();
   const [language, setLanguage] = useState("text");
