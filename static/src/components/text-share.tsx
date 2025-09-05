@@ -30,7 +30,7 @@ export default function TextShare() {
   const [publishing, setPublishing] = useState(false);
 
   const createPB = async () => {
-    if (!content) return toast.error("请输入内容");
+    if (!content) return toast.error(t("pleaseEnterContent"));
     setPublishing(true);
     try {
       const data = await createPaste({
@@ -40,16 +40,17 @@ export default function TextShare() {
         language,
         share_password: sharePassword,
       });
-      
+
       // 保存到本地存储
-      const title = content.split('\n')[0].slice(0, 50) || `${language} 分享`;
+      const title =
+        content.split("\n")[0].slice(0, 50) || `${language} ${t("share")}`;
       ShareStorage.save({
         title,
         content,
-        type: 'text',
+        type: "text",
         language,
       });
-      
+
       setPublishing(false);
       navigate(
         `/detail/${data.id}${qs.stringify(
@@ -62,7 +63,7 @@ export default function TextShare() {
       );
     } catch (error) {
       setPublishing(false);
-      toast.error("创建失败");
+      toast.error(t("createFailed"));
     }
   };
 

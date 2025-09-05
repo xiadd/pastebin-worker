@@ -41,12 +41,12 @@ export default function ImageShare() {
     onSuccess(response: any) {
       setUploadFile(response.url);
       toast.dismiss(loadingToast);
-      
+
       // 保存到本地存储
       ShareStorage.save({
-        title: fileName || "上传的文件",
+        title: fileName || t("uploadedFile"),
         content: response.url,
-        type: 'file',
+        type: "file",
         fileName: fileName,
         fileSize: fileSize,
       });
@@ -63,19 +63,19 @@ export default function ImageShare() {
     if (!file) {
       return;
     }
-    
+
     // 检查文件大小
     if (file.size > MAX_SIZE) {
       toast.error(t("fileSizeError"));
       return;
     }
-    
+
     formData.append("file", file);
     const loadingId = toast.loading(t("uploading"));
     setFileName(file.name);
     setFileSize(file.size);
     setFileType(file.type);
-    
+
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/upload`, {
         method: "POST",
@@ -88,12 +88,12 @@ export default function ImageShare() {
         return;
       }
       setUploadFile(data.url);
-      
+
       // 保存到本地存储
       ShareStorage.save({
-        title: file.name || "粘贴的文件",
+        title: file.name || t("pastedFile"),
         content: data.url,
-        type: 'file',
+        type: "file",
         fileName: file.name,
         fileSize: file.size,
       });

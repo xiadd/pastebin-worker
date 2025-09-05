@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
@@ -18,7 +18,10 @@ interface ShareHistorySidebarProps {
   onClose: () => void;
 }
 
-export default function ShareHistorySidebar({ open, onClose }: ShareHistorySidebarProps) {
+export default function ShareHistorySidebar({
+  open,
+  onClose,
+}: ShareHistorySidebarProps) {
   const { t } = useTranslation();
   const [shares, setShares] = useState<ShareItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,7 +42,7 @@ export default function ShareHistorySidebar({ open, onClose }: ShareHistorySideb
   const filteredShares = shares.filter(
     (share) =>
       share.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      share.content.toLowerCase().includes(searchQuery.toLowerCase())
+      share.content.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const handleDelete = (id: string) => {
@@ -65,7 +68,11 @@ export default function ShareHistorySidebar({ open, onClose }: ShareHistorySideb
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString() + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return (
+      date.toLocaleDateString() +
+      " " +
+      date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+    );
   };
 
   const formatFileSize = (bytes?: number) => {
@@ -107,7 +114,8 @@ export default function ShareHistorySidebar({ open, onClose }: ShareHistorySideb
               {t("shareHistory")}
             </DialogTitle>
             <DialogDescription>
-              {t('totalShares', { count: shares.length }) || `共 ${shares.length} 个分享项目`}
+              {t("totalShares", { count: shares.length }) ||
+                `共 ${shares.length} 个分享项目`}
             </DialogDescription>
           </DialogHeader>
 
@@ -173,7 +181,7 @@ export default function ShareHistorySidebar({ open, onClose }: ShareHistorySideb
                                 : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
                             }`}
                           >
-                            {share.type === "text" ? "文本" : "文件"}
+                            {share.type === "text" ? t("text") : t("file")}
                           </span>
                           {share.language && (
                             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-300">
@@ -187,7 +195,9 @@ export default function ShareHistorySidebar({ open, onClose }: ShareHistorySideb
                         <div className="flex items-center gap-4 mt-1 text-sm text-gray-600 dark:text-gray-400">
                           <span>{formatDate(share.createdAt)}</span>
                           {share.fileSize && (
-                            <span>大小: {formatFileSize(share.fileSize)}</span>
+                            <span>
+                              {t("fileSize")}: {formatFileSize(share.fileSize)}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -236,14 +246,15 @@ export default function ShareHistorySidebar({ open, onClose }: ShareHistorySideb
                     : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
                 }`}
               >
-                {selectedShare?.type === "text" ? "文本" : "文件"}
+                {selectedShare?.type === "text" ? t("text") : t("file")}
               </span>
             </DialogTitle>
             <DialogDescription>
-              创建时间: {selectedShare && formatDate(selectedShare.createdAt)}
+              {t("createdAt")}:{" "}
+              {selectedShare && formatDate(selectedShare.createdAt)}
               {selectedShare?.fileSize && (
                 <span className="ml-4">
-                  大小: {formatFileSize(selectedShare.fileSize)}
+                  {t("fileSize")}: {formatFileSize(selectedShare.fileSize)}
                 </span>
               )}
             </DialogDescription>
@@ -257,7 +268,9 @@ export default function ShareHistorySidebar({ open, onClose }: ShareHistorySideb
             <div className="flex justify-end gap-2 mt-4">
               <Button
                 variant="outline"
-                onClick={() => selectedShare && handleCopy(selectedShare.content)}
+                onClick={() =>
+                  selectedShare && handleCopy(selectedShare.content)
+                }
               >
                 {t("copyContent")}
               </Button>

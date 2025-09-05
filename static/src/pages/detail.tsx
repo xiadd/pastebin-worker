@@ -32,7 +32,7 @@ export default function Detail() {
           if (!urlSharePassword) {
             setIsAuth(false);
           } else {
-            toast.error("Password incorrect or content not found");
+            toast.error(t("passwordIncorrect"));
           }
           return;
         }
@@ -65,7 +65,7 @@ export default function Detail() {
       toast.error(data.error);
       return;
     }
-    toast.success("Updated");
+    toast.success(t("updated"));
   };
 
   if (!isAuth) {
