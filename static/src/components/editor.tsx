@@ -235,7 +235,7 @@ export default function SimpleEditor({
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M9 9l6 6m0-6l-6 6m2-10h8a2 2 0 012 2v8"
+                  d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
             ) : (

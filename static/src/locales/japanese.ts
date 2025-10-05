@@ -36,4 +36,13 @@ export default {
   share: "共有",
   pastedFile: "貼り付けられたファイル",
   updated: "更新されました",
+  // ホームページコンテンツ
+  createAndShare: "作成と共有",
+  shareDescription: "コードスニペットやファイルを世界と即座に共有します。シンプル、高速、安全。",
+  lightningFast: "超高速",
+  lightningFastDesc: "最適化されたプラットフォームで数秒でコンテンツを共有",
+  secureAndPrivate: "安全でプライベート",
+  secureAndPrivateDesc: "オプションのパスワード保護と自動有効期限",
+  syntaxHighlighting: "シンタックスハイライト",
+  syntaxHighlightingDesc: "10以上のプログラミング言語を美しいハイライトでサポート",
 };

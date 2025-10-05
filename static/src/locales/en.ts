@@ -55,4 +55,13 @@ export default {
   share: "Share",
   pastedFile: "Pasted file",
   updated: "Updated",
+  // Homepage content
+  createAndShare: "Create & Share",
+  shareDescription: "Share your code snippets and files instantly with the world. Simple, fast, and secure.",
+  lightningFast: "Lightning Fast",
+  lightningFastDesc: "Share your content in seconds with our optimized platform",
+  secureAndPrivate: "Secure & Private",
+  secureAndPrivateDesc: "Optional password protection and automatic expiration",
+  syntaxHighlighting: "Syntax Highlighting",
+  syntaxHighlightingDesc: "Support for 10+ programming languages with beautiful highlighting",
 };

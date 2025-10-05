@@ -36,4 +36,13 @@ export default {
   share: "Bagikan",
   pastedFile: "File yang ditempel",
   updated: "Diperbarui",
+  // Konten halaman beranda
+  createAndShare: "Buat & Bagikan",
+  shareDescription: "Bagikan potongan kode dan file Anda secara instan dengan dunia. Sederhana, cepat, dan aman.",
+  lightningFast: "Super Cepat",
+  lightningFastDesc: "Bagikan konten Anda dalam hitungan detik dengan platform kami yang dioptimalkan",
+  secureAndPrivate: "Aman & Pribadi",
+  secureAndPrivateDesc: "Perlindungan kata sandi opsional dan kedaluwarsa otomatis",
+  syntaxHighlighting: "Penyorotan Sintaks",
+  syntaxHighlightingDesc: "Mendukung 10+ bahasa pemrograman dengan penyorotan yang indah",
 };

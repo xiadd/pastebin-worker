@@ -14,11 +14,10 @@ export default memo(function CreatePaste() {
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Create & Share
+            {t("createAndShare")}
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Share your code snippets and files instantly with the world. Simple,
-            fast, and secure.
+            {t("shareDescription")}
           </p>
         </div>
 
@@ -69,10 +68,10 @@ export default memo(function CreatePaste() {
               </svg>
             </div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              Lightning Fast
+              {t("lightningFast")}
             </h3>
             <p className="text-gray-600 dark:text-gray-300 text-sm">
-              Share your content in seconds with our optimized platform
+              {t("lightningFastDesc")}
             </p>
           </div>
 
@@ -93,10 +92,10 @@ export default memo(function CreatePaste() {
               </svg>
             </div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              Secure & Private
+              {t("secureAndPrivate")}
             </h3>
             <p className="text-gray-600 dark:text-gray-300 text-sm">
-              Optional password protection and automatic expiration
+              {t("secureAndPrivateDesc")}
             </p>
           </div>
 
@@ -117,10 +116,10 @@ export default memo(function CreatePaste() {
               </svg>
             </div>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              Syntax Highlighting
+              {t("syntaxHighlighting")}
             </h3>
             <p className="text-gray-600 dark:text-gray-300 text-sm">
-              Support for 10+ programming languages with beautiful highlighting
+              {t("syntaxHighlightingDesc")}
             </p>
           </div>
         </div>

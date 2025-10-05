@@ -36,4 +36,13 @@ export default {
   share: "Compartir",
   pastedFile: "Archivo pegado",
   updated: "Actualizado",
+  // Contenido de la página principal
+  createAndShare: "Crear y Compartir",
+  shareDescription: "Comparte instantáneamente tus fragmentos de código y archivos con el mundo. Simple, rápido y seguro.",
+  lightningFast: "Súper Rápido",
+  lightningFastDesc: "Comparte tu contenido en segundos con nuestra plataforma optimizada",
+  secureAndPrivate: "Seguro y Privado",
+  secureAndPrivateDesc: "Protección de contraseña opcional y caducidad automática",
+  syntaxHighlighting: "Resaltado de Sintaxis",
+  syntaxHighlightingDesc: "Soporte para más de 10 lenguajes de programación con hermoso resaltado",
 };

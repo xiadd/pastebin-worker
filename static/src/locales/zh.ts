@@ -53,4 +53,13 @@ export default {
   share: "分享",
   pastedFile: "粘贴的文件",
   updated: "已更新",
+  // 首页内容
+  createAndShare: "创建与分享",
+  shareDescription: "与世界即时分享您的代码片段和文件。简单、快速、安全。",
+  lightningFast: "闪电般快速",
+  lightningFastDesc: "通过我们优化的平台在几秒钟内分享您的内容",
+  secureAndPrivate: "安全私密",
+  secureAndPrivateDesc: "可选的密码保护和自动过期功能",
+  syntaxHighlighting: "语法高亮",
+  syntaxHighlightingDesc: "支持10多种编程语言的优美语法高亮",
 };
