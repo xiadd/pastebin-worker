@@ -31,4 +31,3 @@ jobs:
         uses: cloudflare/wrangler-action@3.0.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
-          workingDirectory: './.output'
