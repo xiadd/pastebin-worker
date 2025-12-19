@@ -21,13 +21,14 @@ jobs:
       - name: Install Yarn
         run: npm i -g yarn
 
-      - name: Build frontend
-        run: cd static && yarn install && yarn build
-
       - name: Install Dependencies
         run: yarn install
+
+      - name: Build frontend
+        run: yarn build
 
       - name: Publish
         uses: cloudflare/wrangler-action@3.0.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
+          workingDirectory: './.output'
