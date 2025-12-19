@@ -28,6 +28,6 @@ jobs:
         run: yarn build
 
       - name: Publish
-        uses: cloudflare/wrangler-action@3.0.0
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
