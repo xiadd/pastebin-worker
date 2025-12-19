@@ -7,18 +7,23 @@ import { useTranslation } from "react-i18next";
 import { ShareStorage } from "../utils/share-storage";
 import CopyButton from "./copy-button";
 
+interface UploadResponse {
+  url?: string;
+  error?: string;
+}
+
 const MAX_SIZE = 25 * 1024 * 1024;
 
 export default function ImageShare() {
   const { t } = useTranslation();
   const [uploadFile, setUploadFile] = useState<string>("");
-  const [fileTyle, setFileType] = useState<string>("");
+  const [fileType, setFileType] = useState<string>("");
   const [fileName, setFileName] = useState<string>("");
   const [fileSize, setFileSize] = useState<number>(0);
   const [loadingToast, setLoadingToast] = useState<string>("");
 
   const props = {
-    action: `${import.meta.env.VITE_API_URL}/api/upload`,
+    action: `${window.location.origin}/api/upload`,
     type: "drag",
     accept: "*",
 
@@ -77,22 +82,22 @@ export default function ImageShare() {
     setFileType(file.type);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/upload`, {
+      const res = await fetch(`${window.location.origin}/api/upload`, {
         method: "POST",
         body: formData,
       });
       toast.dismiss(loadingId);
-      const data = await res.json();
+      const data = (await res.json()) as UploadResponse;
       if (data.error) {
         toast.error(`${t("uploadError")} ${data.error}`);
         return;
       }
-      setUploadFile(data.url);
+      setUploadFile(data.url || "");
 
       // 保存到本地存储
       ShareStorage.save({
         title: file.name || t("pastedFile"),
-        content: data.url,
+        content: data.url || "",
         type: "file",
         fileName: file.name,
         fileSize: file.size,
@@ -215,7 +220,7 @@ export default function ImageShare() {
                 </div>
               </div>
 
-              {fileTyle.startsWith("image") && (
+              {fileType.startsWith("image") && (
                 <div className="p-4 bg-gray-50/80 dark:bg-gray-900/50 rounded-lg">
                   <label className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2 block">
                     Markdown Format
