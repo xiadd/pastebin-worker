@@ -1,4 +1,5 @@
 name = "pastebin-worker"
+account_id = "516d0a360ccdea88dd79e9cf5d2bc3aa"
 
 [vars]
 ENVIRONMENT = "production"
