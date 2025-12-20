@@ -7,7 +7,7 @@ export default defineHandler(async (event) => {
   const query = getQuery(event);
   const password = query.share_password as string;
 
-  const { cloudflare } = event.context;
+  const cloudflare = event.context.cloudflare || event.req?.runtime?.cloudflare;
   const db = createDB(cloudflare.env.DB);
 
   const res = await db.select().from(pastes).where(eq(pastes.id, id!)).get();

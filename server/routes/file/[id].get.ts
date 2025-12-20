@@ -1,14 +1,11 @@
-import {
-  defineHandler,
-  getRouterParam,
-} from 'nitro/h3';
+import { defineHandler, getRouterParam } from 'nitro/h3';
 import { eq } from 'drizzle-orm';
-import { createDB, files } from '~/server/database'
+import { createDB, files } from '~/server/database';
 
 export default defineHandler(async (event) => {
   const id = getRouterParam(event, 'id');
 
-  const { cloudflare } = event.context;
+  const cloudflare = event.context.cloudflare || event.req?.runtime?.cloudflare;
   const db = createDB(cloudflare.env.DB);
 
   // Check file record in database
@@ -48,9 +45,8 @@ export default defineHandler(async (event) => {
   const fileName = object.customMetadata?.name || 'file';
   event.res.headers.set(
     'Content-Disposition',
-    `inline; filename="${encodeURIComponent(fileName)}"`
+    `inline; filename="${encodeURIComponent(fileName)}"`,
   );
-  event.headers.set('etag', object.httpEtag);
 
   // Copy HTTP metadata from R2 object
   if (object.httpMetadata?.contentType) {
@@ -62,16 +58,16 @@ export default defineHandler(async (event) => {
   if (object.httpMetadata?.contentEncoding) {
     event.res.headers.set(
       'Content-Encoding',
-      object.httpMetadata.contentEncoding
+      object.httpMetadata.contentEncoding,
     );
   }
   if (object.httpMetadata?.contentLanguage) {
     event.res.headers.set(
       'Content-Language',
-      object.httpMetadata.contentLanguage
+      object.httpMetadata.contentLanguage,
     );
   }
 
   // Send the stream
-  return object.body as ReadableStream
+  return object.body as ReadableStream;
 });
