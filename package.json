@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "test": "vitest run",
     "dev:wrangler": "yarn build && wrangler dev --cwd .output/ --port 3000",
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply DB --local",
@@ -50,6 +51,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20251217.0",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/markdown-it": "^13.0.7",
     "@types/prismjs": "^1.26.5",
     "@types/qrcode": "^1.5.5",
@@ -59,6 +61,7 @@
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^5.1.2",
     "autoprefixer": "^10.4.16",
+    "better-sqlite3": "^12.5.0",
     "drizzle-orm": "^0.45.1",
     "less": "^4.2.0",
     "npx": "^10.2.2",
@@ -69,6 +72,7 @@
     "typescript": "^5.9.3",
     "vite": "^7.3.0",
     "vite-bundle-visualizer": "^1.0.0",
-    "vite-plugin-html": "^3.2.0"
+    "vite-plugin-html": "^3.2.0",
+    "vitest": "^4.0.16"
   }
 }

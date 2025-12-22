@@ -27,6 +27,6 @@
       "@/*": ["./app/*"]
     }
   },
-  "include": ["app/**/*", "server/**/*", "global.d.ts", "server/typing.d.ts"],
+  "include": ["app/**/*", "server/**/*", "test/**/*", "global.d.ts", "server/typing.d.ts"],
   "exclude": ["node_modules"]
 }
