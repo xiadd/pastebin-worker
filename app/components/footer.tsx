@@ -1,5 +1,5 @@
 import { Github, Mail } from "@icon-park/react";
-import { Link } from "wouter";
+import { Link } from "@tanstack/react-router";
 
 export default function Footer() {
   return (

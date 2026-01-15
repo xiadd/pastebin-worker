@@ -1,125 +1,83 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { memo } from "react";
-import { useTranslation } from "react-i18next";
 
 import FileShare from "../components/file-share";
 import TextShare from "../components/text-share";
 
 export default memo(function CreatePaste() {
-  const { t } = useTranslation();
-
   return (
-    <div className="bg-gray-50 dark:bg-gray-900">
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-        {/* Header Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            {t("createAndShare")}
+    <div className="bg-slate-50 dark:bg-slate-950">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+        {/* Intro */}
+        <div className="mb-8 space-y-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 dark:border-emerald-900/50 dark:bg-emerald-950/40 dark:text-emerald-300">
+            Private sharing, without the noise
+          </div>
+          <h1 className="text-balance text-4xl font-semibold text-slate-900 dark:text-white sm:text-5xl">
+            Paste once, share anywhere, keep control.
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            {t("shareDescription")}
+          <p className="text-pretty text-lg text-slate-600 dark:text-slate-300">
+            A calm workspace for text and files. Create a link in seconds, add
+            optional protection, and move on with your day.
           </p>
         </div>
 
         {/* Main Content */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className="p-6">
-            <Tabs defaultValue="text" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-100 dark:bg-gray-700">
-                <TabsTrigger
-                  value="text"
-                  className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800 data-[state=active]:shadow-sm data-[state=active]:text-gray-900 dark:data-[state=active]:text-gray-100"
-                >
-                  {t("textShare")}
-                </TabsTrigger>
-                <TabsTrigger
-                  value="file"
-                  className="data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800 data-[state=active]:shadow-sm data-[state=active]:text-gray-900 dark:data-[state=active]:text-gray-100"
-                >
-                  {t("fileShare")}
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="text" className="mt-0">
-                <TextShare />
-              </TabsContent>
-              <TabsContent value="file" className="mt-0">
-                <FileShare />
-              </TabsContent>
-            </Tabs>
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <div className="mb-6 flex items-center justify-between border-b border-slate-200 pb-4 text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400">
+            <span className="font-medium text-slate-700 dark:text-slate-200">
+              Create a new share
+            </span>
+            <span>Text or file</span>
           </div>
+          <Tabs defaultValue="text" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 bg-slate-100 dark:bg-slate-800">
+              <TabsTrigger
+                value="text"
+                className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:shadow-sm data-[state=active]:text-slate-900 dark:data-[state=active]:text-slate-100"
+              >
+                Share Text
+              </TabsTrigger>
+              <TabsTrigger
+                value="file"
+                className="data-[state=active]:bg-white dark:data-[state=active]:bg-slate-900 data-[state=active]:shadow-sm data-[state=active]:text-slate-900 dark:data-[state=active]:text-slate-100"
+              >
+                Share File
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="text" className="mt-6">
+              <TextShare />
+            </TabsContent>
+            <TabsContent value="file" className="mt-6">
+              <FileShare />
+            </TabsContent>
+          </Tabs>
         </div>
 
-        {/* Features Section */}
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-            <div className="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-6 h-6 text-blue-600 dark:text-blue-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              {t("lightningFast")}
+        {/* Secondary Section */}
+        <div className="mt-10 grid gap-4 border-t border-slate-200 pt-8 text-sm text-slate-600 dark:border-slate-800 dark:text-slate-300 md:grid-cols-3">
+          <div className="space-y-2 rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+            <h3 className="text-balance text-base font-semibold text-slate-900 dark:text-white">
+              Focused by default
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 text-sm">
-              {t("lightningFastDesc")}
+            <p className="text-pretty">
+              Minimal chrome keeps the paste area front and center.
             </p>
           </div>
-
-          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-            <div className="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-6 h-6 text-blue-600 dark:text-blue-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              {t("secureAndPrivate")}
+          <div className="space-y-2 rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+            <h3 className="text-balance text-base font-semibold text-slate-900 dark:text-white">
+              Share without friction
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 text-sm">
-              {t("secureAndPrivateDesc")}
+            <p className="text-pretty">
+              Links are ready the moment you submit, with no extra steps.
             </p>
           </div>
-
-          <div className="text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-            <div className="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <svg
-                className="w-6 h-6 text-blue-600 dark:text-blue-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                />
-              </svg>
-            </div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-              {t("syntaxHighlighting")}
+          <div className="space-y-2 rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+            <h3 className="text-balance text-base font-semibold text-slate-900 dark:text-white">
+              Made for teams
             </h3>
-            <p className="text-gray-600 dark:text-gray-300 text-sm">
-              {t("syntaxHighlightingDesc")}
+            <p className="text-pretty">
+              Share drafts, logs, and quick notes without account noise.
             </p>
           </div>
         </div>

@@ -2,7 +2,6 @@ import { Input } from "@/components/ui/input";
 import Upload from "rc-upload";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useTranslation } from "react-i18next";
 
 import { ShareStorage } from "../utils/share-storage";
 import CopyButton from "./copy-button";
@@ -15,21 +14,22 @@ interface UploadResponse {
 const MAX_SIZE = 25 * 1024 * 1024;
 
 export default function ImageShare() {
-  const { t } = useTranslation();
   const [uploadFile, setUploadFile] = useState<string>("");
   const [fileType, setFileType] = useState<string>("");
   const [fileName, setFileName] = useState<string>("");
   const [fileSize, setFileSize] = useState<number>(0);
   const [loadingToast, setLoadingToast] = useState<string>("");
+  const apiBase = typeof window === "undefined" ? "" : window.location.origin;
+  const uploadUrl = apiBase ? `${apiBase}/api/upload` : "/api/upload";
 
   const props = {
-    action: `${window.location.origin}/api/upload`,
+    action: uploadUrl,
     type: "drag",
     accept: "*",
 
     beforeUpload(file: any) {
       if (file.size > MAX_SIZE) {
-        toast.error(t("fileSizeError"));
+        toast.error("File size must be less than 25MB");
         return false;
       }
       setUploadFile("");
@@ -40,7 +40,7 @@ export default function ImageShare() {
     },
 
     onStart(_file: any) {
-      const loading = toast.loading(t("uploading"));
+      const loading = toast.loading("Uploading...");
       setLoadingToast(loading);
     },
     onSuccess(response: any) {
@@ -49,7 +49,7 @@ export default function ImageShare() {
 
       // 保存到本地存储
       ShareStorage.save({
-        title: fileName || t("uploadedFile"),
+        title: fileName || "Uploaded file",
         content: response.url,
         type: "file",
         fileName: fileName,
@@ -57,7 +57,7 @@ export default function ImageShare() {
       });
     },
     onError(_err: any, response: any) {
-      toast.error(`${t("uploadError")} ${response.error}`);
+      toast.error(`Upload Error: ${response.error}`);
       toast.dismiss(loadingToast);
     },
   };
@@ -71,44 +71,45 @@ export default function ImageShare() {
 
     // 检查文件大小
     if (file.size > MAX_SIZE) {
-      toast.error(t("fileSizeError"));
+      toast.error("File size must be less than 25MB");
       return;
     }
 
     formData.append("file", file);
-    const loadingId = toast.loading(t("uploading"));
+    const loadingId = toast.loading("Uploading...");
     setFileName(file.name);
     setFileSize(file.size);
     setFileType(file.type);
 
     try {
-      const res = await fetch(`${window.location.origin}/api/upload`, {
+      const res = await fetch(uploadUrl, {
         method: "POST",
         body: formData,
       });
       toast.dismiss(loadingId);
       const data = (await res.json()) as UploadResponse;
       if (data.error) {
-        toast.error(`${t("uploadError")} ${data.error}`);
+        toast.error(`Upload Error: ${data.error}`);
         return;
       }
       setUploadFile(data.url || "");
 
       // 保存到本地存储
       ShareStorage.save({
-        title: file.name || t("pastedFile"),
+        title: file.name || "Pasted file",
         content: data.url || "",
         type: "file",
         fileName: file.name,
         fileSize: file.size,
       });
     } catch (error) {
-      toast.error(`${t("uploadError")} ${error}`);
+      toast.error(`Upload Error: ${error}`);
       toast.dismiss(loadingId);
     }
   };
 
   useEffect(() => {
+    if (typeof document === "undefined") return;
     document.addEventListener("paste", handlePasteFile);
     return () => {
       document.removeEventListener("paste", handlePasteFile);
@@ -136,7 +137,7 @@ export default function ImageShare() {
               />
             </svg>
             <span className="text-sm text-amber-800 dark:text-amber-200 font-medium">
-              {t("fileExpirationNotice")}
+              Files will be automatically deleted after 15 days due to storage limitations
             </span>
           </div>
         </div>
@@ -163,10 +164,10 @@ export default function ImageShare() {
                 </div>
                 <div className="text-center">
                   <span className="font-semibold text-gray-900 dark:text-white text-lg block">
-                    {t("fileShareTip")}
+                    Drag and drop a file here or paste it directly or
                   </span>
                   <span className="text-blue-600 dark:text-blue-400 text-sm font-medium">
-                    {t("viewFiles")}
+                    Browse Documents
                   </span>
                 </div>
               </span>
@@ -197,10 +198,10 @@ export default function ImageShare() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-green-800 dark:text-green-200">
-                  {t("uploadSuccess")}
+                  Upload Successfully
                 </h3>
                 <p className="text-sm text-green-700 dark:text-green-300 mt-1">
-                  {t("fileExpiresIn")}
+                  This file will expire in 15 days
                 </p>
               </div>
             </div>

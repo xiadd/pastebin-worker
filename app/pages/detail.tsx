@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useNavigate, useParams, useRouterState } from "@tanstack/react-router";
 import { Code, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useTranslation } from "react-i18next";
-import { useParams } from "wouter";
 
 import CopyButton from "../components/copy-button";
 import Editor from "../components/editor";
@@ -12,7 +11,6 @@ import MdRenderer from "../components/md-renderer";
 import { getPaste, updatePaste } from "../service";
 
 export default function Detail() {
-  const { t } = useTranslation();
   const [content, setContent] = useState("");
   const [pasteData, setPasteData] = useState<any>();
   const [language, setLanguage] = useState("text");
@@ -20,13 +18,18 @@ export default function Detail() {
   const [sharePassword, setSharePassword] = useState<string>("");
   const [editPassword, setEditPassword] = useState<string>("");
   const [viewMode, setViewMode] = useState<"preview" | "source">("preview");
+  const [origin, setOrigin] = useState("");
 
-  const { id } = useParams();
-  const search = window.location.search;
-  const params = new URLSearchParams(search);
+  const navigate = useNavigate();
+  const { id } = useParams({ from: "/detail/$id" });
+  const locationState = useRouterState({
+    select: (state) =>
+      state.location.state as { edit_password?: string } | undefined,
+  });
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
     const urlSharePassword = params.get("share_password");
     getPaste(id, urlSharePassword).then((data: any) => {
       if (data.error) {
@@ -34,7 +37,7 @@ export default function Detail() {
           if (!urlSharePassword) {
             setIsAuth(false);
           } else {
-            toast.error(t("passwordIncorrect"));
+            toast.error("Password incorrect or content not found");
           }
           return;
         }
@@ -45,19 +48,31 @@ export default function Detail() {
       setContent(data.content);
       setLanguage(data.language);
     });
-    if (history.state?.edit_password) {
-      setEditPassword(history.state.edit_password);
+    if (locationState?.edit_password) {
+      setEditPassword(locationState.edit_password);
     }
     if (params.get("edit_password")) {
       setEditPassword(params.get("edit_password") || "");
     }
-  }, [id]);
+  }, [id, locationState]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setOrigin(window.location.origin);
+  }, []);
 
   const handleSubmitPassword = async () => {
-    location.search = `?share_password=${sharePassword}`;
+    if (!id) return;
+    navigate({
+      to: "/detail/$id",
+      params: { id },
+      search: { share_password: sharePassword },
+      replace: true,
+    });
   };
 
   const handleUpdatePaste = async () => {
+    if (!id) return;
     const data = await updatePaste({
       id,
       content,
@@ -67,7 +82,7 @@ export default function Detail() {
       toast.error(data.error);
       return;
     }
-    toast.success(t("updated"));
+    toast.success("Updated");
   };
 
   if (!isAuth) {
@@ -160,7 +175,7 @@ export default function Detail() {
                 </div>
                 <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
                   <CopyButton
-                    text={`${window.location.origin}/detail/${id}`}
+                    text={`${origin}/detail/${id}`}
                     size="sm"
                     variant="outline"
                   >
@@ -172,7 +187,7 @@ export default function Detail() {
                   </CopyButton>
                   {editPassword && (
                     <CopyButton
-                      text={`${window.location.origin}/detail/${id}?edit_password=${editPassword}`}
+                      text={`${origin}/detail/${id}?edit_password=${editPassword}`}
                       size="sm"
                       variant="outline"
                     >
@@ -189,7 +204,7 @@ export default function Detail() {
                     size="sm"
                     onClick={() =>
                       window.open(
-                        `${window.location.origin}/raw/${id}${
+                        `${origin}/raw/${id}${
                           pasteData?.share_password
                             ? `?share_password=${pasteData?.share_password}`
                             : ""
@@ -318,7 +333,7 @@ export default function Detail() {
               </div>
               <div className="flex items-center gap-1 sm:gap-2 flex-wrap">
                 <CopyButton
-                  text={`${window.location.origin}/detail/${id}`}
+                  text={`${origin}/detail/${id}`}
                   size="sm"
                   variant="outline"
                 >
@@ -329,7 +344,7 @@ export default function Detail() {
                 </CopyButton>
                 {editPassword && (
                   <CopyButton
-                    text={`${window.location.origin}/detail/${id}?edit_password=${editPassword}`}
+                    text={`${origin}/detail/${id}?edit_password=${editPassword}`}
                     size="sm"
                     variant="outline"
                   >
@@ -346,7 +361,7 @@ export default function Detail() {
                   size="sm"
                   onClick={() =>
                     window.open(
-                      `${window.location.origin}/raw/${id}${
+                      `${origin}/raw/${id}${
                         pasteData?.share_password
                           ? `?share_password=${pasteData?.share_password}`
                           : ""

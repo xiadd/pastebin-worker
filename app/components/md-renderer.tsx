@@ -62,6 +62,7 @@ export default function MdRenderer({ content }: { content: string }) {
   const isDark =
     theme === "dark" ||
     (theme === "system" &&
+      typeof window !== "undefined" &&
       window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   // 使用 useMemo 缓存处理过的内容

@@ -9,7 +9,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useTranslation } from "react-i18next";
 
 import { ShareItem, ShareStorage } from "../utils/share-storage";
 
@@ -22,7 +21,6 @@ export default function ShareHistorySidebar({
   open,
   onClose,
 }: ShareHistorySidebarProps) {
-  const { t } = useTranslation();
   const [shares, setShares] = useState<ShareItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedShare, setSelectedShare] = useState<ShareItem | null>(null);
@@ -49,9 +47,9 @@ export default function ShareHistorySidebar({
     try {
       ShareStorage.delete(id);
       setShares((prev) => prev.filter((share) => share.id !== id));
-      toast.success(t("shareDeleted"));
+      toast.success("Share item deleted");
     } catch (error) {
-      toast.error(t("deleteFailed"));
+      toast.error("Delete failed");
     }
   };
 
@@ -62,7 +60,7 @@ export default function ShareHistorySidebar({
 
   const handleCopy = (content: string) => {
     navigator.clipboard.writeText(content).then(() => {
-      toast.success(t("contentCopied"));
+      toast.success("Content copied to clipboard");
     });
   };
 
@@ -86,9 +84,9 @@ export default function ShareHistorySidebar({
     try {
       ShareStorage.clear();
       setShares([]);
-      toast.success(t("allCleared"));
+      toast.success("All shares cleared");
     } catch (error) {
-      toast.error(t("clearFailed"));
+      toast.error("Clear failed");
     }
   };
 
@@ -111,18 +109,17 @@ export default function ShareHistorySidebar({
                   d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
                 />
               </svg>
-              {t("shareHistory")}
+              Share History
             </DialogTitle>
             <DialogDescription>
-              {t("totalShares", { count: shares.length }) ||
-                `共 ${shares.length} 个分享项目`}
+              {shares.length} shares total
             </DialogDescription>
           </DialogHeader>
 
           <div className="flex flex-col gap-4 flex-1 overflow-hidden">
             <div className="flex gap-2">
               <Input
-                placeholder={t("searchPlaceholder")}
+                placeholder="Search title or content..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="flex-1 bg-white/80 dark:bg-gray-900/80 focus:z-10"
@@ -133,7 +130,7 @@ export default function ShareHistorySidebar({
                   onClick={clearAll}
                   className="text-red-600 border-red-200 hover:bg-red-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20"
                 >
-                  {t("clearAll")}
+                  Clear All
                 </Button>
               )}
             </div>
@@ -157,12 +154,12 @@ export default function ShareHistorySidebar({
                     </svg>
                   </div>
                   <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                    {searchQuery ? t("noResults") : t("noShares")}
+                    {searchQuery ? "No matching shares found" : "No shares saved yet"}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300">
                     {searchQuery
-                      ? t("tryDifferentKeywords")
-                      : t("autoSaveNotice")}
+                      ? "Try different keywords"
+                      : "New text or file shares will be automatically saved here"}
                   </p>
                 </div>
               ) : (
@@ -181,7 +178,7 @@ export default function ShareHistorySidebar({
                                 : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
                             }`}
                           >
-                            {share.type === "text" ? t("text") : t("file")}
+                            {share.type === "text" ? "Text" : "File"}
                           </span>
                           {share.language && (
                             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-300">
@@ -196,7 +193,7 @@ export default function ShareHistorySidebar({
                           <span>{formatDate(share.createdAt)}</span>
                           {share.fileSize && (
                             <span>
-                              {t("fileSize")}: {formatFileSize(share.fileSize)}
+                              Size: {formatFileSize(share.fileSize)}
                             </span>
                           )}
                         </div>
@@ -207,14 +204,14 @@ export default function ShareHistorySidebar({
                           size="sm"
                           onClick={() => handleView(share)}
                         >
-                          {t("view")}
+                          View
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => handleCopy(share.content)}
                         >
-                          {t("copy")}
+                          Copy
                         </Button>
                         <Button
                           variant="outline"
@@ -222,7 +219,7 @@ export default function ShareHistorySidebar({
                           onClick={() => handleDelete(share.id)}
                           className="text-red-600 border-red-200 hover:bg-red-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20"
                         >
-                          {t("delete")}
+                          Delete
                         </Button>
                       </div>
                     </div>
@@ -246,15 +243,15 @@ export default function ShareHistorySidebar({
                     : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
                 }`}
               >
-                {selectedShare?.type === "text" ? t("text") : t("file")}
+                {selectedShare?.type === "text" ? "Text" : "File"}
               </span>
             </DialogTitle>
             <DialogDescription>
-              {t("createdAt")}:{" "}
+              Created:{" "}
               {selectedShare && formatDate(selectedShare.createdAt)}
               {selectedShare?.fileSize && (
                 <span className="ml-4">
-                  {t("fileSize")}: {formatFileSize(selectedShare.fileSize)}
+                  Size: {formatFileSize(selectedShare.fileSize)}
                 </span>
               )}
             </DialogDescription>
@@ -272,10 +269,10 @@ export default function ShareHistorySidebar({
                   selectedShare && handleCopy(selectedShare.content)
                 }
               >
-                {t("copyContent")}
+                Copy Content
               </Button>
               <Button onClick={() => setIsViewDialogOpen(false)}>
-                {t("close")}
+                Close
               </Button>
             </div>
           </div>

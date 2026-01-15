@@ -8,11 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import qs from "qs";
+import { useNavigate } from "@tanstack/react-router";
 import { ChangeEvent, useState } from "react";
 import { toast } from "react-hot-toast";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "wouter";
 
 import { createPaste } from "../service";
 import nanoid from "../utils/nanoid";
@@ -20,8 +18,7 @@ import { ShareStorage } from "../utils/share-storage";
 import Editor from "./editor";
 
 export default function TextShare() {
-  const { t } = useTranslation();
-  const [, navigate] = useLocation();
+  const navigate = useNavigate();
   const [language, setLanguage] = useState("text");
   const [sharePassword, setSharePassword] = useState<string>("");
   const [content, setContent] = useState("");
@@ -30,7 +27,7 @@ export default function TextShare() {
   const [publishing, setPublishing] = useState(false);
 
   const createPB = async () => {
-    if (!content) return toast.error(t("pleaseEnterContent"));
+    if (!content) return toast.error("Please enter content");
     setPublishing(true);
     try {
       const data = await createPaste({
@@ -43,7 +40,7 @@ export default function TextShare() {
 
       // 保存到本地存储
       const title =
-        content.split("\n")[0].slice(0, 50) || `${language} ${t("share")}`;
+        content.split("\n")[0].slice(0, 50) || `${language} Share`;
       ShareStorage.save({
         title,
         content,
@@ -52,18 +49,15 @@ export default function TextShare() {
       });
 
       setPublishing(false);
-      navigate(
-        `/detail/${data.id}${qs.stringify(
-          sharePassword ? { share_password: sharePassword } : {},
-          { addQueryPrefix: true },
-        )}`,
-        {
-          state: { edit_password: data.edit_password },
-        },
-      );
+      navigate({
+        to: "/detail/$id",
+        params: { id: data.id },
+        search: sharePassword ? { share_password: sharePassword } : {},
+        state: { edit_password: data.edit_password },
+      });
     } catch (error) {
       setPublishing(false);
-      toast.error(t("createFailed"));
+      toast.error("Create failed");
     }
   };
 
@@ -100,7 +94,7 @@ export default function TextShare() {
                 onCheckedChange={handleSetAsPrivate}
               />
               <label className="text-sm font-medium text-foreground">
-                {t("privateTip")}
+                Private (random password)
               </label>
             </div>
             <Input
@@ -114,14 +108,14 @@ export default function TextShare() {
 
           <div className="space-y-2">
             <label className="text-sm font-medium text-foreground h-5 flex items-center">
-              {t("expiration")}
+              Expiration (sec)
             </label>
             <Select
               value={expiration?.toString()}
               onValueChange={(value) => setExpiration(Number(value))}
             >
               <SelectTrigger className="bg-white/80 dark:bg-gray-900/80">
-                <SelectValue placeholder={t("expiration")} />
+                <SelectValue placeholder="Expiration (sec)" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="60">1 min</SelectItem>

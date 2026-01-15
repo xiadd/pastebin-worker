@@ -3,10 +3,14 @@ import { useEffect, useState } from "react";
 type Theme = "light" | "dark" | "system";
 
 export function useTheme(): [Theme, (theme: Theme) => void] {
-  const initialTheme = (localStorage.getItem("theme") as Theme) || "system";
+  const initialTheme =
+    typeof window === "undefined"
+      ? "system"
+      : (localStorage.getItem("theme") as Theme) || "system";
   const [theme, setTheme] = useState<Theme>(initialTheme);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const root = window.document.documentElement;
 
     // 清除所有可能的主题类

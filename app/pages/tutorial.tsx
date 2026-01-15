@@ -57,7 +57,7 @@ export default function Tutorial() {
                   text documents, and files with others quickly and easily.
                 </p>
               </div>
-              <div className="bg-white dark:bg-gray-750 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
                 <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
                   <span className="w-6 h-6 bg-blue-100 dark:bg-gray-700 rounded-full flex items-center justify-center mr-2 text-sm font-bold text-blue-600 dark:text-blue-400">
                     1
@@ -110,7 +110,7 @@ export default function Tutorial() {
               </div>
 
               <div className="space-y-6">
-                <div className="bg-white dark:bg-gray-750 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
+                <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
                     Create a Paste via API
                   </h3>
@@ -146,7 +146,7 @@ export default function Tutorial() {
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-750 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
+                <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
                     API Parameters
                   </h3>
@@ -227,7 +227,7 @@ export default function Tutorial() {
                   Supported Languages
                 </h2>
               </div>
-              <div className="bg-white dark:bg-gray-750 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
                   PasteShare supports syntax highlighting for a wide variety of
                   programming languages and file formats:

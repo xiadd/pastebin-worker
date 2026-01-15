@@ -20,7 +20,6 @@ import "prismjs/components/prism-typescript";
 // 第四层：依赖多个语言的格式
 import "prismjs/components/prism-yaml";
 import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 import { useTheme } from "../context/theme";
 // 导入自定义样式
@@ -79,7 +78,6 @@ export default function SimpleEditor({
   showFullscreenButton = false,
 }: EditorProps) {
   const { theme } = useTheme();
-  const { t } = useTranslation();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lineNumbersRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
@@ -91,6 +89,7 @@ export default function SimpleEditor({
   const isDark =
     theme === "dark" ||
     (theme === "system" &&
+      typeof window !== "undefined" &&
       window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   // HTML 转义函数
@@ -222,7 +221,7 @@ export default function SimpleEditor({
           <button
             onClick={toggleFullscreen}
             className="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-            title={isFullscreen ? t("exitFullscreen") : t("fullscreen")}
+            title={isFullscreen ? "Exit Fullscreen (ESC)" : "Fullscreen"}
           >
             {isFullscreen ? (
               <svg
