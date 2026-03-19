@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate, useParams, useRouterState } from "@tanstack/react-router";
+import { useNavigate, useParams, useRouterState, useSearch } from "@tanstack/react-router";
 import { Code, Eye } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -22,6 +22,7 @@ export default function Detail() {
 
   const navigate = useNavigate();
   const { id } = useParams({ from: "/detail/$id" });
+  const searchParams = useSearch({ from: "/detail/$id" });
   const locationState = useRouterState({
     select: (state) =>
       state.location.state as { edit_password?: string } | undefined,
@@ -29,8 +30,7 @@ export default function Detail() {
 
   useEffect(() => {
     if (!id || typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    const urlSharePassword = params.get("share_password");
+    const urlSharePassword = searchParams.share_password;
     getPaste(id, urlSharePassword).then((data: any) => {
       if (data.error) {
         if (data.code === 403) {
@@ -51,10 +51,10 @@ export default function Detail() {
     if (locationState?.edit_password) {
       setEditPassword(locationState.edit_password);
     }
-    if (params.get("edit_password")) {
-      setEditPassword(params.get("edit_password") || "");
+    if (searchParams.edit_password) {
+      setEditPassword(searchParams.edit_password);
     }
-  }, [id, locationState]);
+  }, [id, locationState, searchParams]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

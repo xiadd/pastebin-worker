@@ -3,6 +3,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import Detail from "@/pages/detail";
 
 export const Route = createFileRoute("/detail/$id")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    share_password: (search.share_password as string) || undefined,
+    edit_password: (search.edit_password as string) || undefined,
+  }),
   head: ({ params }) => ({
     meta: [
       { title: "Shared content — PasteShare" },
