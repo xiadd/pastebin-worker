@@ -22,18 +22,18 @@ export default function Header() {
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
 
   return (
-    <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+    <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm dark:shadow-none">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
           <img src={logoIcon} className="h-8 w-8" alt="PasteShare" />
-          <span className="text-xl font-semibold text-gray-900 dark:text-white">
+          <span className="text-xl font-semibold text-gray-900 dark:text-gray-50">
             PasteShare
           </span>
         </Link>
         <nav className="flex items-center space-x-2">
           <button
             onClick={() => setIsHistoryOpen(true)}
-            className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+            className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
             aria-label="Share History"
             title="Share History"
           >
@@ -56,7 +56,7 @@ export default function Header() {
             href="https://github.com/xiadd/pastebin-worker"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+            className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
             aria-label="View source code on GitHub"
           >
             <Github size={18} />
@@ -64,7 +64,7 @@ export default function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <div className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              <div className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
                 {theme === 'light' ? (
                   <Sun size={18} />
                 ) : theme === 'dark' ? (
@@ -75,29 +75,17 @@ export default function Header() {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>
-                <button
-                  onClick={() => setTheme('light')}
-                  className="block w-full text-left px-2 py-1"
-                >
-                  Light
-                </button>
+              <DropdownMenuItem onClick={() => setTheme('light')}>
+                <Sun size={14} className="mr-2" />
+                Light
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <button
-                  onClick={() => setTheme('dark')}
-                  className="block w-full text-left px-2 py-1"
-                >
-                  Dark
-                </button>
+              <DropdownMenuItem onClick={() => setTheme('dark')}>
+                <Moon size={14} className="mr-2" />
+                Dark
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <button
-                  onClick={() => setTheme('system')}
-                  className="block w-full text-left px-2 py-1"
-                >
-                  System
-                </button>
+              <DropdownMenuItem onClick={() => setTheme('system')}>
+                <Computer size={14} className="mr-2" />
+                System
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

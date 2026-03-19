@@ -73,10 +73,10 @@ export default function TextShare() {
   return (
     <div className="space-y-6">
       {/* Editor Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-0 overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-0 overflow-hidden">
         <Editor
           className="rounded-lg border-0"
-          height="400px"
+          height="300px"
           language={language}
           onChange={(value) => setContent(value || "")}
           value={content}
@@ -85,8 +85,8 @@ export default function TextShare() {
       </div>
 
       {/* Settings Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
           <div className="space-y-2">
             <div className="flex items-center space-x-2 h-5">
               <Checkbox
@@ -102,7 +102,7 @@ export default function TextShare() {
               placeholder="Share Password"
               onChange={handleChangeSharePassword}
               disabled={!isPrivate}
-              className="bg-white/80 dark:bg-gray-900/80"
+              className="bg-white/80 dark:bg-gray-950/80"
             />
           </div>
 
@@ -114,7 +114,7 @@ export default function TextShare() {
               value={expiration?.toString()}
               onValueChange={(value) => setExpiration(Number(value))}
             >
-              <SelectTrigger className="bg-white/80 dark:bg-gray-900/80">
+              <SelectTrigger className="bg-white/80 dark:bg-gray-950/80">
                 <SelectValue placeholder="Expiration (sec)" />
               </SelectTrigger>
               <SelectContent>
@@ -136,7 +136,7 @@ export default function TextShare() {
               value={language}
               onValueChange={(value) => setLanguage(value)}
             >
-              <SelectTrigger className="bg-white/80 dark:bg-gray-900/80">
+              <SelectTrigger className="bg-white/80 dark:bg-gray-950/80">
                 <SelectValue placeholder="Language" />
               </SelectTrigger>
               <SelectContent>

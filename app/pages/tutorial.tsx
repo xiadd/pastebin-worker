@@ -1,11 +1,11 @@
 export default function Tutorial() {
   return (
-    <div className="bg-gray-50 dark:bg-gray-900">
+    <div className="bg-gray-50 dark:bg-gray-950">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className="p-6">
-            <header className="mb-12 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-gray-700 rounded-full mb-6">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 overflow-hidden">
+          <div className="p-4 sm:p-6">
+            <header className="mb-8 sm:mb-12 text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-gray-800 rounded-full mb-6">
                 <svg
                   className="w-8 h-8 text-blue-600 dark:text-blue-400"
                   fill="none"
@@ -20,10 +20,10 @@ export default function Tutorial() {
                   />
                 </svg>
               </div>
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4">
                 Tutorial & API Guide
               </h1>
-              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
                 Learn how to use PasteShare for sharing code snippets, text, and
                 files with ease and security.
               </p>
@@ -31,7 +31,7 @@ export default function Tutorial() {
 
             <section className="mb-12">
               <div className="flex items-center mb-6">
-                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mr-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-800 rounded-lg flex items-center justify-center mr-3">
                   <svg
                     className="w-5 h-5 text-blue-600 dark:text-blue-400"
                     fill="none"
@@ -46,20 +46,20 @@ export default function Tutorial() {
                     />
                   </svg>
                 </div>
-                <h2 className="text-3xl font-semibold text-gray-800 dark:text-white">
+                <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 dark:text-gray-50">
                   Getting Started
                 </h2>
               </div>
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 mb-6">
-                <p className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 mb-6">
+                <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
                   PasteShare is a free, fast, and secure pastebin service built
                   on Cloudflare Workers. You can use it to share code snippets,
                   text documents, and files with others quickly and easily.
                 </p>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
-                <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4 flex items-center">
-                  <span className="w-6 h-6 bg-blue-100 dark:bg-gray-700 rounded-full flex items-center justify-center mr-2 text-sm font-bold text-blue-600 dark:text-blue-400">
+              <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-800 p-6">
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-50 mb-4 flex items-center">
+                  <span className="w-6 h-6 bg-blue-100 dark:bg-gray-800 rounded-full flex items-center justify-center mr-2 text-sm font-bold text-blue-600 dark:text-blue-400">
                     1
                   </span>
                   Basic Usage
@@ -74,11 +74,11 @@ export default function Tutorial() {
                   ].map((step, index) => (
                     <li key={index} className="flex items-start">
                       <span className="flex-shrink-0 w-6 h-6 bg-gray-100 dark:bg-gray-600 rounded-full flex items-center justify-center mr-3 mt-0.5">
-                        <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
                           {index + 1}
                         </span>
                       </span>
-                      <span className="text-gray-700 dark:text-gray-200">
+                      <span className="text-gray-700 dark:text-gray-300">
                         {step}
                       </span>
                     </li>
@@ -89,7 +89,7 @@ export default function Tutorial() {
 
             <section className="mb-12">
               <div className="flex items-center mb-6">
-                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mr-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-800 rounded-lg flex items-center justify-center mr-3">
                   <svg
                     className="w-5 h-5 text-blue-600 dark:text-blue-400"
                     fill="none"
@@ -104,21 +104,21 @@ export default function Tutorial() {
                     />
                   </svg>
                 </div>
-                <h2 className="text-3xl font-semibold text-gray-800 dark:text-white">
+                <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 dark:text-gray-50">
                   API Documentation
                 </h2>
               </div>
 
               <div className="space-y-6">
-                <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
-                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+                <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-800 p-6">
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-50 mb-4">
                     Create a Paste via API
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">
                     You can create pastes programmatically using our REST API:
                   </p>
                   <div className="relative">
-                    <pre className="bg-gray-900 dark:bg-black text-gray-100 p-6 rounded-lg overflow-x-auto border border-gray-300 dark:border-gray-600 shadow-inner">
+                    <pre className="bg-gray-900 dark:bg-black text-gray-100 p-6 rounded-lg overflow-x-auto border border-gray-300 dark:border-gray-800 shadow-inner">
                       <code className="text-sm font-mono">{`curl 'https://as.al/api/create' \\
   --data-raw '{
     "content": "console.log('Hello World!');",
@@ -146,8 +146,8 @@ export default function Tutorial() {
                   </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
-                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+                <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-800 p-6">
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-50 mb-4">
                     API Parameters
                   </h3>
                   <div className="space-y-4">
@@ -180,14 +180,14 @@ export default function Tutorial() {
                     ].map((param) => (
                       <div
                         key={param.name}
-                        className="flex items-start p-4 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                        className="flex flex-col sm:flex-row sm:items-start p-4 bg-gray-50 dark:bg-gray-800 rounded-lg gap-2 sm:gap-4"
                       >
-                        <div className="flex-shrink-0 mr-4">
-                          <code className="px-2 py-1 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded text-sm font-mono">
+                        <div className="flex items-center gap-2 shrink-0">
+                          <code className="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded text-sm font-mono">
                             {param.name}
                           </code>
                           <span
-                            className={`ml-2 px-2 py-1 text-xs rounded-full ${
+                            className={`px-2 py-1 text-xs rounded-full ${
                               param.required
                                 ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
                                 : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
@@ -196,7 +196,7 @@ export default function Tutorial() {
                             {param.required ? "required" : "optional"}
                           </span>
                         </div>
-                        <p className="text-gray-600 dark:text-gray-300">
+                        <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
                           {param.desc}
                         </p>
                       </div>
@@ -208,7 +208,7 @@ export default function Tutorial() {
 
             <section className="mb-12">
               <div className="flex items-center mb-6">
-                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mr-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-800 rounded-lg flex items-center justify-center mr-3">
                   <svg
                     className="w-5 h-5 text-blue-600 dark:text-blue-400"
                     fill="none"
@@ -223,12 +223,12 @@ export default function Tutorial() {
                     />
                   </svg>
                 </div>
-                <h2 className="text-3xl font-semibold text-gray-800 dark:text-white">
+                <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 dark:text-gray-50">
                   Supported Languages
                 </h2>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 p-6">
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
+              <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-800 p-6">
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
                   PasteShare supports syntax highlighting for a wide variety of
                   programming languages and file formats:
                 </p>
@@ -253,7 +253,7 @@ export default function Tutorial() {
                   ].map((lang) => (
                     <div
                       key={lang}
-                      className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-2 rounded-lg text-center transition-all duration-200 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:scale-105"
+                      className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-400 px-3 py-2 rounded-lg text-center transition-all duration-200 hover:bg-blue-50 hover:text-blue-700 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:scale-105"
                     >
                       <span className="text-sm font-medium">{lang}</span>
                     </div>
@@ -264,7 +264,7 @@ export default function Tutorial() {
 
             <section className="mb-8">
               <div className="flex items-center mb-6">
-                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-700 rounded-lg flex items-center justify-center mr-3">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-gray-800 rounded-lg flex items-center justify-center mr-3">
                   <svg
                     className="w-5 h-5 text-blue-600 dark:text-blue-400"
                     fill="none"
@@ -279,14 +279,14 @@ export default function Tutorial() {
                     />
                   </svg>
                 </div>
-                <h2 className="text-3xl font-semibold text-gray-800 dark:text-white">
+                <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 dark:text-gray-50">
                   Open Source
                 </h2>
               </div>
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8 border border-gray-200 dark:border-gray-600">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-800">
                 <div className="flex items-start space-x-4">
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-blue-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-blue-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
                       <svg
                         className="w-6 h-6 text-blue-600 dark:text-blue-400"
                         fill="currentColor"
@@ -297,10 +297,10 @@ export default function Tutorial() {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+                    <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-50 mb-3">
                       Contribute to PasteShare
                     </h3>
-                    <p className="text-gray-700 dark:text-gray-200 mb-4 leading-relaxed">
+                    <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
                       PasteShare is open source and available on GitHub. We
                       welcome contributions, bug reports, feature requests, and
                       feedback from the community. Help us make PasteShare even
@@ -309,7 +309,7 @@ export default function Tutorial() {
                     <div className="flex flex-wrap gap-3">
                       <a
                         href="https://github.com/xiadd/pastebin-worker"
-                        className="inline-flex items-center px-4 py-2 bg-gray-900 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
+                        className="inline-flex items-center px-4 py-2 bg-gray-900 dark:bg-gray-800 text-white rounded-lg hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -324,7 +324,7 @@ export default function Tutorial() {
                       </a>
                       <a
                         href="https://github.com/xiadd/pastebin-worker/issues"
-                        className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-gray-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-gray-600 transition-colors"
+                        className="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-gray-800 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-gray-600 transition-colors"
                         target="_blank"
                         rel="noopener noreferrer"
                       >

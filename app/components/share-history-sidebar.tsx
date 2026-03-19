@@ -93,7 +93,7 @@ export default function ShareHistorySidebar({
   return (
     <>
       <Dialog open={open} onOpenChange={onClose}>
-        <DialogContent className="max-w-4xl max-h-[85vh] overflow-hidden flex flex-col">
+        <DialogContent className="max-w-4xl w-[calc(100%-2rem)] max-h-[85vh] overflow-hidden flex flex-col">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <svg
@@ -138,7 +138,7 @@ export default function ShareHistorySidebar({
             <div className="flex-1 overflow-auto">
               {filteredShares.length === 0 ? (
                 <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg
                       className="w-8 h-8 text-gray-400"
                       fill="none"
@@ -153,10 +153,10 @@ export default function ShareHistorySidebar({
                       />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-gray-50 mb-2">
                     {searchQuery ? "No matching shares found" : "No shares saved yet"}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <p className="text-gray-600 dark:text-gray-400">
                     {searchQuery
                       ? "Try different keywords"
                       : "New text or file shares will be automatically saved here"}
@@ -167,12 +167,12 @@ export default function ShareHistorySidebar({
                   {filteredShares.map((share) => (
                     <div
                       key={share.id}
-                      className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600"
+                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-800 gap-3"
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <span
-                            className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                            className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
                               share.type === "text"
                                 ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
                                 : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
@@ -181,24 +181,22 @@ export default function ShareHistorySidebar({
                             {share.type === "text" ? "Text" : "File"}
                           </span>
                           {share.language && (
-                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-300">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400">
                               {share.language}
                             </span>
                           )}
                         </div>
-                        <h3 className="font-medium text-gray-900 dark:text-white truncate">
+                        <h3 className="font-medium text-gray-900 dark:text-gray-50 truncate text-sm sm:text-base">
                           {share.title}
                         </h3>
-                        <div className="flex items-center gap-4 mt-1 text-sm text-gray-600 dark:text-gray-400">
+                        <div className="flex items-center gap-3 sm:gap-4 mt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                           <span>{formatDate(share.createdAt)}</span>
                           {share.fileSize && (
-                            <span>
-                              Size: {formatFileSize(share.fileSize)}
-                            </span>
+                            <span>{formatFileSize(share.fileSize)}</span>
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-2 ml-4">
+                      <div className="flex items-center gap-2 shrink-0">
                         <Button
                           variant="outline"
                           size="sm"
@@ -232,7 +230,7 @@ export default function ShareHistorySidebar({
       </Dialog>
 
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden">
+        <DialogContent className="max-w-4xl w-[calc(100%-2rem)] max-h-[80vh] overflow-hidden">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               {selectedShare?.title}
@@ -257,7 +255,7 @@ export default function ShareHistorySidebar({
             </DialogDescription>
           </DialogHeader>
           <div className="mt-4">
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 max-h-96 overflow-auto">
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 max-h-96 overflow-auto">
               <pre className="whitespace-pre-wrap text-sm font-mono">
                 {selectedShare?.content}
               </pre>

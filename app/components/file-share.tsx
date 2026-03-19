@@ -119,12 +119,12 @@ export default function ImageShare() {
   return (
     <div className="space-y-6">
       {/* Upload Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+      <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4 sm:p-6">
         {/* Expiration Notice */}
         <div className="mb-4 p-3 bg-amber-50/80 dark:bg-amber-900/20 rounded-lg border border-amber-200/50 dark:border-amber-700/30">
           <div className="flex items-center gap-2">
             <svg
-              className="w-5 h-5 text-amber-600 dark:text-amber-400"
+              className="w-5 h-5 shrink-0 text-amber-600 dark:text-amber-400"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -137,19 +137,19 @@ export default function ImageShare() {
               />
             </svg>
             <span className="text-sm text-amber-800 dark:text-amber-200 font-medium">
-              Files will be automatically deleted after 15 days due to storage limitations
+              Files expire after 15 days
             </span>
           </div>
         </div>
 
         <Upload {...props}>
           <div className="w-full">
-            <label className="flex h-48 w-full cursor-pointer appearance-none justify-center rounded-xl border-2 border-dashed border-blue-300/50 dark:border-blue-500/30 px-4 transition hover:border-blue-400/70 dark:hover:border-blue-400/50 focus:outline-none items-center bg-gradient-to-br from-blue-50/50 to-indigo-50/50 dark:from-blue-900/20 dark:to-indigo-900/20 hover:from-blue-100/60 hover:to-indigo-100/60 dark:hover:from-blue-900/30 dark:hover:to-indigo-900/30">
-              <span className="flex flex-col items-center space-y-3">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <label className="flex h-36 sm:h-48 w-full cursor-pointer appearance-none justify-center rounded-xl border-2 border-dashed border-blue-300/50 dark:border-blue-500/30 px-4 transition hover:border-blue-400/70 dark:hover:border-blue-400/50 focus:outline-none items-center bg-gradient-to-br from-blue-50/50 to-indigo-50/50 dark:from-blue-900/20 dark:to-indigo-900/20 hover:from-blue-100/60 hover:to-indigo-100/60 dark:hover:from-blue-900/30 dark:hover:to-indigo-900/30">
+              <span className="flex flex-col items-center space-y-2 sm:space-y-3">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-white"
+                    className="h-6 w-6 sm:h-8 sm:w-8 text-white"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -163,10 +163,11 @@ export default function ImageShare() {
                   </svg>
                 </div>
                 <div className="text-center">
-                  <span className="font-semibold text-gray-900 dark:text-white text-lg block">
-                    Drag and drop a file here or paste it directly or
+                  <span className="font-semibold text-gray-900 dark:text-white text-base sm:text-lg block">
+                    <span className="hidden sm:inline">Drag and drop a file here, paste, or </span>
+                    <span className="sm:hidden">Tap to upload or paste a file</span>
                   </span>
-                  <span className="text-blue-600 dark:text-blue-400 text-sm font-medium">
+                  <span className="text-blue-600 dark:text-blue-400 text-sm font-medium hidden sm:block">
                     Browse Documents
                   </span>
                 </div>
@@ -178,7 +179,7 @@ export default function ImageShare() {
 
       {/* Upload Result Section */}
       {uploadFile && (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
+        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6">
           <div className="space-y-4">
             <div className="flex items-center gap-3 p-4 bg-green-50/80 dark:bg-green-900/20 rounded-lg border border-green-200/50 dark:border-green-700/30">
               <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
@@ -198,7 +199,7 @@ export default function ImageShare() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-green-800 dark:text-green-200">
-                  Upload Successfully
+                  Uploaded Successfully
                 </h3>
                 <p className="text-sm text-green-700 dark:text-green-300 mt-1">
                   This file will expire in 15 days
@@ -207,7 +208,7 @@ export default function ImageShare() {
             </div>
 
             <div className="space-y-4">
-              <div className="p-4 bg-gray-50/80 dark:bg-gray-900/50 rounded-lg">
+              <div className="p-4 bg-gray-50/80 dark:bg-gray-950/50 rounded-lg">
                 <label className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2 block">
                   Direct Link
                 </label>
@@ -215,14 +216,14 @@ export default function ImageShare() {
                   <Input
                     value={uploadFile}
                     disabled
-                    className="bg-white/80 dark:bg-gray-800/80"
+                    className="bg-white/80 dark:bg-gray-900/80"
                   />
                   <CopyButton text={uploadFile} />
                 </div>
               </div>
 
               {fileType.startsWith("image") && (
-                <div className="p-4 bg-gray-50/80 dark:bg-gray-900/50 rounded-lg">
+                <div className="p-4 bg-gray-50/80 dark:bg-gray-950/50 rounded-lg">
                   <label className="text-xs font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2 block">
                     Markdown Format
                   </label>
@@ -230,7 +231,7 @@ export default function ImageShare() {
                     <Input
                       value={`![image](${uploadFile})`}
                       disabled
-                      className="bg-white/80 dark:bg-gray-800/80"
+                      className="bg-white/80 dark:bg-gray-900/80"
                     />
                     <CopyButton text={`![image](${uploadFile})`} />
                   </div>

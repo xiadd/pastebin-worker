@@ -11,8 +11,8 @@
 }
 
 .dark .code-block-container {
-  border-color: #374151;
-  background: #111827;
+  border-color: #1f2937;
+  background: #0c0e12;
 }
 
 /* 代码块头部 */
@@ -28,8 +28,8 @@
 }
 
 .dark .code-block-header {
-  background: #1f2937;
-  border-bottom-color: #374151;
+  background: #141620;
+  border-bottom-color: #1f2937;
 }
 
 .code-block-language {
@@ -68,14 +68,14 @@
 
 .dark .code-copy-button {
   color: #9ca3af;
-  background: #374151;
-  border-color: #4b5563;
+  background: #1f2937;
+  border-color: #374151;
 }
 
 .dark .code-copy-button:hover {
   color: #e5e7eb;
-  background: #4b5563;
-  border-color: #6b7280;
+  background: #374151;
+  border-color: #4b5563;
 }
 
 .code-copy-button.copied {
@@ -96,7 +96,7 @@
 }
 
 .dark .code-block-content {
-  background: #0f172a;
+  background: #0c0e12;
 }
 
 /* 亮色主题 */
@@ -177,7 +177,7 @@
 .prism-dark .token.prolog,
 .prism-dark .token.doctype,
 .prism-dark .token.cdata {
-  color: #6b7280 !important;
+  color: #6b7a8d !important;
   font-style: italic;
 }
 

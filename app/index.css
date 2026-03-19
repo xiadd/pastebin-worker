@@ -36,33 +36,33 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 220 14% 10%;
+    --foreground: 220 9% 90%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 220 13% 13%;
+    --card-foreground: 220 9% 90%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 220 13% 13%;
+    --popover-foreground: 220 9% 90%;
 
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 213 94% 68%;
+    --primary-foreground: 220 14% 10%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 220 12% 18%;
+    --secondary-foreground: 220 9% 90%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 220 12% 18%;
+    --muted-foreground: 220 9% 58%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 220 12% 18%;
+    --accent-foreground: 220 9% 90%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 220 9% 90%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 217.2 91.2% 59.8%;
+    --border: 220 10% 22%;
+    --input: 220 10% 22%;
+    --ring: 213 94% 68%;
   }
 }
 
@@ -103,4 +103,13 @@
   .dark ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
   }
+}
+
+/* Hide scrollbar for horizontal scroll containers */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

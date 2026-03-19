@@ -116,7 +116,6 @@ export default function SimpleEditor({
         );
         setHighlightedCode(highlighted);
       } catch (error) {
-        console.warn("Prism highlighting failed:", error);
         // 如果语法高亮失败，转义HTML内容
         setHighlightedCode(escapeHtml(value));
       }
@@ -210,22 +209,22 @@ export default function SimpleEditor({
 
   return (
     <div
-      className={`rounded-md overflow-hidden bg-white dark:bg-gray-800 ${className} ${
+      className={`rounded-md overflow-hidden bg-white dark:bg-gray-900 ${className} ${
         isFullscreen ? "fixed inset-0 z-50 rounded-none" : ""
       }`}
       style={{ height: isFullscreen ? "100vh" : height }}
     >
       {/* 工具栏 */}
       {showFullscreenButton && (
-        <div className="flex justify-end items-center p-2 border-b border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700">
+        <div className="flex justify-end items-center p-2 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50">
           <button
             onClick={toggleFullscreen}
-            className="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            className="p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
             title={isFullscreen ? "Exit Fullscreen (ESC)" : "Fullscreen"}
           >
             {isFullscreen ? (
               <svg
-                className="w-4 h-4 text-gray-600 dark:text-gray-300"
+                className="w-4 h-4 text-gray-600 dark:text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -239,7 +238,7 @@ export default function SimpleEditor({
               </svg>
             ) : (
               <svg
-                className="w-4 h-4 text-gray-600 dark:text-gray-300"
+                className="w-4 h-4 text-gray-600 dark:text-gray-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -263,7 +262,7 @@ export default function SimpleEditor({
         {/* 行号区域 */}
         <div
           ref={lineNumbersRef}
-          className="flex-shrink-0 bg-gray-50 dark:bg-gray-700 border-r border-gray-200 dark:border-gray-600 overflow-hidden select-none"
+          className="flex-shrink-0 bg-gray-50 dark:bg-gray-900/80 border-r border-gray-200 dark:border-gray-800 overflow-hidden select-none"
           style={{
             width: `${Math.max(3, lineCount.toString().length + 1)}ch`,
             paddingLeft: "8px",
